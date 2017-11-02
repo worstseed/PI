@@ -1,0 +1,10 @@
+c:\users\marek\source\repos\HowToMove\HowToMove\bin\Debug\HowToMove.exe.config
+c:\users\marek\source\repos\HowToMove\HowToMove\bin\Debug\HowToMove.exe
+c:\users\marek\source\repos\HowToMove\HowToMove\bin\Debug\HowToMove.pdb
+c:\users\marek\source\repos\HowToMove\HowToMove\obj\Debug\HowToMove.csprojResolveAssemblyReference.cache
+c:\users\marek\source\repos\HowToMove\HowToMove\obj\Debug\HowToMove.Form1.resources
+c:\users\marek\source\repos\HowToMove\HowToMove\obj\Debug\HowToMove.Properties.Resources.resources
+c:\users\marek\source\repos\HowToMove\HowToMove\obj\Debug\HowToMove.csproj.GenerateResource.Cache
+c:\users\marek\source\repos\HowToMove\HowToMove\obj\Debug\HowToMove.csproj.CoreCompileInputs.cache
+c:\users\marek\source\repos\HowToMove\HowToMove\obj\Debug\HowToMove.exe
+c:\users\marek\source\repos\HowToMove\HowToMove\obj\Debug\HowToMove.pdb
