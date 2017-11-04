@@ -30,7 +30,47 @@ namespace NeuralNetwork.RobotModel
             RulingBody.DecisionArea.ShowExploringArea();
             Console.WriteLine();
             RulingBody.Retreat();
+            RulingBody.ChangePositionToStart();
 
+            RulingBody.Explore();
+            RulingBody.DecisionArea.ShowExploringArea();
+            Console.WriteLine();
+            RulingBody.Explore();
+            RulingBody.DecisionArea.ShowExploringArea();
+            Console.WriteLine();
+            RulingBody.Explore();
+            RulingBody.DecisionArea.ShowExploringArea();
+            Console.WriteLine();
+            RulingBody.Retreat();
+            RulingBody.ChangePositionToStart();
+
+
+            RulingBody.Explore();
+            RulingBody.DecisionArea.ShowExploringArea();
+            Console.WriteLine();
+            RulingBody.Explore();
+            RulingBody.DecisionArea.ShowExploringArea();
+            Console.WriteLine();
+            RulingBody.Explore();
+            RulingBody.DecisionArea.ShowExploringArea();
+            Console.WriteLine();
+            RulingBody.Retreat();
+            RulingBody.ChangePositionToStart();
+
+
+            RulingBody.Explore();
+            RulingBody.DecisionArea.ShowExploringArea();
+            Console.WriteLine();
+            RulingBody.Explore();
+            RulingBody.DecisionArea.ShowExploringArea();
+            Console.WriteLine();
+            RulingBody.Explore();
+            RulingBody.DecisionArea.ShowExploringArea();
+            Console.WriteLine();
+            RulingBody.Retreat();
+            RulingBody.ChangePositionToStart();
+
+            RulingBody.DecisionArea.ShowRetreatingArea();
         }
     }
 }

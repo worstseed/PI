@@ -16,12 +16,14 @@ namespace NeuralNetwork.MovementAlgorythims
         public RulingBody(int? areaSizeX = null, int? areaSizeY = null, int? startPositionX = null, int? startPositionY = null)
         {
             DecisionArea = new Area(areaSizeX, areaSizeY, startPositionX, startPositionY);
-            ActualPositionX = DecisionArea.StartPositionX;
-            ActualPositionY = DecisionArea.StartPositionY;
+            ActualPositionY = DecisionArea.StartPositionX;
+            ActualPositionX = DecisionArea.StartPositionY;
             Counter = 1;
-            DecisionArea.DecisionValuesArea[ActualPositionX, ActualPositionY].RetreatingValue = 0;
+            DecisionArea.DecisionValuesArea[ActualPositionY, ActualPositionX].RetreatingValue = 0;
             UpdateValue(ArrayType.Exploring);
         }
+
+
 
         public void Explore()
         {
@@ -62,47 +64,53 @@ namespace NeuralNetwork.MovementAlgorythims
             return Direction.None;
         }
 
-        private void ExploreRight()
+        private void ExploreBelow()
         {
-            ActualPositionX++;
-            UpdateValue(ArrayType.Exploring);
-        }
-        private void ExploreLeft()
-        {
-            ActualPositionX--;
+            IsHome = false;
+            ActualPositionY++;
             UpdateValue(ArrayType.Exploring);
         }
         private void ExploreAbove()
         {
+            IsHome = false;
             ActualPositionY--;
             UpdateValue(ArrayType.Exploring);
         }
-        private void ExploreBelow()
+        private void ExploreLeft()
         {
-            ActualPositionY++;
+            IsHome = false;
+            ActualPositionX--;
+            UpdateValue(ArrayType.Exploring);
+        }
+        private void ExploreRight()
+        {
+            IsHome = false;
+            ActualPositionX++;
             UpdateValue(ArrayType.Exploring);
         }
 
 
         private void UpdateRetreatingAreaValue()
         {
-            if (DecisionArea.DecisionValuesArea[ActualPositionX, ActualPositionY].RetreatingValue >= Counter
-                || DecisionArea.DecisionValuesArea[ActualPositionX, ActualPositionY].RetreatingValue == -1)
-                DecisionArea.DecisionValuesArea[ActualPositionX, ActualPositionY].RetreatingValue = Counter;
+            if (DecisionArea.DecisionValuesArea[ActualPositionY, ActualPositionX].RetreatingValue >= Counter
+                || DecisionArea.DecisionValuesArea[ActualPositionY, ActualPositionX].RetreatingValue == -1)
+                DecisionArea.DecisionValuesArea[ActualPositionY, ActualPositionX].RetreatingValue = Counter;
             Counter++;
         }
+
 
 
         public void Retreat()
         {
             while(!IsHome)
                 StepBack();
+            Console.WriteLine("I'm home - x: {0}, y: {1}", ActualPositionX, ActualPositionY);
         }
 
         private void StepBack()
         {
             var directionToRetreat = ChooseDirectionToRetreat();
-
+            Console.WriteLine(directionToRetreat);//
             switch (directionToRetreat)
             {
                 case Direction.Right:
@@ -144,14 +152,9 @@ namespace NeuralNetwork.MovementAlgorythims
         }
 
 
-        private void RetreatRight()
+        private void RetreatBelow()
         {
-            ActualPositionX++;
-            UpdateValue(ArrayType.Retreating);
-        }
-        private void RetreatLeft()
-        {
-            ActualPositionX--;
+            ActualPositionY++;
             UpdateValue(ArrayType.Retreating);
         }
         private void RetreatAbove()
@@ -159,9 +162,14 @@ namespace NeuralNetwork.MovementAlgorythims
             ActualPositionY--;
             UpdateValue(ArrayType.Retreating);
         }
-        private void RetreatBelow()
+        private void RetreatLeft()
         {
-            ActualPositionY++;
+            ActualPositionX--;
+            UpdateValue(ArrayType.Retreating);
+        }
+        private void RetreatRight()
+        {
+            ActualPositionX++;
             UpdateValue(ArrayType.Retreating);
         }
 
@@ -170,14 +178,14 @@ namespace NeuralNetwork.MovementAlgorythims
         public void ChangePositionToStart()
         {
             Counter = 1;
-            ActualPositionX = DecisionArea.StartPositionX;
-            ActualPositionY = DecisionArea.StartPositionY;
+            ActualPositionY = DecisionArea.StartPositionX;
+            ActualPositionX = DecisionArea.StartPositionY;
             UpdateValue(ArrayType.Exploring);
         }
 
         private void UpdateValue(ArrayType arrayType)
         {
-            DecisionArea.UpdateValue(arrayType, ActualPositionX, ActualPositionY);
+            DecisionArea.UpdateValue(arrayType, ActualPositionY, ActualPositionX);
         }
 
         private void GetSurroundingValues(out int left, out int right, out int above, out int below, ArrayType arrayType)
@@ -198,44 +206,44 @@ namespace NeuralNetwork.MovementAlgorythims
         }
 
 
-        private int GetValueBelow(ArrayType arrayType)
-        {
-            return arrayType == ArrayType.Exploring ? DecisionArea.DecisionValuesArea[ActualPositionX, ActualPositionY + 1].ExploringValue
-                : DecisionArea.DecisionValuesArea[ActualPositionX, ActualPositionY + 1].RetreatingValue;
-        }
-        private int GetValueAbove(ArrayType arrayType)
-        {
-            return arrayType == ArrayType.Exploring ? DecisionArea.DecisionValuesArea[ActualPositionX, ActualPositionY - 1].ExploringValue
-                : DecisionArea.DecisionValuesArea[ActualPositionX, ActualPositionY - 1].RetreatingValue;
-        }
         private int GetValueRight(ArrayType arrayType)
         {
-            return arrayType == ArrayType.Exploring ? DecisionArea.DecisionValuesArea[ActualPositionX + 1, ActualPositionY].ExploringValue
-                : DecisionArea.DecisionValuesArea[ActualPositionX + 1, ActualPositionY].RetreatingValue;
+            return arrayType == ArrayType.Exploring ? DecisionArea.DecisionValuesArea[ActualPositionY, ActualPositionX + 1].ExploringValue
+                : DecisionArea.DecisionValuesArea[ActualPositionY, ActualPositionX + 1].RetreatingValue;
         }
         private int GetValueLeft(ArrayType arrayType)
         {
-            return arrayType == ArrayType.Exploring ? DecisionArea.DecisionValuesArea[ActualPositionX - 1, ActualPositionY].ExploringValue
-                : DecisionArea.DecisionValuesArea[ActualPositionX - 1, ActualPositionY].RetreatingValue;
+            return arrayType == ArrayType.Exploring ? DecisionArea.DecisionValuesArea[ActualPositionY, ActualPositionX - 1].ExploringValue
+                : DecisionArea.DecisionValuesArea[ActualPositionY, ActualPositionX - 1].RetreatingValue;
         }
-
-
-
-        private bool ThereIsFieldBelow()
+        private int GetValueBelow(ArrayType arrayType)
         {
-            return ActualPositionY + 1 <= DecisionArea.SizeY;
+            return arrayType == ArrayType.Exploring ? DecisionArea.DecisionValuesArea[ActualPositionY + 1, ActualPositionX].ExploringValue
+                : DecisionArea.DecisionValuesArea[ActualPositionY + 1, ActualPositionX].RetreatingValue;
         }
-        private bool ThereIsFieldAbove()
+        private int GetValueAbove(ArrayType arrayType)
         {
-            return ActualPositionY - 1 >= 0;
+            return arrayType == ArrayType.Exploring ? DecisionArea.DecisionValuesArea[ActualPositionY - 1, ActualPositionX].ExploringValue
+                : DecisionArea.DecisionValuesArea[ActualPositionY - 1, ActualPositionX].RetreatingValue;
         }
+
+
+
         private bool ThereIsFieldOnTheRight()
         {
-            return ActualPositionX + 1 <= DecisionArea.SizeX;
+            return ActualPositionX + 1 <= DecisionArea.SizeY;
         }
         private bool ThereIsFieldOnTheLeft()
         {
             return ActualPositionX - 1 >= 0;
+        }
+        private bool ThereIsFieldBelow()
+        {
+            return ActualPositionY + 1 <= DecisionArea.SizeX;
+        }
+        private bool ThereIsFieldAbove()
+        {
+            return ActualPositionY - 1 >= 0;
         }
     }
 }

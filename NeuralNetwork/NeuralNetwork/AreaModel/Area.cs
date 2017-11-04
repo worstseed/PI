@@ -14,7 +14,7 @@ namespace NeuralNetwork.AreaModel
         public Area(int? sizeX = null, int? sizeY = null, int? startPositionX = null, int? startPositionY = null)
         {
             SizeX = sizeX ?? 10;
-            SizeY = sizeY ?? 20;
+            SizeY = sizeY ?? 10;
             DecisionValuesArea = new Field[SizeY, SizeX];
             
             for (var i = 0; i < SizeY; i++)
