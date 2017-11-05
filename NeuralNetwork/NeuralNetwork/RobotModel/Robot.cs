@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NeuralNetwork.Helpers;
 using NeuralNetwork.MovementAlgorythims;
 using NeuralNetwork.NeuralNetworkModel;
 
@@ -8,13 +9,8 @@ namespace NeuralNetwork.RobotModel
     public class Robot
     {
         private Battery Battery;
-        private Network Network;
-        private RulingBody RulingBody;
-
-        private static readonly double[] RightDirectionTranslate = {1, 0, 0, 0};
-        private static readonly double[] LeftDirectionTranslate = { 0, 1, 0, 0 };
-        private static readonly double[] AboveDirectionTranslate = { 0, 0, 1, 0 };
-        private static readonly double[] BelowDirectionTranslate = { 0, 0, 0, 1 };
+        private readonly Network Network;
+        private readonly RulingBody RulingBody;
 
 
         public Robot(int maxCapacity, int inputCount, int[] hiddenCounts, int outputCount, 
@@ -64,21 +60,20 @@ namespace NeuralNetwork.RobotModel
                     switch (RulingBody.RetreatDirection)
                     {
                         case Direction.Right:
-                            targets = RightDirectionTranslate;
+                            targets = DirectionTranslator.Right;
                             break;
                         case Direction.Left:
-                            targets = LeftDirectionTranslate;
+                            targets = DirectionTranslator.Left;
                             break;
                         case Direction.Above:
-                            targets = AboveDirectionTranslate;
+                            targets = DirectionTranslator.Above;
                             break;
                         case Direction.Below:
-                            targets = BelowDirectionTranslate;
+                            targets = DirectionTranslator.Below;
                             break;
                     }
                     if (targets == null) throw new Exception("Target is null, lol");
-                    var tmp = new Data(values, targets);
-                    dataList.Add(tmp);
+                    dataList.Add(new Data(values, targets));
                 }
 
                 Network.Train(dataList, 50);
