@@ -15,12 +15,12 @@ namespace NeuralNetwork.AreaModel
 
         public void ShowExploringFieldValue()
         {
-            Console.Write("{0:D} ", ExploringValue);
+            Console.Write("{0, 3} ", ExploringValue);
         }
 
         public void ShowRetreatingFieldValue()
         {
-            Console.Write("{0:D} ", RetreatingValue);
+            Console.Write("{0, 3} ", RetreatingValue);
         }
     }
 }

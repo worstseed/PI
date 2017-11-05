@@ -20,56 +20,18 @@ namespace NeuralNetwork.RobotModel
 
         public void TestRun()
         {
-            RulingBody.Explore();
-            RulingBody.DecisionArea.ShowExploringArea();
-            Console.WriteLine();
-            RulingBody.Explore();
-            RulingBody.DecisionArea.ShowExploringArea();
-            Console.WriteLine();
-            RulingBody.Explore();
-            RulingBody.DecisionArea.ShowExploringArea();
-            Console.WriteLine();
-            RulingBody.Retreat();
-            RulingBody.ChangePositionToStart();
-
-            RulingBody.Explore();
-            RulingBody.DecisionArea.ShowExploringArea();
-            Console.WriteLine();
-            RulingBody.Explore();
-            RulingBody.DecisionArea.ShowExploringArea();
-            Console.WriteLine();
-            RulingBody.Explore();
-            RulingBody.DecisionArea.ShowExploringArea();
-            Console.WriteLine();
-            RulingBody.Retreat();
-            RulingBody.ChangePositionToStart();
-
-
-            RulingBody.Explore();
-            RulingBody.DecisionArea.ShowExploringArea();
-            Console.WriteLine();
-            RulingBody.Explore();
-            RulingBody.DecisionArea.ShowExploringArea();
-            Console.WriteLine();
-            RulingBody.Explore();
-            RulingBody.DecisionArea.ShowExploringArea();
-            Console.WriteLine();
-            RulingBody.Retreat();
-            RulingBody.ChangePositionToStart();
-
-
-            RulingBody.Explore();
-            RulingBody.DecisionArea.ShowExploringArea();
-            Console.WriteLine();
-            RulingBody.Explore();
-            RulingBody.DecisionArea.ShowExploringArea();
-            Console.WriteLine();
-            RulingBody.Explore();
-            RulingBody.DecisionArea.ShowExploringArea();
-            Console.WriteLine();
-            RulingBody.Retreat();
-            RulingBody.ChangePositionToStart();
-
+            for(var i = 0; i < 40; i++)
+            {
+                for (var j = 0; j < 20; j++)
+                {
+                    RulingBody.Explore();
+                    RulingBody.DecisionArea.ShowExploringArea();
+                    Console.WriteLine();
+                }
+                
+                RulingBody.Retreat();
+                RulingBody.ChangePositionToStart();
+            }
             RulingBody.DecisionArea.ShowRetreatingArea();
         }
     }

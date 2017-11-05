@@ -8,10 +8,11 @@ namespace NeuralNetwork.MovementAlgorythims
     public class RulingBody
     {
         public Area DecisionArea;
-        private int ActualPositionX { get; set; }
-        private int ActualPositionY { get; set; }
+        public int ActualPositionX { get; set; }
+        public int ActualPositionY { get; set; }
         private int Counter { get; set; }
         private bool IsHome { get; set; }
+        public Direction RetreatDirection { get; set; }
 
         public RulingBody(int? areaSizeX = null, int? areaSizeY = null, int? startPositionX = null, int? startPositionY = null)
         {
@@ -28,7 +29,7 @@ namespace NeuralNetwork.MovementAlgorythims
         public void Explore()
         {
             var directionToExplore = ChooseDirectionToExplore();
-
+            Console.WriteLine("Exploring direction: {0}", directionToExplore);
             switch (directionToExplore)
             {
                 case Direction.Right:
@@ -46,7 +47,6 @@ namespace NeuralNetwork.MovementAlgorythims
                 case Direction.None:
                     throw new Exception("Why am I not moving?");
             }
-            Console.WriteLine(directionToExplore);
             UpdateRetreatingAreaValue();
         }
 
@@ -111,6 +111,7 @@ namespace NeuralNetwork.MovementAlgorythims
         {
             var directionToRetreat = ChooseDirectionToRetreat();
             Console.WriteLine(directionToRetreat);//
+            RetreatDirection = directionToRetreat;
             switch (directionToRetreat)
             {
                 case Direction.Right:
@@ -150,8 +151,7 @@ namespace NeuralNetwork.MovementAlgorythims
 
             return Direction.None;
         }
-
-
+        
         private void RetreatBelow()
         {
             ActualPositionY++;
@@ -231,7 +231,7 @@ namespace NeuralNetwork.MovementAlgorythims
 
         private bool ThereIsFieldOnTheRight()
         {
-            return ActualPositionX + 1 <= DecisionArea.SizeY;
+            return ActualPositionX + 1 < DecisionArea.SizeY;
         }
         private bool ThereIsFieldOnTheLeft()
         {
@@ -239,7 +239,7 @@ namespace NeuralNetwork.MovementAlgorythims
         }
         private bool ThereIsFieldBelow()
         {
-            return ActualPositionY + 1 <= DecisionArea.SizeX;
+            return ActualPositionY + 1 < DecisionArea.SizeX;
         }
         private bool ThereIsFieldAbove()
         {
