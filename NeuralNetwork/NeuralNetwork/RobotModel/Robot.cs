@@ -64,20 +64,16 @@ namespace NeuralNetwork.RobotModel
                     switch (RulingBody.RetreatDirection)
                     {
                         case Direction.Right:
-                            targets = new[] { RightDirectionTranslate[0], RightDirectionTranslate[1],
-                                RightDirectionTranslate[2], RightDirectionTranslate[3]};
+                            targets = RightDirectionTranslate;
                             break;
                         case Direction.Left:
-                            targets = new[] { LeftDirectionTranslate[0], LeftDirectionTranslate[1],
-                                LeftDirectionTranslate[2], LeftDirectionTranslate[3] };
+                            targets = LeftDirectionTranslate;
                             break;
                         case Direction.Above:
-                            targets = new[] { AboveDirectionTranslate[0], AboveDirectionTranslate[1],
-                                AboveDirectionTranslate[2], AboveDirectionTranslate[3] };
+                            targets = AboveDirectionTranslate;
                             break;
                         case Direction.Below:
-                            targets = new[] { BelowDirectionTranslate[0], BelowDirectionTranslate[1],
-                                BelowDirectionTranslate[2], BelowDirectionTranslate[3] };
+                            targets = BelowDirectionTranslate;
                             break;
                     }
                     if (targets == null) throw new Exception("Target is null, lol");
