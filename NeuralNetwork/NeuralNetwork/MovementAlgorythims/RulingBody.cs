@@ -11,7 +11,7 @@ namespace NeuralNetwork.MovementAlgorythims
         public int ActualPositionX { get; set; }
         public int ActualPositionY { get; set; }
         private int Counter { get; set; }
-        private bool IsHome { get; set; }
+        public bool IsHome { get; set; }
         public Direction RetreatDirection { get; set; }
 
         public RulingBody(int? areaSizeX = null, int? areaSizeY = null, int? startPositionX = null, int? startPositionY = null)
@@ -107,7 +107,7 @@ namespace NeuralNetwork.MovementAlgorythims
             Console.WriteLine("I'm home - x: {0}, y: {1}", ActualPositionX, ActualPositionY);
         }
 
-        private void StepBack()
+        public void StepBack()
         {
             var directionToRetreat = ChooseDirectionToRetreat();
             Console.WriteLine(directionToRetreat);//
@@ -244,6 +244,16 @@ namespace NeuralNetwork.MovementAlgorythims
         private bool ThereIsFieldAbove()
         {
             return ActualPositionY - 1 >= 0;
+        }
+
+
+        public void ShowExploringArea()
+        {
+            DecisionArea.ShowRetreatingArea();
+        }
+        public void ShowRetreatingArea()
+        {
+            DecisionArea.ShowRetreatingArea();
         }
     }
 }

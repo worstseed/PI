@@ -45,7 +45,7 @@ namespace NeuralNetwork
 
             Robot _robot = new Robot(100, 2, new []{2, 2}, 4);
 
-            _robot.TestRun();
+            _robot.TeachRobot();
 
             Console.ReadKey();
         }

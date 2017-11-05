@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using NeuralNetwork.Helpers;
 
 namespace NeuralNetwork.NeuralNetworkModel
 {
@@ -73,14 +74,16 @@ namespace NeuralNetwork.NeuralNetworkModel
 
         public void Train(List<Data> data, int epochsNumber)
         {
-            for (var i = 0; i < epochsNumber; i++)
+            for (var i = 1; i < epochsNumber + 1; i++)
             {
+                Console.WriteLine("Epoch number: {0}", i);
                 foreach (var dataPiece in data)
                 {
                     ForwardPropagate(dataPiece.Values);
                     BackwardPropagate(dataPiece.Targets);
                     ShowResult();
                 }
+                Console.WriteLine();
             }
         }
 
@@ -105,8 +108,10 @@ namespace NeuralNetwork.NeuralNetworkModel
 
         private void ShowResult()
         {
+            const int precision = 4;
+            var pSpecifier = $"F{precision}";
             InputLayer.ForEach(i => Console.Write("{0}\t", i.Value));
-            OutputLayer.ForEach(i => Console.Write("{0}\t", i.Value));
+            OutputLayer.ForEach(i => Console.Write("{0}\t", i.Value.ToString(pSpecifier)));
             Console.WriteLine();
         }
     }
