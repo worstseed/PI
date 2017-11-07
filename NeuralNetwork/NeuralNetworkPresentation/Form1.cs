@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using NeuralNetwork.Helpers;
@@ -35,7 +34,7 @@ namespace NeuralNetworkPresentation
             ExploringArray = new Label[ArrayDefaultSize,ArrayDefaultSize];
             RetreatingArray = new Label[ArrayDefaultSize,ArrayDefaultSize];
 
-            Robot = new Robot(100, 2, new[] { 2, 2 }, 4);
+            Robot = new Robot(100, 2, new[] { 5, 5 }, 4);
         }
 
         public sealed override string Text
@@ -72,17 +71,13 @@ namespace NeuralNetworkPresentation
             Refresh();
 
             var dataList = new List<Data>();
-            for (var i = 0; i < 15; i++)
+            for (var i = 6; i < 13; i++)
             {
 
                 MarkActualPosition(MovementType.Explore);
-
                 MakeNumberOfSteps(12);
-                    
-                Console.WriteLine("Time to ho home!");
-
+                Console.WriteLine(@"Time to ho home!");
                 Refresh();
-
                 Thread.Sleep(500);
 
                 while (!Robot.IsRobotHome())
@@ -95,7 +90,8 @@ namespace NeuralNetworkPresentation
 
                 dataList = Remover.RemoveSameElementsInDataList(dataList);
 
-                Robot.Train(dataList, 500);
+                var epochNum = (int)(10 * Math.Pow(i, 3) + 10)/(i+1);
+                Robot.Train(dataList, epochNum);
 
                 //dataList.Clear();
                 Robot.ChangePositionToStart();
@@ -108,9 +104,9 @@ namespace NeuralNetworkPresentation
 
             MarkActualPosition(MovementType.Explore);
 
-            MakeNumberOfSteps(18);
+            MakeNumberOfSteps(10);
 
-            Console.WriteLine("Time to ho home!");
+            Console.WriteLine(@"Time to ho home!");
 
             Refresh();
 
@@ -124,7 +120,7 @@ namespace NeuralNetworkPresentation
             }
             Console.WriteLine();
 
-            Robot.Train(dataList, 100);
+            Robot.Train(dataList, 1);
 
             //dataList.Clear();
             Robot.ChangePositionToStart();
