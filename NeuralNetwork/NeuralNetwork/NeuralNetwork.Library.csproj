@@ -44,6 +44,8 @@
   <ItemGroup>
     <Compile Include="AreaModel\Area.cs" />
     <Compile Include="AreaModel\Field.cs" />
+    <Compile Include="Helpers\MovementType.cs" />
+    <Compile Include="Helpers\Remover.cs" />
     <Compile Include="MovementAlgorythims\ArrayType.cs" />
     <Compile Include="Helpers\Minimizer.cs" />
     <Compile Include="MovementAlgorythims\Direction.cs" />
@@ -59,6 +61,7 @@
     <Compile Include="Helpers\DirectionTranslator.cs" />
     <Compile Include="RobotModel\Robot.cs" />
     <Compile Include="RobotModel\RobotMode.cs" />
+    <Compile Include="Tests\ListRemoval_Test.cs" />
     <Compile Include="Tests\XOR_Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

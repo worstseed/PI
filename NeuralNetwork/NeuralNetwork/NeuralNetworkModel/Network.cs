@@ -109,10 +109,31 @@ namespace NeuralNetwork.NeuralNetworkModel
         {
             const int precision = 4;
             var pSpecifier = $"F{precision}";
-            Console.WriteLine("x:  y:    Right:         Left:           Above:          Below:    ");
+            //Console.WriteLine("x:  y:    Right:         Left:           Above:          Below:    ");
             InputLayer.ForEach(i => Console.Write("{0, 3}", i.Value));
             Console.Write("\t\t");
             OutputLayer.ForEach(i => Console.Write("{0, 8}\t", i.Value.ToString(pSpecifier)));
+            Console.Write("\t\t");
+            var max = OutputLayer.Select(t => t.Value).Concat(new double[] {0}).Max();
+            for (var i = 1; i < OutputLayer.Count + 1; i++)
+            {
+                if (max != OutputLayer[i - 1].Value) continue;
+                switch (i)
+                {
+                    case 1:
+                        Console.Write("Right");
+                        break;
+                    case 2:
+                        Console.Write("Left");
+                        break;
+                    case 3:
+                        Console.Write("Above");
+                        break;
+                    case 4:
+                        Console.Write("Below");
+                        break;
+                }
+            }
             Console.WriteLine();
         }
     }

@@ -44,44 +44,99 @@ namespace NeuralNetwork.RobotModel
             for (var i = 0; i < 5; i++)
             {
 
-                for (var j = 0; j < 5; j++)
-                {
-                    RulingBody.Explore();
-                    RulingBody.ShowExploringArea();
-                    Console.WriteLine();
-                }
+                ExploreNumberOfSteps(5);
 
                 Console.WriteLine("Time to ho home!");
-                while (!RulingBody.IsHome)
+
+                while (!IsRobotHome())
                 {
-                    var values = new[] { (double)RulingBody.ActualPositionX, (double)RulingBody.ActualPositionY };
-                    RulingBody.StepBack();
-                    double[] targets = null;
-                    switch (RulingBody.RetreatDirection)
-                    {
-                        case Direction.Right:
-                            targets = DirectionTranslator.Right;
-                            break;
-                        case Direction.Left:
-                            targets = DirectionTranslator.Left;
-                            break;
-                        case Direction.Above:
-                            targets = DirectionTranslator.Above;
-                            break;
-                        case Direction.Below:
-                            targets = DirectionTranslator.Below;
-                            break;
-                    }
-                    if (targets == null) throw new Exception("Target is null, lol");
-                    dataList.Add(new Data(values, targets));
+                    GetNextTeachingData(dataList);
                 }
                 Console.WriteLine();
+
                 Network.Train(dataList, 50);
+
                 dataList.Clear();
                 RulingBody.ChangePositionToStart();
             }
             RulingBody.ShowRetreatingArea();
             Console.WriteLine("Now I now everything");
+        }
+
+        public void GetNextTeachingData(List<Data> dataList)
+        {
+            var values = new[] {(double) GetActualPositionX(), (double) GetActualPositionY()};
+            RulingBody.StepBack();
+            double[] targets = null;
+            switch (RulingBody.RetreatDirection)
+            {
+                case Direction.Right:
+                    targets = DirectionTranslator.Right;
+                    break;
+                case Direction.Left:
+                    targets = DirectionTranslator.Left;
+                    break;
+                case Direction.Above:
+                    targets = DirectionTranslator.Above;
+                    break;
+                case Direction.Below:
+                    targets = DirectionTranslator.Below;
+                    break;
+            }
+            if (targets == null) throw new Exception("Target is null, lol");
+            
+            dataList.Add(new Data(values, targets));
+        }
+
+        private void ExploreNumberOfSteps(int numberOfSteps)
+        {
+            for (var j = 0; j < numberOfSteps; j++)
+            {
+                RulingBody.Explore();
+                RulingBody.ShowExploringArea();
+                Console.WriteLine();
+            }
+        }
+
+        public int GetActualPositionX()
+        {
+            return RulingBody.ActualPositionX;
+        }
+        public int GetActualPositionY()
+        {
+            return RulingBody.ActualPositionY;
+        }
+        public bool IsRobotHome()
+        {
+            return RulingBody.IsHome;
+        }
+        public void ExploreOneStep()
+        {
+            RulingBody.Explore();
+        }
+        public void RetreatOneStep()
+        {
+            RulingBody.StepBack();
+        }
+
+        public int GetFieldExploreValue(int x, int y)
+        {
+            return RulingBody.DecisionArea.DecisionValuesArea[x, y].ExploringValue;
+        }
+
+        public int GetFieldRetreatValue(int x, int y)
+        {
+            return RulingBody.DecisionArea.DecisionValuesArea[x, y].RetreatingValue;
+        }
+
+        public void ChangePositionToStart()
+        {
+            RulingBody.ChangePositionToStart();
+        }
+
+        public void Train(List<Data> data, int epochsNumber)
+        {
+            Network.Train(data, epochsNumber);
         }
     }
 }
