@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using NeuralNetwork.Helpers;
 
 namespace NeuralNetwork.NeuralNetworkModel
 {
@@ -110,8 +109,10 @@ namespace NeuralNetwork.NeuralNetworkModel
         {
             const int precision = 4;
             var pSpecifier = $"F{precision}";
-            InputLayer.ForEach(i => Console.Write("{0}\t", i.Value));
-            OutputLayer.ForEach(i => Console.Write("{0}\t", i.Value.ToString(pSpecifier)));
+            Console.WriteLine("x:  y:    Right:         Left:           Above:          Below:    ");
+            InputLayer.ForEach(i => Console.Write("{0, 3}", i.Value));
+            Console.Write("\t\t");
+            OutputLayer.ForEach(i => Console.Write("{0, 8}\t", i.Value.ToString(pSpecifier)));
             Console.WriteLine();
         }
     }

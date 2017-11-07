@@ -54,15 +54,17 @@
     <Compile Include="Helpers\Randomizer.cs" />
     <Compile Include="NeuralNetworkModel\Sigmoid.cs" />
     <Compile Include="NeuralNetworkModel\Synapse.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="RobotModel\Battery.cs" />
     <Compile Include="Helpers\DirectionTranslator.cs" />
     <Compile Include="RobotModel\Robot.cs" />
     <Compile Include="RobotModel\RobotMode.cs" />
-    <Compile Include="XOR_Test.cs" />
+    <Compile Include="Tests\XOR_Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

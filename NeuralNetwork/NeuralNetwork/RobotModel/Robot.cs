@@ -23,9 +23,9 @@ namespace NeuralNetwork.RobotModel
 
         public void TestRun()
         {
-            for(var i = 0; i < 40; i++)
+            for(var i = 0; i < 5; i++)
             {
-                for (var j = 0; j < 20; j++)
+                for (var j = 0; j < 7; j++)
                 {
                     RulingBody.Explore();
                     RulingBody.ShowExploringArea();
@@ -51,7 +51,7 @@ namespace NeuralNetwork.RobotModel
                     Console.WriteLine();
                 }
 
-
+                Console.WriteLine("Time to ho home!");
                 while (!RulingBody.IsHome)
                 {
                     var values = new[] { (double)RulingBody.ActualPositionX, (double)RulingBody.ActualPositionY };
@@ -75,7 +75,7 @@ namespace NeuralNetwork.RobotModel
                     if (targets == null) throw new Exception("Target is null, lol");
                     dataList.Add(new Data(values, targets));
                 }
-
+                Console.WriteLine();
                 Network.Train(dataList, 50);
                 dataList.Clear();
                 RulingBody.ChangePositionToStart();

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NeuralNetwork.AreaModel;
 using NeuralNetwork.Helpers;
 using static System.Int32;
@@ -53,15 +54,22 @@ namespace NeuralNetwork.MovementAlgorythims
         private Direction ChooseDirectionToExplore()
         {
             GetSurroundingValues(out int left, out int right, out int above, out int below, ArrayType.Exploring);
-            Console.WriteLine("left: {0}, right: {1}, above: {2}, below: {3}", left, right, above, below); //
+            //Console.WriteLine("left: {0}, right: {1}, above: {2}, below: {3}", left, right, above, below); //
             var min = Minimizer.FindMinimum(right, left, below, above);
 
-            if (left == min) return Direction.Left;
-            if (right == min) return Direction.Right;
-            if (above == min) return Direction.Above;
-            if (below == min) return Direction.Below;
+            return RandomizeDirection(left, min, right, above, below);
+            
+        }
 
-            return Direction.None;
+        private static Direction RandomizeDirection(int left, int min, int right, int above, int below)
+        {
+            var possibleDirections = new List<Direction>();
+            if (left == min) possibleDirections.Add(Direction.Left);
+            if (right == min) possibleDirections.Add(Direction.Right);
+            if (above == min) possibleDirections.Add(Direction.Above);
+            if (below == min) possibleDirections.Add(Direction.Below);
+            var randomIndex = Randomizer.GetRandomIndex(possibleDirections.Count);
+            return possibleDirections.Count != 0 ? possibleDirections[randomIndex] : Direction.None;
         }
 
         private void ExploreBelow()
@@ -104,7 +112,7 @@ namespace NeuralNetwork.MovementAlgorythims
         {
             while(!IsHome)
                 StepBack();
-            Console.WriteLine("I'm home - x: {0}, y: {1}", ActualPositionX, ActualPositionY);
+            //Console.WriteLine("I'm home - x: {0}, y: {1}", ActualPositionX, ActualPositionY);
         }
 
         public void StepBack()
@@ -249,7 +257,7 @@ namespace NeuralNetwork.MovementAlgorythims
 
         public void ShowExploringArea()
         {
-            DecisionArea.ShowRetreatingArea();
+            DecisionArea.ShowExploringArea();
         }
         public void ShowRetreatingArea()
         {
