@@ -12,7 +12,7 @@ using NeuralNetwork.TransportingDataHelpers;
 
 namespace NeuralNetworkPresentation
 {
-    public partial class Form1 : Form
+    public partial class PresentationWindow : Form
     {
         #region --Simulation Params (need to move them to another window)--
         private const int StartPositionX = 0;
@@ -41,7 +41,7 @@ namespace NeuralNetworkPresentation
         private Button _exportButton;
         private Button _importButton;
 
-        public Form1()
+        public PresentationWindow()
         {
             InitializeComponent();
             Size = new Size(900, 545);
