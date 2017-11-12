@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
@@ -12,20 +13,25 @@ namespace NeuralNetworkPresentation
 {
     public partial class Form1 : Form
     {
+        #region --Simulation Params (need to move them to another window)--
+        private const int StartPositionX = 0;
+        private const int StartPositionY = 4;
+
+        private const int NumberOfExploringSteps = 15;
+        private const int NumberOfTestingSteps = 15;
+        private const int NumberOfExpedicions = 70;
+        private const int NumberOfEpochs = 20;
+
+        private const int ArrayDefaultSize = 10;
+        #endregion
+
+        #region --Form Params--
         private const int LongSleepTime = 50;
         private const int ShortSleepTime = 1;
-
-        private const int StartPositionX = 2;
-        private const int StartPositionY = 2;
-
-        private const int NumberOfExploringSteps = 10;
-        private const int NumberOfTestingSteps = 7;
-        private const int NumberOfExpedicions = 50;
-        private const int NumberOfEpochs = 25;
-
+        #endregion
+        
         private readonly Robot Robot;
-        private const int ArrayDefaultSize = 10;
-
+        
         public Label[,] ExploringArray;
         public Label[,] RetreatingArray;
 
@@ -47,16 +53,13 @@ namespace NeuralNetworkPresentation
             ExploringArray = new Label[ArrayDefaultSize,ArrayDefaultSize];
             RetreatingArray = new Label[ArrayDefaultSize,ArrayDefaultSize];
 
-            //Robot = new Robot(100, 2, new[] { 3, 10, 25, 30, }, 4, 10, 10, 3, 3);
-            Robot = new Robot(100, 2, new[] { 50, 50, 50, 50 }, 4, 10, 10, StartPositionY, StartPositionX);
+            Robot = new Robot(100, 2, new[] { 30, 70, 70, 70, 30 }, 4, 10, 10, StartPositionY, StartPositionX);
         }
-
         public sealed override string Text
         {
             get => base.Text;
             set => base.Text = value;
         }
-
         private void Form1_Load(object sender, EventArgs e)
         {
             CreateTeachButton();
@@ -69,6 +72,7 @@ namespace NeuralNetworkPresentation
             PaintRetreatingArray();
         }
 
+        #region --Create Buttons---
         private void CreateTeachButton()
         {
             _teachButton = new Button
@@ -82,13 +86,6 @@ namespace NeuralNetworkPresentation
             _teachButton.Click += Teach;
             Controls.Add(_teachButton);
         }
-
-        private void Teach(object sender, EventArgs e)
-        {
-            Refresh();
-            TeachRobot(NumberOfExpedicions, NumberOfExploringSteps, NumberOfEpochs);
-        }
-
         private void CreateCheckButton()
         {
             _checkButton = new Button
@@ -102,6 +99,41 @@ namespace NeuralNetworkPresentation
             _checkButton.Click += Check;
             Controls.Add(_checkButton);
         }
+        #endregion
+
+        private void Teach(object sender, EventArgs e)
+        {
+            Refresh();
+            TeachRobot(NumberOfExpedicions, NumberOfExploringSteps, NumberOfEpochs);
+        }
+        private void TeachRobot(int numberOfExpedicions, int numberOfSteps, int numberOfEpochs)
+        {
+            var dataList = new List<Data>();
+            for (var i = 0; i < numberOfExpedicions; i++)
+            {
+                MarkActualPosition(MovementType.Explore);
+                ExploreNumberOfSteps(numberOfSteps);
+                Refresh();
+                Thread.Sleep(LongSleepTime);
+
+                
+
+                while (!Robot.IsRobotHome())
+                {
+                    Refresh();
+                    dataList.Clear();
+                    Robot.GetNextTeachingData(dataList);
+                    Robot.Train(dataList, numberOfEpochs);
+                    MarkActualPosition(MovementType.Retreat);
+                }
+                Console.WriteLine();
+
+                Robot.ChangePositionToStart();
+                Refresh();
+                Thread.Sleep(LongSleepTime);
+            }
+            dataList.Clear();
+        }
 
         private void Check(object sender, EventArgs e)
         {
@@ -112,10 +144,21 @@ namespace NeuralNetworkPresentation
             Refresh();
             Thread.Sleep(LongSleepTime);
 
+            var elapsed = 0d;
+
             try
             {
-                while (!Robot.IsRobotHome())
+                while (!Robot.IsRobotHome() && elapsed < 2000)
+                {
+                    var timer = new Stopwatch();
+                    timer.Start();
+
                     RetreatUsingNeuralNetwork();
+
+                    timer.Stop();
+                    elapsed += timer.Elapsed.TotalMilliseconds;
+                }
+                    
             }
             catch (Exception exception)
             {
@@ -134,11 +177,10 @@ namespace NeuralNetworkPresentation
             Refresh();
             Thread.Sleep(LongSleepTime);
         }
-
         private void RetreatUsingNeuralNetwork()
         {
             Refresh();
-            var tempDirection = Robot.GetOutputDirection(new double[] {Robot.GetActualPositionX(), Robot.GetActualPositionY()});
+            var tempDirection = Robot.GetOutputDirection(new double[] { Robot.GetActualPositionX(), Robot.GetActualPositionY() });
             Console.WriteLine(@"x: {0}, y: {1}, direction: {2}", Robot.GetActualPositionX(), Robot.GetActualPositionY(),
                 tempDirection); //
             Robot.ShowOutput(new double[] { Robot.GetActualPositionX(), Robot.GetActualPositionY() });
@@ -161,45 +203,6 @@ namespace NeuralNetworkPresentation
             }
             MarkActualPosition(MovementType.Retreat);
         }
-
-        private void TeachRobot(int numberOfExpedicions, int numberOfSteps, int numberOfEpochs)
-        {
-            var dataList = new List<Data>();
-            for (var i = 0; i < numberOfExpedicions; i++)
-            {
-                MarkActualPosition(MovementType.Explore);
-                ExploreNumberOfSteps(numberOfSteps);
-                Refresh();
-                Thread.Sleep(LongSleepTime);
-
-                while (!Robot.IsRobotHome())
-                {
-                    Refresh();
-                    dataList.Clear();
-                    Robot.GetNextTeachingData(dataList);
-                    Robot.Train(dataList, numberOfEpochs);
-                    MarkActualPosition(MovementType.Retreat);
-                }
-                Console.WriteLine();
-
-                Robot.ChangePositionToStart();
-                Refresh();
-                Thread.Sleep(LongSleepTime);
-            }
-            dataList.Clear();
-        }
-
-        private void ExploreNumberOfSteps(int numberOfSteps)
-        {
-            for (var i = 1; i < numberOfSteps; i++)
-            {
-                Refresh();
-                Console.Write(@"{0}: ", i);
-                SimulateOneStep();
-                Thread.Sleep(ShortSleepTime);
-            }
-        }
-
         private void SimulateOneStep()
         {
             UpdateExploringArea();
@@ -213,7 +216,19 @@ namespace NeuralNetworkPresentation
             PaintExploringArray();
             PaintRetreatingArray();
         }
+        private void ExploreNumberOfSteps(int numberOfSteps)
+        {
+            for (var i = 1; i < numberOfSteps; i++)
+            {
+                Refresh();
+                Console.Write(@"{0}: ", i);
+                SimulateOneStep();
+                Thread.Sleep(ShortSleepTime);
+            }
+        }
 
+
+        #region --Arrays Handlers--
         private void CreateExploringArea()
         {
             var horizotal = 30;
@@ -313,7 +328,6 @@ namespace NeuralNetworkPresentation
                 RetreatingArray[Robot.GetActualPositionY(), Robot.GetActualPositionX()].BackColor = Color.Red;
 
         }
-
         private void PaintExploringArray()
         {
             for (var i = 0; i < ArrayDefaultSize; i++)
@@ -325,7 +339,6 @@ namespace NeuralNetworkPresentation
             }
             MarkActualPosition(MovementType.Explore);
         }
-
         private void PaintRetreatingArray()
         {
             for (var i = 0; i < ArrayDefaultSize; i++)
@@ -337,8 +350,6 @@ namespace NeuralNetworkPresentation
             }
             MarkActualPosition(MovementType.Explore);
         }
-
-
-        
+        #endregion
     }
 }
