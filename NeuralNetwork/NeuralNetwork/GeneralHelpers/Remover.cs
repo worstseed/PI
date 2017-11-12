@@ -2,7 +2,7 @@
 using System.Linq;
 using NeuralNetwork.NeuralNetworkModel;
 
-namespace NeuralNetwork.Helpers
+namespace NeuralNetwork.GeneralHelpers
 {
     public class Remover
     {

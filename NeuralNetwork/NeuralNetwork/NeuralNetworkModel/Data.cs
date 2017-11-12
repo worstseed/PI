@@ -5,17 +5,17 @@ namespace NeuralNetwork.NeuralNetworkModel
     public class Data
     {
         public double[] Values { get; set; }
-        public double[] Targets { get; set; }
+        public double[] Expectations { get; set; }
 
         public Data()
         {
             throw new InvalidDataException();
         }
 
-        public Data(double[] values, double[] targets)
+        public Data(double[] values, double[] expectations)
         {
             Values = values;
-            Targets = targets;
+            Expectations = expectations;
         }
     }
 }

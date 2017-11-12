@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NeuralNetwork.AreaModel;
-using NeuralNetwork.Helpers;
+using NeuralNetwork.GeneralHelpers;
 using static System.Int32;
 
 namespace NeuralNetwork.MovementAlgorythims

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NeuralNetwork.Helpers;
+using NeuralNetwork.GeneralHelpers;
 using NeuralNetwork.MovementAlgorythims;
 using NeuralNetwork.NeuralNetworkModel;
 
@@ -10,7 +10,7 @@ namespace NeuralNetwork.RobotModel
     public class Robot
     {
         private Battery Battery;
-        private readonly Network Network;
+        private Network Network;
         private readonly RulingBody RulingBody;
 
 
@@ -193,6 +193,16 @@ namespace NeuralNetwork.RobotModel
         public void RetreatAbove()
         {
             RulingBody.RetreatAbove();
+        }
+
+        public Network GetNetwork()
+        {
+            return Network;
+        }
+
+        public void ImportNetwork(Network network)
+        {
+            Network = network;
         }
     }
 }

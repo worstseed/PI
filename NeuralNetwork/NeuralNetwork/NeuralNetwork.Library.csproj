@@ -32,8 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,29 +48,33 @@
   <ItemGroup>
     <Compile Include="AreaModel\Area.cs" />
     <Compile Include="AreaModel\Field.cs" />
-    <Compile Include="Helpers\MovementType.cs" />
-    <Compile Include="Helpers\Remover.cs" />
+    <Compile Include="GeneralHelpers\MovementType.cs" />
+    <Compile Include="GeneralHelpers\Remover.cs" />
     <Compile Include="MovementAlgorythims\ArrayType.cs" />
-    <Compile Include="Helpers\Minimizer.cs" />
+    <Compile Include="GeneralHelpers\Minimizer.cs" />
     <Compile Include="MovementAlgorythims\Direction.cs" />
     <Compile Include="MovementAlgorythims\RulingBody.cs" />
     <Compile Include="NeuralNetworkModel\Data.cs" />
     <Compile Include="NeuralNetworkModel\Network.cs" />
     <Compile Include="NeuralNetworkModel\Neuron.cs" />
-    <Compile Include="Helpers\Randomizer.cs" />
+    <Compile Include="GeneralHelpers\Randomizer.cs" />
     <Compile Include="NeuralNetworkModel\Sigmoid.cs" />
     <Compile Include="NeuralNetworkModel\Synapse.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="RobotModel\Battery.cs" />
-    <Compile Include="Helpers\DirectionTranslator.cs" />
+    <Compile Include="GeneralHelpers\DirectionTranslator.cs" />
     <Compile Include="RobotModel\Robot.cs" />
     <Compile Include="RobotModel\RobotMode.cs" />
     <Compile Include="Tests\ListRemoval_Test.cs" />
     <Compile Include="Tests\XOR_Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TransportingDataHelpers\ExportHelper.cs" />
+    <Compile Include="TransportingDataHelpers\ImportHelper.cs" />
+    <Compile Include="TransportingDataHelpers\NetworkHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

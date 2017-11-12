@@ -1,4 +1,4 @@
-﻿namespace NeuralNetwork.Helpers
+﻿namespace NeuralNetwork.GeneralHelpers
 {
     public class DirectionTranslator
     {

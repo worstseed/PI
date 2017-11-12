@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using NeuralNetwork.MovementAlgorythims;
 
 namespace NeuralNetwork.NeuralNetworkModel
 {
@@ -17,7 +16,11 @@ namespace NeuralNetwork.NeuralNetworkModel
 
         public Network()
         {
-            throw new InvalidDataException();
+            LearnRate = 0;
+            Momentum = 0;
+            InputLayer = new List<Neuron>();
+            HiddenLayers = new List<List<Neuron>>();
+            OutputLayer = new List<Neuron>();
         }
 
         public Network(int inputCount, int[] hiddenCounts, int outputCount, double? learnRate = null,
@@ -80,7 +83,7 @@ namespace NeuralNetwork.NeuralNetworkModel
                 foreach (var dataPiece in data)
                 {
                     ForwardPropagate(dataPiece.Values);
-                    BackwardPropagate(dataPiece.Targets);
+                    BackwardPropagate(dataPiece.Expectations);
                     ShowResult();
                 }
                 Console.WriteLine();
@@ -108,8 +111,8 @@ namespace NeuralNetwork.NeuralNetworkModel
                 foreach (var dataSet in data)
                 {
                     ForwardPropagate(dataSet.Values);
-                    BackwardPropagate(dataSet.Targets);
-                    errors.Add(CalculateError(dataSet.Targets));
+                    BackwardPropagate(dataSet.Expectations);
+                    errors.Add(CalculateError(dataSet.Expectations));
                     ShowResult();
                 }
                 error = errors.Average();

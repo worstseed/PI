@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NeuralNetwork.Helpers
+namespace NeuralNetwork.GeneralHelpers
 {
     public class Randomizer
     {

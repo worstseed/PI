@@ -4,10 +4,11 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
-using NeuralNetwork.Helpers;
+using NeuralNetwork.GeneralHelpers;
 using NeuralNetwork.MovementAlgorythims;
 using NeuralNetwork.NeuralNetworkModel;
 using NeuralNetwork.RobotModel;
+using NeuralNetwork.TransportingDataHelpers;
 
 namespace NeuralNetworkPresentation
 {
@@ -37,6 +38,8 @@ namespace NeuralNetworkPresentation
 
         private Button _teachButton;
         private Button _checkButton;
+        private Button _exportButton;
+        private Button _importButton;
 
         public Form1()
         {
@@ -64,6 +67,8 @@ namespace NeuralNetworkPresentation
         {
             CreateTeachButton();
             CreateCheckButton();
+            CreateImportButton();
+            CreateExportButton();
 
             CreateExploringArea();
             CreateRetreatingArea();
@@ -99,6 +104,42 @@ namespace NeuralNetworkPresentation
             _checkButton.Click += Check;
             Controls.Add(_checkButton);
         }
+        private void CreateExportButton()
+        {
+            _exportButton = new Button
+            {
+                Size = new Size(80, 30),
+                Location = new Point(450, 50),
+                Text = @"Export",
+                TextAlign = ContentAlignment.MiddleCenter,
+                Enabled = true
+            };
+            _exportButton.Click += Export;
+            Controls.Add(_exportButton);
+        }
+        private void CreateImportButton()
+        {
+            _importButton = new Button
+            {
+                Size = new Size(80, 30),
+                Location = new Point(350, 50),
+                Text = @"Import",
+                TextAlign = ContentAlignment.MiddleCenter,
+                Enabled = true
+            };
+            _importButton.Click += Import;
+            Controls.Add(_importButton);
+        }
+
+        private void Export(object sender, EventArgs e)
+        {
+            ExportHelper.ExportNetwork(Robot.GetNetwork());
+        }
+        private void Import(object sender, EventArgs e)
+        {
+            Robot.ImportNetwork(ImportHelper.ImportNetwork());
+        }
+
         #endregion
 
         private void Teach(object sender, EventArgs e)
@@ -115,9 +156,7 @@ namespace NeuralNetworkPresentation
                 ExploreNumberOfSteps(numberOfSteps);
                 Refresh();
                 Thread.Sleep(LongSleepTime);
-
                 
-
                 while (!Robot.IsRobotHome())
                 {
                     Refresh();

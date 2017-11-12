@@ -1,4 +1,4 @@
-﻿namespace NeuralNetwork.Helpers
+﻿namespace NeuralNetwork.GeneralHelpers
 {
     public enum MovementType
     {

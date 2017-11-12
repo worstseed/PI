@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using NeuralNetwork.Helpers;
+using NeuralNetwork.GeneralHelpers;
 
 namespace NeuralNetwork.NeuralNetworkModel
 {
     public class Neuron
     {
+        public Guid Id { get; set; }
+
         public List<Synapse> InputSynapses { get; set; }
         public List<Synapse> OutputSynapses { get; set; }
 
@@ -16,6 +19,7 @@ namespace NeuralNetwork.NeuralNetworkModel
 
         public Neuron()
         {
+            Id = Guid.NewGuid();
             InputSynapses = new List<Synapse>();
             OutputSynapses = new List<Synapse>();
             Bias = Randomizer.GetRandom();

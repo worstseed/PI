@@ -74,7 +74,7 @@ namespace NeuralNetwork.Tests
             foreach (var data in listOfData)
             {
                 Console.WriteLine(@"{0}, {1}: {2, 5}, {3, 5}, {4, 5}, {5, 5}", data.Values[0], data.Values[1],
-                    data.Targets[0], data.Targets[1], data.Targets[2], data.Targets[3]);
+                    data.Expectations[0], data.Expectations[1], data.Expectations[2], data.Expectations[3]);
             }
         }
     }

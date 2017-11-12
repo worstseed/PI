@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace NeuralNetwork.Helpers
+namespace NeuralNetwork.GeneralHelpers
 {
     public class Minimizer
     {
