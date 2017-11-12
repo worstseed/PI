@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using NeuralNetwork.Helpers;
 using NeuralNetwork.MovementAlgorythims;
 using NeuralNetwork.NeuralNetworkModel;
@@ -14,11 +15,11 @@ namespace NeuralNetwork.RobotModel
 
 
         public Robot(int maxCapacity, int inputCount, int[] hiddenCounts, int outputCount, 
-            int? aReaSizeX = null, int? areaSizeY = null, int? startPositionX = null, int? startPositionY = null)
+            int? areaSizeX = null, int? areaSizeY = null, int? startPositionX = null, int? startPositionY = null)
         {
             Battery = new Battery(maxCapacity);
             Network = new Network(inputCount, hiddenCounts, outputCount);
-            RulingBody = new RulingBody(aReaSizeX, areaSizeY, startPositionX, startPositionY);
+            RulingBody = new RulingBody(areaSizeX, areaSizeY, startPositionX, startPositionY);
         }
 
         public void TestRun()
@@ -46,7 +47,7 @@ namespace NeuralNetwork.RobotModel
 
                 ExploreNumberOfSteps(5);
 
-                Console.WriteLine("Time to ho home!");
+                Console.WriteLine("Time to go home!");
 
                 while (!IsRobotHome())
                 {
@@ -110,6 +111,7 @@ namespace NeuralNetwork.RobotModel
         {
             return RulingBody.IsHome;
         }
+
         public void ExploreOneStep()
         {
             RulingBody.Explore();
@@ -137,6 +139,60 @@ namespace NeuralNetwork.RobotModel
         public void Train(List<Data> data, int epochsNumber)
         {
             Network.Train(data, epochsNumber);
+        }
+
+        public void Train(List<Data> data, double minimumError)
+        {
+            Network.Train(data, minimumError);
+        }
+
+        public void ShowOutput(double[] input)
+        {
+            var output = Network.GetOutput(input);
+            for (var i = 0; i < output.Length; i++)
+                Console.WriteLine(output[i].ToString());
+        }
+        
+        public Direction GetOutputDirection(double[] input)
+        {
+            var output = Network.GetOutput(input);
+            var max = output.Concat(new[] {-1d}).Max();
+            for (var i = 0; i < output.Length; i++)
+            {
+                if (max != output[i]) continue;
+                switch (i)
+                {
+                    case 0:
+                        return Direction.Right;
+                    case 1:
+                        return Direction.Left;
+                    case 2:
+                        return Direction.Above;
+                    case 3:
+                        return Direction.Below;
+                }
+            }
+            return Direction.None;
+        }
+
+       public void RetreatRight()
+       {
+            RulingBody.RetreatRight();
+       }
+
+        public void RetreatLeft()
+        {
+            RulingBody.RetreatLeft();
+        }
+
+        public void RetreatBelow()
+        {
+            RulingBody.RetreatBelow();
+        }
+
+        public void RetreatAbove()
+        {
+            RulingBody.RetreatAbove();
         }
     }
 }

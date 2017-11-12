@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using NeuralNetwork.MovementAlgorythims;
 
 namespace NeuralNetwork.NeuralNetworkModel
 {
@@ -22,7 +23,7 @@ namespace NeuralNetwork.NeuralNetworkModel
         public Network(int inputCount, int[] hiddenCounts, int outputCount, double? learnRate = null,
             double? momentum = null)
         {
-            LearnRate = learnRate ?? 0.4;
+            LearnRate = learnRate ?? 0.2;
             Momentum = momentum ?? 0.9;
 
             InputLayer = new List<Neuron>();
@@ -84,6 +85,42 @@ namespace NeuralNetwork.NeuralNetworkModel
                 }
                 Console.WriteLine();
             }
+        }
+
+        public double[] GetOutput(double[] input)
+        {
+            ForwardPropagate(input);
+            var temp = new double[OutputLayer.Count];
+            for (var i = 0; i < OutputLayer.Count; i++)
+                temp[i] = OutputLayer[i].Value;
+            return temp;
+        }
+
+        public void Train(List<Data> data, double minimumError)
+        {
+            var error = 1.0;
+            var epochsNumber = 0;
+
+            while (error > minimumError && epochsNumber < int.MaxValue)
+            {
+                Console.WriteLine("Epoch number: {0}", epochsNumber);
+                var errors = new List<double>();
+                foreach (var dataSet in data)
+                {
+                    ForwardPropagate(dataSet.Values);
+                    BackwardPropagate(dataSet.Targets);
+                    errors.Add(CalculateError(dataSet.Targets));
+                    ShowResult();
+                }
+                error = errors.Average();
+                epochsNumber++;
+            }
+        }
+
+        private double CalculateError(params double[] targets)
+        {
+            var i = 0;
+            return OutputLayer.Sum(a => Math.Abs(a.CalculateError(targets[i++])));
         }
 
         private void ForwardPropagate(params double[] inputs)

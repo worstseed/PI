@@ -25,12 +25,11 @@ namespace NeuralNetwork.MovementAlgorythims
             UpdateValue(ArrayType.Exploring);
         }
 
-
-
         public void Explore()
         {
             var directionToExplore = ChooseDirectionToExplore();
-            Console.WriteLine("Exploring direction: {0}", directionToExplore);
+            //Console.WriteLine("Exploring direction: {0}", directionToExplore);
+            IsHome = false;
             switch (directionToExplore)
             {
                 case Direction.Right:
@@ -74,25 +73,21 @@ namespace NeuralNetwork.MovementAlgorythims
 
         private void ExploreBelow()
         {
-            IsHome = false;
             ActualPositionY++;
             UpdateValue(ArrayType.Exploring);
         }
         private void ExploreAbove()
         {
-            IsHome = false;
             ActualPositionY--;
             UpdateValue(ArrayType.Exploring);
         }
         private void ExploreLeft()
         {
-            IsHome = false;
             ActualPositionX--;
             UpdateValue(ArrayType.Exploring);
         }
         private void ExploreRight()
         {
-            IsHome = false;
             ActualPositionX++;
             UpdateValue(ArrayType.Exploring);
         }
@@ -107,12 +102,10 @@ namespace NeuralNetwork.MovementAlgorythims
         }
 
 
-
         public void Retreat()
         {
             while(!IsHome)
                 StepBack();
-            //Console.WriteLine("I'm home - x: {0}, y: {1}", ActualPositionX, ActualPositionY);
         }
 
         public void StepBack()
@@ -150,8 +143,6 @@ namespace NeuralNetwork.MovementAlgorythims
 
             var min = Minimizer.FindMinimum(right, left, below, above);
 
-            if (min == 0) IsHome = true;
-
             if (left == min) return Direction.Left;
             if (right == min) return Direction.Right;
             if (above == min) return Direction.Above;
@@ -160,28 +151,40 @@ namespace NeuralNetwork.MovementAlgorythims
             return Direction.None;
         }
         
-        private void RetreatBelow()
+        public void RetreatBelow()
         {
+            if (ActualPositionY >= DecisionArea.SizeY - 1) throw new Exception("Out of map, moron (below)");
             ActualPositionY++;
             UpdateValue(ArrayType.Retreating);
+            CheckIfIsHome();
         }
-        private void RetreatAbove()
+        public void RetreatAbove()
         {
+            if (ActualPositionY <= 0) throw new Exception("Out of map, moron (above)");
             ActualPositionY--;
             UpdateValue(ArrayType.Retreating);
+            CheckIfIsHome();
         }
-        private void RetreatLeft()
+        public void RetreatLeft()
         {
+            if (ActualPositionX <= 0) throw new Exception("Out of map, moron (left)");
             ActualPositionX--;
             UpdateValue(ArrayType.Retreating);
+            CheckIfIsHome();
         }
-        private void RetreatRight()
+        public void RetreatRight()
         {
+            if (ActualPositionX >= DecisionArea.SizeX - 1) throw new Exception("Out of map, moron (right)");
             ActualPositionX++;
             UpdateValue(ArrayType.Retreating);
+            CheckIfIsHome();
         }
 
-
+        private void CheckIfIsHome()
+        {
+            if (DecisionArea.DecisionValuesArea[ActualPositionY, ActualPositionX].RetreatingValue == 0)
+                IsHome = true;
+        }
 
         public void ChangePositionToStart()
         {

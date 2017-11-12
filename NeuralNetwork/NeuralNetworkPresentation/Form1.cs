@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 using NeuralNetwork.Helpers;
+using NeuralNetwork.MovementAlgorythims;
 using NeuralNetwork.NeuralNetworkModel;
 using NeuralNetwork.RobotModel;
 
@@ -11,13 +12,25 @@ namespace NeuralNetworkPresentation
 {
     public partial class Form1 : Form
     {
+        private const int LongSleepTime = 50;
+        private const int ShortSleepTime = 1;
+
+        private const int StartPositionX = 2;
+        private const int StartPositionY = 2;
+
+        private const int NumberOfExploringSteps = 10;
+        private const int NumberOfTestingSteps = 7;
+        private const int NumberOfExpedicions = 50;
+        private const int NumberOfEpochs = 25;
+
         private readonly Robot Robot;
         private const int ArrayDefaultSize = 10;
 
         public Label[,] ExploringArray;
         public Label[,] RetreatingArray;
 
-        private Button _startButton;
+        private Button _teachButton;
+        private Button _checkButton;
 
         public Form1()
         {
@@ -34,7 +47,8 @@ namespace NeuralNetworkPresentation
             ExploringArray = new Label[ArrayDefaultSize,ArrayDefaultSize];
             RetreatingArray = new Label[ArrayDefaultSize,ArrayDefaultSize];
 
-            Robot = new Robot(100, 2, new[] { 5, 5 }, 4);
+            //Robot = new Robot(100, 2, new[] { 3, 10, 25, 30, }, 4, 10, 10, 3, 3);
+            Robot = new Robot(100, 2, new[] { 50, 50, 50, 50 }, 4, 10, 10, StartPositionY, StartPositionX);
         }
 
         public sealed override string Text
@@ -45,97 +59,144 @@ namespace NeuralNetworkPresentation
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            CreateStartButton();
+            CreateTeachButton();
+            CreateCheckButton();
+
             CreateExploringArea();
             CreateRetreatingArea();
 
             PaintExploringArray();
             PaintRetreatingArray();
         }
-        private void CreateStartButton()
+
+        private void CreateTeachButton()
         {
-            _startButton = new Button
+            _teachButton = new Button
             {
                 Size = new Size(80, 30),
-                Location = new Point(400, 20),
-                Text = @"Start",
+                Location = new Point(350, 20),
+                Text = @"Teach",
                 TextAlign = ContentAlignment.MiddleCenter,
                 Enabled = true
             };
-            _startButton.Click += StartSimulation;
-            Controls.Add(_startButton);
+            _teachButton.Click += Teach;
+            Controls.Add(_teachButton);
         }
 
-        private void StartSimulation(object sender, EventArgs e)
+        private void Teach(object sender, EventArgs e)
         {
             Refresh();
+            TeachRobot(NumberOfExpedicions, NumberOfExploringSteps, NumberOfEpochs);
+        }
 
-            var dataList = new List<Data>();
-            for (var i = 6; i < 13; i++)
+        private void CreateCheckButton()
+        {
+            _checkButton = new Button
             {
+                Size = new Size(80, 30),
+                Location = new Point(450, 20),
+                Text = @"Check",
+                TextAlign = ContentAlignment.MiddleCenter,
+                Enabled = true
+            };
+            _checkButton.Click += Check;
+            Controls.Add(_checkButton);
+        }
 
-                MarkActualPosition(MovementType.Explore);
-                MakeNumberOfSteps(12);
-                Console.WriteLine(@"Time to ho home!");
+        private void Check(object sender, EventArgs e)
+        {
+            MarkActualPosition(MovementType.Explore);
+            ExploreNumberOfSteps(NumberOfTestingSteps);
+
+            Console.WriteLine(@"Time to go home!");
+            Refresh();
+            Thread.Sleep(LongSleepTime);
+
+            try
+            {
+                while (!Robot.IsRobotHome())
+                    RetreatUsingNeuralNetwork();
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+                Console.WriteLine(@"Something went terribly wrong, my friend :(");
+                Robot.ChangePositionToStart();
                 Refresh();
-                Thread.Sleep(500);
+                Thread.Sleep(LongSleepTime);
+                return;
+            }
+
+            Robot.ChangePositionToStart();
+
+            Console.WriteLine(@"Time to rest, I know everything now.");
+
+            Refresh();
+            Thread.Sleep(LongSleepTime);
+        }
+
+        private void RetreatUsingNeuralNetwork()
+        {
+            Refresh();
+            var tempDirection = Robot.GetOutputDirection(new double[] {Robot.GetActualPositionX(), Robot.GetActualPositionY()});
+            Console.WriteLine(@"x: {0}, y: {1}, direction: {2}", Robot.GetActualPositionX(), Robot.GetActualPositionY(),
+                tempDirection); //
+            Robot.ShowOutput(new double[] { Robot.GetActualPositionX(), Robot.GetActualPositionY() });
+            switch (tempDirection)
+            {
+                case Direction.Right:
+                    Robot.RetreatRight();
+                    break;
+                case Direction.Left:
+                    Robot.RetreatLeft();
+                    break;
+                case Direction.Above:
+                    Robot.RetreatAbove();
+                    break;
+                case Direction.Below:
+                    Robot.RetreatBelow();
+                    break;
+                case Direction.None:
+                    throw new Exception("Why am I not moving?");
+            }
+            MarkActualPosition(MovementType.Retreat);
+        }
+
+        private void TeachRobot(int numberOfExpedicions, int numberOfSteps, int numberOfEpochs)
+        {
+            var dataList = new List<Data>();
+            for (var i = 0; i < numberOfExpedicions; i++)
+            {
+                MarkActualPosition(MovementType.Explore);
+                ExploreNumberOfSteps(numberOfSteps);
+                Refresh();
+                Thread.Sleep(LongSleepTime);
 
                 while (!Robot.IsRobotHome())
                 {
                     Refresh();
+                    dataList.Clear();
                     Robot.GetNextTeachingData(dataList);
+                    Robot.Train(dataList, numberOfEpochs);
                     MarkActualPosition(MovementType.Retreat);
                 }
                 Console.WriteLine();
 
-                dataList = Remover.RemoveSameElementsInDataList(dataList);
-
-                var epochNum = (int)(10 * Math.Pow(i, 3) + 10)/(i+1);
-                Robot.Train(dataList, epochNum);
-
-                //dataList.Clear();
                 Robot.ChangePositionToStart();
                 Refresh();
-                Thread.Sleep(500);
+                Thread.Sleep(LongSleepTime);
             }
-            //Console.WriteLine("Now I now everything");
-
             dataList.Clear();
-
-            MarkActualPosition(MovementType.Explore);
-
-            MakeNumberOfSteps(10);
-
-            Console.WriteLine(@"Time to ho home!");
-
-            Refresh();
-
-            Thread.Sleep(500);
-
-            while (!Robot.IsRobotHome())
-            {
-                Refresh();
-                Robot.GetNextTeachingData(dataList);
-                MarkActualPosition(MovementType.Retreat);
-            }
-            Console.WriteLine();
-
-            Robot.Train(dataList, 1);
-
-            //dataList.Clear();
-            Robot.ChangePositionToStart();
-            Refresh();
-            Thread.Sleep(500);
         }
 
-        private void MakeNumberOfSteps(int numberOfSteps)
+        private void ExploreNumberOfSteps(int numberOfSteps)
         {
             for (var i = 1; i < numberOfSteps; i++)
             {
                 Refresh();
                 Console.Write(@"{0}: ", i);
                 SimulateOneStep();
-                Thread.Sleep(5);//
+                Thread.Sleep(ShortSleepTime);
             }
         }
 
