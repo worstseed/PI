@@ -14,14 +14,14 @@ namespace NeuralNetworkPresentation
 {
     public partial class PresentationWindow : Form
     {
-        #region --Simulation Params (need to move them to another window)--
-        private const int StartPositionX = 0;
-        private const int StartPositionY = 4;
+        #region --Simulation Params--
+        private readonly int StartPositionX = int.Parse(SetupWindow.xPositon);
+        private readonly int StartPositionY = int.Parse(SetupWindow.yPositon);
 
-        private const int NumberOfExploringSteps = 15;
-        private const int NumberOfTestingSteps = 15;
-        private const int NumberOfExpedicions = 70;
-        private const int NumberOfEpochs = 20;
+        private readonly int NumberOfExploringSteps = int.Parse(SetupWindow.NumberOfExploringSteps);
+        private readonly int NumberOfTestingSteps = int.Parse(SetupWindow.NumberOfTestinggSteps);
+        private readonly int NumberOfExpedicions = int.Parse(SetupWindow.NumberOfExpedicions);
+        private readonly int NumberOfEpochs = int.Parse(SetupWindow.NumberOfEpochs);
 
         private const int ArrayDefaultSize = 10;
         #endregion
@@ -63,7 +63,7 @@ namespace NeuralNetworkPresentation
             get => base.Text;
             set => base.Text = value;
         }
-        private void Form1_Load(object sender, EventArgs e)
+        private void PresentationWindow_Load(object sender, EventArgs e)
         {
             CreateTeachButton();
             CreateCheckButton();
@@ -390,5 +390,16 @@ namespace NeuralNetworkPresentation
             MarkActualPosition(MovementType.Explore);
         }
         #endregion
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.WindowsShutDown) return;
+
+            if (Application.MessageLoop)
+                Application.Exit();
+            else
+                Environment.Exit(1);
+            
+        }
     }
 }
