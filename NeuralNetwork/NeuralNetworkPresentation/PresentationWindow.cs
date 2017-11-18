@@ -16,25 +16,29 @@ namespace NeuralNetworkPresentation
     public partial class PresentationWindow : Form
     {
         #region --Simulation Params--
-        private readonly int StartPositionX = Parse(SetupWindow.xPositon);
-        private readonly int StartPositionY = Parse(SetupWindow.yPositon);
 
-        private readonly int NumberOfExploringSteps = Parse(SetupWindow.NumberOfExploringSteps);
-        private readonly int NumberOfTestingSteps = Parse(SetupWindow.NumberOfTestinggSteps);
-        private readonly int NumberOfExpedicions = Parse(SetupWindow.NumberOfExpedicions);
-        private readonly int NumberOfEpochs = Parse(SetupWindow.NumberOfEpochs);
-        private readonly int BatteryMaxCapacity = Parse(SetupWindow.BatteryMaxCapacity);
+        private int StartPositionX { get; set; }
+        private int StartPositionY { get; set; }
 
-        private readonly bool SetHorizontalObstacle = SetupWindow.SetHorizontalObstacle;
-        private readonly bool SetVerticalObstacle = SetupWindow.SetVerticalObstacle;
-        private readonly bool SetRandomObstacle = SetupWindow.SetRandomObstacle;
+        private int NumberOfExploringSteps { get; set; }
+        private int NumberOfTestingSteps { get; set; }
+        private int NumberOfExpedicions { get; set; }
+        private int NumberOfEpochs { get; set; }
+        private int BatteryMaxCapacity { get; set; }
+
+        private bool SetHorizontalObstacle { get; set; }
+        private bool SetVerticalObstacle { get; set; }
+        private bool SetRandomObstacle { get; set; }
 
         private const int ArrayDefaultSize = 10;
+
         #endregion
 
         #region --Form Params--
+
         private const int LongSleepTime = 1;
         private const int ShortSleepTime = 1;
+
         #endregion
 
         #region --Network Params--
@@ -46,14 +50,17 @@ namespace NeuralNetworkPresentation
         #endregion
 
         private readonly Robot Robot;
-        
-        public Label[,] ExploringArray;
-        public Label[,] RetreatingArray;
+
+        private readonly Label[,] ExploringArray;
+        private readonly Label[,] RetreatingArray;
 
         private Button _teachButton;
         private Button _checkButton;
         private Button _exportButton;
         private Button _importButton;
+
+        private Label _batteryLevelText;
+        private Label _batteryLevel;
 
         public PresentationWindow()
         {
@@ -66,26 +73,48 @@ namespace NeuralNetworkPresentation
             MinimizeBox = false;
             MaximizeBox = false;
 
-            ExploringArray = new Label[ArrayDefaultSize,ArrayDefaultSize];
-            RetreatingArray = new Label[ArrayDefaultSize,ArrayDefaultSize];
+            ExploringArray = new Label[ArrayDefaultSize, ArrayDefaultSize];
+            RetreatingArray = new Label[ArrayDefaultSize, ArrayDefaultSize];
+
+            SetSimulationParameters();
 
             Robot = new Robot(
-                BatteryMaxCapacity, 
+                BatteryMaxCapacity,
                 InputNeuronsCount, HiddenLayers, OutputNeuronsCount,
                 ArrayDefaultSize, ArrayDefaultSize, StartPositionY, StartPositionX);
             Robot.SetObstacles(SetHorizontalObstacle, SetVerticalObstacle, SetRandomObstacle);
         }
+
+        private void SetSimulationParameters()
+        {
+            StartPositionX = Parse(SetupWindow.xPositon);
+            StartPositionY = Parse(SetupWindow.yPositon);
+
+            NumberOfExploringSteps = Parse(SetupWindow.NumberOfExploringSteps);
+            NumberOfTestingSteps = Parse(SetupWindow.NumberOfTestinggSteps);
+            NumberOfExpedicions = Parse(SetupWindow.NumberOfExpedicions);
+            NumberOfEpochs = Parse(SetupWindow.NumberOfEpochs);
+            BatteryMaxCapacity = Parse(SetupWindow.BatteryMaxCapacity);
+
+            SetHorizontalObstacle = SetupWindow.SetHorizontalObstacle;
+            SetVerticalObstacle = SetupWindow.SetVerticalObstacle;
+            SetRandomObstacle = SetupWindow.SetRandomObstacle;
+    }
+
         public sealed override string Text
         {
             get => base.Text;
             set => base.Text = value;
         }
+
         private void PresentationWindow_Load(object sender, EventArgs e)
         {
             CreateTeachButton();
             CreateCheckButton();
             CreateImportButton();
             CreateExportButton();
+
+            CreateBatteryLabels();
 
             CreateExploringArea();
             CreateRetreatingArea();
@@ -94,7 +123,8 @@ namespace NeuralNetworkPresentation
             PaintRetreatingArray();
         }
 
-        #region --Create Buttons---
+        #region --Create Controllers---
+
         private void CreateTeachButton()
         {
             _teachButton = new Button
@@ -108,6 +138,7 @@ namespace NeuralNetworkPresentation
             _teachButton.Click += Teach;
             Controls.Add(_teachButton);
         }
+
         private void CreateCheckButton()
         {
             _checkButton = new Button
@@ -121,6 +152,7 @@ namespace NeuralNetworkPresentation
             _checkButton.Click += Check;
             Controls.Add(_checkButton);
         }
+
         private void CreateExportButton()
         {
             _exportButton = new Button
@@ -134,6 +166,7 @@ namespace NeuralNetworkPresentation
             _exportButton.Click += Export;
             Controls.Add(_exportButton);
         }
+
         private void CreateImportButton()
         {
             _importButton = new Button
@@ -152,9 +185,40 @@ namespace NeuralNetworkPresentation
         {
             ExportHelper.ExportNetwork(Robot.GetNetwork());
         }
+
         private void Import(object sender, EventArgs e)
         {
             Robot.ImportNetwork(ImportHelper.ImportNetwork());
+        }
+
+        private void CreateBatteryLabels()
+        {
+            _batteryLevelText = new Label
+            {
+                Size = new Size(180, 30),
+                Location = new Point(580, 30),
+                Text = @"Battery level: ",
+                Font = new Font("TimesNewRoman", 20),
+                TextAlign = ContentAlignment.MiddleCenter,
+                Enabled = false
+            };
+            Controls.Add(_batteryLevelText);
+            _batteryLevel = new Label
+            {
+                Size = new Size(80, 30),
+                Location = new Point(750, 30),
+                Text = BatteryMaxCapacity.ToString(),
+                Font = new Font("TimesNewRoman", 20),
+                TextAlign = ContentAlignment.MiddleCenter,
+                Enabled = false
+            };
+            Controls.Add(_batteryLevel);
+        }
+
+        private void UpdateBatteryLevelValue()
+        {
+            _batteryLevel.Text = Robot.BatteryLevel().ToString();
+            //Console.WriteLine(@"Battery level: {0}", Robot.BatteryLevel());//
         }
 
         #endregion
@@ -164,39 +228,43 @@ namespace NeuralNetworkPresentation
             Refresh();
             TeachRobot(NumberOfExpedicions, NumberOfExploringSteps, NumberOfEpochs);
         }
+
         private void TeachRobot(int numberOfExpedicions, int numberOfSteps, int numberOfEpochs)
         {
-            var dataList = new List<Data>();
+            var robotDataList = new List<Data>();
             for (var i = 0; i < numberOfExpedicions; i++)
             {
                 MarkActualPosition(MovementType.Explore);
                 ExploreNumberOfSteps(numberOfSteps, RobotMode.Learning);
                 Refresh();
                 Thread.Sleep(LongSleepTime);
-                
+
                 while (!Robot.IsRobotHome())
                 {
                     Refresh();
-                    dataList.Clear();
-                    Robot.GetNextTeachingData(dataList);
-                    Robot.Train(dataList, numberOfEpochs);
+                    robotDataList.Clear();
+                    Robot.GetNextTeachingData(robotDataList);
+                    Robot.Train(robotDataList, numberOfEpochs);
                     MarkActualPosition(MovementType.Retreat);
+                    UpdateBatteryLevelValue();
                 }
-                Console.WriteLine();
+                //Console.WriteLine();
 
                 Robot.ChangePositionToStart();
                 Refresh();
                 Thread.Sleep(LongSleepTime);
             }
-            dataList.Clear();
+            robotDataList.Clear();
         }
 
         private void Check(object sender, EventArgs e)
         {
             MarkActualPosition(MovementType.Explore);
+
+            
             ExploreNumberOfSteps(NumberOfTestingSteps, RobotMode.UsingKnowledge);
 
-            Console.WriteLine(@"Time to go home!");
+            //Console.WriteLine(@"Time to go home!");
             Refresh();
             Thread.Sleep(LongSleepTime);
 
@@ -214,7 +282,7 @@ namespace NeuralNetworkPresentation
                     timer.Stop();
                     elapsed += timer.Elapsed.TotalMilliseconds;
                 }
-                    
+
             }
             catch (Exception exception)
             {
@@ -228,18 +296,20 @@ namespace NeuralNetworkPresentation
 
             Robot.ChangePositionToStart();
 
-            Console.WriteLine(@"Time to rest, I know everything now.");
+            //Console.WriteLine(@"Time to rest, I know everything now.");
 
             Refresh();
             Thread.Sleep(LongSleepTime);
         }
+
         private void RetreatUsingNeuralNetwork()
         {
             Refresh();
-            var tempDirection = Robot.GetOutputDirection(new double[] { Robot.GetActualPositionX(), Robot.GetActualPositionY() });
-            Console.WriteLine(@"x: {0}, y: {1}, direction: {2}", Robot.GetActualPositionX(), Robot.GetActualPositionY(),
-                tempDirection); //
-            Robot.ShowOutput(new double[] { Robot.GetActualPositionX(), Robot.GetActualPositionY() });
+            var tempDirection = Robot.GetOutputDirection(new double[]
+                {Robot.GetActualPositionX(), Robot.GetActualPositionY()});
+            //Console.WriteLine(@"x: {0}, y: {1}, direction: {2}", Robot.GetActualPositionX(), Robot.GetActualPositionY(),
+            //    tempDirection); //
+            //Robot.ShowOutput(new double[] { Robot.GetActualPositionX(), Robot.GetActualPositionY() });
             switch (tempDirection)
             {
                 case Direction.Right:
@@ -258,7 +328,9 @@ namespace NeuralNetworkPresentation
                     throw new Exception("Why am I not moving?");
             }
             MarkActualPosition(MovementType.Retreat);
+            UpdateBatteryLevelValue();
         }
+
         private void SimulateOneStep(RobotMode robotMode)
         {
             if (robotMode == RobotMode.Learning)
@@ -266,7 +338,7 @@ namespace NeuralNetworkPresentation
                 UpdateExploringArea();
                 UpdateRetreatingArea();
             }
-            
+
             Robot.ExploreOneStep();
 
             if (robotMode == RobotMode.Learning)
@@ -277,13 +349,16 @@ namespace NeuralNetworkPresentation
 
             PaintExploringArray();
             PaintRetreatingArray();
+
+            UpdateBatteryLevelValue();
         }
+
         private void ExploreNumberOfSteps(int numberOfSteps, RobotMode robotMode)
         {
             for (var i = 1; i < numberOfSteps; i++)
             {
                 Refresh();
-                Console.Write(@"{0}: ", i);
+                //Console.Write(@"{0}: ", i);
                 SimulateOneStep(robotMode);
                 Thread.Sleep(ShortSleepTime);
             }
@@ -291,6 +366,7 @@ namespace NeuralNetworkPresentation
 
 
         #region --Arrays Handlers--
+
         private void CreateExploringArea()
         {
             var horizotal = 30;
@@ -321,6 +397,7 @@ namespace NeuralNetworkPresentation
                 }
             }
         }
+
         private void CreateRetreatingArea()
         {
             var horizotal = 450;
@@ -365,6 +442,7 @@ namespace NeuralNetworkPresentation
                 }
             }
         }
+
         private void UpdateRetreatingArea()
         {
             for (var i = 0; i < ArrayDefaultSize; i++)
@@ -390,29 +468,35 @@ namespace NeuralNetworkPresentation
                 RetreatingArray[Robot.GetActualPositionY(), Robot.GetActualPositionX()].BackColor = Color.Red;
 
         }
+
         private void PaintExploringArray()
         {
             for (var i = 0; i < ArrayDefaultSize; i++)
             {
                 for (var j = 0; j < ArrayDefaultSize; j++)
                 {
-                    ExploringArray[i, j].BackColor = (Parse(ExploringArray[i, j].Text) == 0 
-                        || Parse(ExploringArray[i, j].Text) == MaxValue) ? Color.Black : Color.BurlyWood;
+                    ExploringArray[i, j].BackColor = (Parse(ExploringArray[i, j].Text) == 0
+                                                      || Parse(ExploringArray[i, j].Text) == MaxValue)
+                        ? Color.Black
+                        : Color.BurlyWood;
                 }
             }
             MarkActualPosition(MovementType.Explore);
         }
+
         private void PaintRetreatingArray()
         {
             for (var i = 0; i < ArrayDefaultSize; i++)
             {
                 for (var j = 0; j < ArrayDefaultSize; j++)
                 {
-                    RetreatingArray[i, j].BackColor = Parse(RetreatingArray[i, j].Text) == -1 ? Color.Black : Color.BurlyWood;
+                    RetreatingArray[i, j].BackColor =
+                        Parse(RetreatingArray[i, j].Text) == -1 ? Color.Black : Color.BurlyWood;
                 }
             }
             MarkActualPosition(MovementType.Explore);
         }
+
         #endregion
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -423,7 +507,8 @@ namespace NeuralNetworkPresentation
                 Application.Exit();
             else
                 Environment.Exit(1);
-            
+
         }
+
     }
 }

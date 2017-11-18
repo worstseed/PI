@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using NeuralNetwork.AreaModel;
 using NeuralNetwork.GeneralHelpers;
+using NeuralNetwork.RobotModel;
 using static System.Int32;
 
 namespace NeuralNetwork.MovementAlgorythims
@@ -100,8 +101,7 @@ namespace NeuralNetwork.MovementAlgorythims
                 DecisionArea.DecisionValuesArea[ActualPositionY, ActualPositionX].RetreatingValue = Counter;
             Counter++;
         }
-
-
+        
         public void Retreat()
         {
             while(!IsHome)
@@ -130,6 +130,7 @@ namespace NeuralNetwork.MovementAlgorythims
                 case Direction.None:
                     throw new Exception("Why am I not moving?");
             }
+           
         }
 
         private Direction ChooseDirectionToRetreat()
@@ -216,6 +217,25 @@ namespace NeuralNetwork.MovementAlgorythims
                 below = GetValueBelow(arrayType);
         }
 
+        public int GetLengthOfFastesWayHome()
+        {
+            GetSurroundingValues(out int left, out int right, out int above, out int below, ArrayType.Retreating);
+
+            if (right == -1) right = MaxValue;
+            if (left == -1) left = MaxValue;
+            if (above == -1) above = MaxValue;
+            if (below == -1) below = MaxValue;
+
+            var min = Minimizer.FindMinimum(right, left, below, above);
+            if (min == -1) return MaxValue;
+
+            if (left == min) return GetValueLeft(ArrayType.Retreating);
+            if (right == min) return GetValueRight(ArrayType.Retreating);
+            if (above == min) return GetValueAbove(ArrayType.Retreating);
+            if (below == min) return GetValueBelow(ArrayType.Retreating);
+
+            return MaxValue;
+        }
 
         private int GetValueRight(ArrayType arrayType)
         {

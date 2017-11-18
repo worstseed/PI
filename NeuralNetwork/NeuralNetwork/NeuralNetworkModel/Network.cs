@@ -150,7 +150,7 @@ namespace NeuralNetwork.NeuralNetworkModel
             const int precision = 4;
             var pSpecifier = $"F{precision}";
             //Console.WriteLine("x:  y:    Right:         Left:           Above:          Below:    ");
-            InputLayer.ForEach(i => Console.Write("{0, 3}", i.Value));
+            InputLayer.ForEach(i => Console.Write("{0, 4}", i.Value));
             Console.Write("\t\t");
             OutputLayer.ForEach(i => Console.Write("{0, 8}\t", i.Value.ToString(pSpecifier)));
             Console.Write("\t\t");

@@ -41,52 +41,51 @@ namespace NeuralNetwork.RobotModel
 
         public void TeachRobot()
         {
-            var dataList = new List<Data>();
+            var robotDataList = new List<Data>();
             for (var i = 0; i < 5; i++)
             {
-
                 ExploreNumberOfSteps(5);
 
                 Console.WriteLine("Time to go home!");
 
                 while (!IsRobotHome())
                 {
-                    GetNextTeachingData(dataList);
+                    GetNextTeachingData(robotDataList);
                 }
                 Console.WriteLine();
 
-                Network.Train(dataList, 50);
+                Network.Train(robotDataList, 50);
 
-                dataList.Clear();
+                robotDataList.Clear();
                 RulingBody.ChangePositionToStart();
             }
             RulingBody.ShowRetreatingArea();
             Console.WriteLine("Now I now everything");
         }
 
-        public void GetNextTeachingData(List<Data> dataList)
+        public void GetNextTeachingData(List<Data> robotDataList)
         {
-            var values = new[] {(double) GetActualPositionX(), (double) GetActualPositionY()};
+            var robotValues = new[] {(double) GetActualPositionX(), (double) GetActualPositionY()};
             RulingBody.StepBack();
-            double[] targets = null;
+            double[] robotTargets = null;
             switch (RulingBody.RetreatDirection)
             {
                 case Direction.Right:
-                    targets = DirectionTranslator.Right;
+                    robotTargets = DirectionTranslator.Right;
                     break;
                 case Direction.Left:
-                    targets = DirectionTranslator.Left;
+                    robotTargets = DirectionTranslator.Left;
                     break;
                 case Direction.Above:
-                    targets = DirectionTranslator.Above;
+                    robotTargets = DirectionTranslator.Above;
                     break;
                 case Direction.Below:
-                    targets = DirectionTranslator.Below;
+                    robotTargets = DirectionTranslator.Below;
                     break;
             }
-            if (targets == null) throw new Exception("Target is null, lol");
-            
-            dataList.Add(new Data(values, targets));
+            if (robotTargets == null) throw new Exception("Target is null, lol");
+            Battery.DecreaseLevel();
+            robotDataList.Add(new Data(robotValues, robotTargets));
         }
 
         private void ExploreNumberOfSteps(int numberOfSteps)
@@ -115,6 +114,7 @@ namespace NeuralNetwork.RobotModel
         public void ExploreOneStep()
         {
             RulingBody.Explore();
+            Battery.DecreaseLevel();
         }
         public void RetreatOneStep()
         {
@@ -134,6 +134,7 @@ namespace NeuralNetwork.RobotModel
         public void ChangePositionToStart()
         {
             RulingBody.ChangePositionToStart();
+            Battery.BatteryLevel = Battery.MaxCapacity;
         }
 
         public void Train(List<Data> data, int epochsNumber)
@@ -178,21 +179,25 @@ namespace NeuralNetwork.RobotModel
        public void RetreatRight()
        {
             RulingBody.RetreatRight();
+            Battery.DecreaseLevel();
        }
 
         public void RetreatLeft()
         {
             RulingBody.RetreatLeft();
+            Battery.DecreaseLevel();
         }
 
         public void RetreatBelow()
         {
             RulingBody.RetreatBelow();
+            Battery.DecreaseLevel();
         }
 
         public void RetreatAbove()
         {
             RulingBody.RetreatAbove();
+            Battery.DecreaseLevel();
         }
 
         public Network GetNetwork()
@@ -208,6 +213,11 @@ namespace NeuralNetwork.RobotModel
         public void SetObstacles(bool horizontal, bool vertical, bool random)
         {
             RulingBody.DecisionArea.SetObstacles(horizontal, vertical, random);
+        }
+
+        public int BatteryLevel()
+        {
+            return Battery.BatteryLevel;
         }
     }
 }

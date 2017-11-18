@@ -1,9 +1,12 @@
-﻿namespace NeuralNetwork.RobotModel
+﻿using NeuralNetwork.NeuralNetworkModel;
+
+namespace NeuralNetwork.RobotModel
 {
     public class Battery
     {
-        private int MaxCapacity { get; set; }
-        private int BatteryLevel { get; set; }
+        public int MaxCapacity { get; set; }
+        public int BatteryLevel { get; set; }
+        //public Network Network;
 
         // Each step costs robot 10 points from its capacity
 
@@ -11,7 +14,12 @@
         {
             MaxCapacity = maxCapacity;
             BatteryLevel = maxCapacity;
+            //Network = new Network(3, new[]{25, 25}, 2);
         }
 
+        public void DecreaseLevel()
+        {
+            BatteryLevel -= 10;
+        }
     }
 }
