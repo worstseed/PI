@@ -9,28 +9,42 @@ using NeuralNetwork.MovementAlgorythims;
 using NeuralNetwork.NeuralNetworkModel;
 using NeuralNetwork.RobotModel;
 using NeuralNetwork.TransportingDataHelpers;
+using static System.Int32;
 
 namespace NeuralNetworkPresentation
 {
     public partial class PresentationWindow : Form
     {
         #region --Simulation Params--
-        private readonly int StartPositionX = int.Parse(SetupWindow.xPositon);
-        private readonly int StartPositionY = int.Parse(SetupWindow.yPositon);
+        private readonly int StartPositionX = Parse(SetupWindow.xPositon);
+        private readonly int StartPositionY = Parse(SetupWindow.yPositon);
 
-        private readonly int NumberOfExploringSteps = int.Parse(SetupWindow.NumberOfExploringSteps);
-        private readonly int NumberOfTestingSteps = int.Parse(SetupWindow.NumberOfTestinggSteps);
-        private readonly int NumberOfExpedicions = int.Parse(SetupWindow.NumberOfExpedicions);
-        private readonly int NumberOfEpochs = int.Parse(SetupWindow.NumberOfEpochs);
+        private readonly int NumberOfExploringSteps = Parse(SetupWindow.NumberOfExploringSteps);
+        private readonly int NumberOfTestingSteps = Parse(SetupWindow.NumberOfTestinggSteps);
+        private readonly int NumberOfExpedicions = Parse(SetupWindow.NumberOfExpedicions);
+        private readonly int NumberOfEpochs = Parse(SetupWindow.NumberOfEpochs);
+        private readonly int BatteryMaxCapacity = Parse(SetupWindow.BatteryMaxCapacity);
+
+        private readonly bool SetHorizontalObstacle = SetupWindow.SetHorizontalObstacle;
+        private readonly bool SetVerticalObstacle = SetupWindow.SetVerticalObstacle;
+        private readonly bool SetRandomObstacle = SetupWindow.SetRandomObstacle;
 
         private const int ArrayDefaultSize = 10;
         #endregion
 
         #region --Form Params--
-        private const int LongSleepTime = 50;
+        private const int LongSleepTime = 1;
         private const int ShortSleepTime = 1;
         #endregion
-        
+
+        #region --Network Params--
+
+        private const int InputNeuronsCount = 2;
+        private readonly int[] HiddenLayers = {30, 70, 70, 70, 30};
+        private const int OutputNeuronsCount = 4;
+
+        #endregion
+
         private readonly Robot Robot;
         
         public Label[,] ExploringArray;
@@ -46,8 +60,7 @@ namespace NeuralNetworkPresentation
             InitializeComponent();
             Size = new Size(900, 545);
             Text = @"Presentation";
-            Icon = null;
-            ShowIcon = false;
+            ShowIcon = true;
             StartPosition = FormStartPosition.CenterScreen;
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MinimizeBox = false;
@@ -56,7 +69,11 @@ namespace NeuralNetworkPresentation
             ExploringArray = new Label[ArrayDefaultSize,ArrayDefaultSize];
             RetreatingArray = new Label[ArrayDefaultSize,ArrayDefaultSize];
 
-            Robot = new Robot(100, 2, new[] { 30, 70, 70, 70, 30 }, 4, 10, 10, StartPositionY, StartPositionX);
+            Robot = new Robot(
+                BatteryMaxCapacity, 
+                InputNeuronsCount, HiddenLayers, OutputNeuronsCount,
+                ArrayDefaultSize, ArrayDefaultSize, StartPositionY, StartPositionX);
+            Robot.SetObstacles(SetHorizontalObstacle, SetVerticalObstacle, SetRandomObstacle);
         }
         public sealed override string Text
         {
@@ -153,7 +170,7 @@ namespace NeuralNetworkPresentation
             for (var i = 0; i < numberOfExpedicions; i++)
             {
                 MarkActualPosition(MovementType.Explore);
-                ExploreNumberOfSteps(numberOfSteps);
+                ExploreNumberOfSteps(numberOfSteps, RobotMode.Learning);
                 Refresh();
                 Thread.Sleep(LongSleepTime);
                 
@@ -177,7 +194,7 @@ namespace NeuralNetworkPresentation
         private void Check(object sender, EventArgs e)
         {
             MarkActualPosition(MovementType.Explore);
-            ExploreNumberOfSteps(NumberOfTestingSteps);
+            ExploreNumberOfSteps(NumberOfTestingSteps, RobotMode.UsingKnowledge);
 
             Console.WriteLine(@"Time to go home!");
             Refresh();
@@ -242,26 +259,32 @@ namespace NeuralNetworkPresentation
             }
             MarkActualPosition(MovementType.Retreat);
         }
-        private void SimulateOneStep()
+        private void SimulateOneStep(RobotMode robotMode)
         {
-            UpdateExploringArea();
-            UpdateRetreatingArea();
-
+            if (robotMode == RobotMode.Learning)
+            {
+                UpdateExploringArea();
+                UpdateRetreatingArea();
+            }
+            
             Robot.ExploreOneStep();
 
-            UpdateExploringArea();
-            UpdateRetreatingArea();
+            if (robotMode == RobotMode.Learning)
+            {
+                UpdateExploringArea();
+                UpdateRetreatingArea();
+            }
 
             PaintExploringArray();
             PaintRetreatingArray();
         }
-        private void ExploreNumberOfSteps(int numberOfSteps)
+        private void ExploreNumberOfSteps(int numberOfSteps, RobotMode robotMode)
         {
             for (var i = 1; i < numberOfSteps; i++)
             {
                 Refresh();
                 Console.Write(@"{0}: ", i);
-                SimulateOneStep();
+                SimulateOneStep(robotMode);
                 Thread.Sleep(ShortSleepTime);
             }
         }
@@ -335,7 +358,7 @@ namespace NeuralNetworkPresentation
             {
                 for (var j = 0; j < ArrayDefaultSize; j++)
                 {
-                    if (int.Parse(ExploringArray[i, j].Text) != Robot.GetFieldExploreValue(i, j))
+                    if (Parse(ExploringArray[i, j].Text) != Robot.GetFieldExploreValue(i, j))
                     {
                         ExploringArray[i, j].Text = Robot.GetFieldExploreValue(i, j).ToString();
                     }
@@ -348,7 +371,7 @@ namespace NeuralNetworkPresentation
             {
                 for (var j = 0; j < ArrayDefaultSize; j++)
                 {
-                    if (int.Parse(RetreatingArray[i, j].Text) != Robot.GetFieldRetreatValue(i, j))
+                    if (Parse(RetreatingArray[i, j].Text) != Robot.GetFieldRetreatValue(i, j))
                     {
                         RetreatingArray[i, j].Text = Robot.GetFieldRetreatValue(i, j).ToString();
                     }
@@ -373,7 +396,8 @@ namespace NeuralNetworkPresentation
             {
                 for (var j = 0; j < ArrayDefaultSize; j++)
                 {
-                    ExploringArray[i, j].BackColor = int.Parse(ExploringArray[i, j].Text) == 0 ? Color.Black : Color.BurlyWood;
+                    ExploringArray[i, j].BackColor = (Parse(ExploringArray[i, j].Text) == 0 
+                        || Parse(ExploringArray[i, j].Text) == MaxValue) ? Color.Black : Color.BurlyWood;
                 }
             }
             MarkActualPosition(MovementType.Explore);
@@ -384,7 +408,7 @@ namespace NeuralNetworkPresentation
             {
                 for (var j = 0; j < ArrayDefaultSize; j++)
                 {
-                    RetreatingArray[i, j].BackColor = int.Parse(RetreatingArray[i, j].Text) == -1 ? Color.Black : Color.BurlyWood;
+                    RetreatingArray[i, j].BackColor = Parse(RetreatingArray[i, j].Text) == -1 ? Color.Black : Color.BurlyWood;
                 }
             }
             MarkActualPosition(MovementType.Explore);

@@ -12,16 +12,19 @@ namespace NeuralNetworkPresentation
         public static string NumberOfTestinggSteps = "15";
         public static string NumberOfExpedicions = "70";
         public static string NumberOfEpochs = "20";
+        public static string BatteryMaxCapacity = "300";
+
+        public static bool SetHorizontalObstacle;
+        public static bool SetVerticalObstacle;
+        public static bool SetRandomObstacle;
 
         public bool SetupInProgress = true;
 
         public SetupWindow()
         {
             InitializeComponent();
-            Size = new Size(500, 300);
+            Size = new Size(500, 400);
             Text = @"Setup";
-            Icon = null;
-            ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MinimizeBox = false;
@@ -42,6 +45,7 @@ namespace NeuralNetworkPresentation
             numberOfTestingStepsTextBox.Text = NumberOfTestinggSteps;
             numberOfEpochsTextBox.Text = NumberOfExpedicions;
             numberOfExpedicionsTextBox.Text = NumberOfExpedicions;
+            batteryMaxCapacityTextBox.Text = BatteryMaxCapacity;
         }
 
         private void startSimulationButton_Click(object sender, EventArgs e)
@@ -52,16 +56,16 @@ namespace NeuralNetworkPresentation
             NumberOfTestinggSteps = numberOfTestingStepsTextBox.Text;
             NumberOfExpedicions = numberOfEpochsTextBox.Text;
             NumberOfExpedicions = numberOfExpedicionsTextBox.Text;
+            BatteryMaxCapacity = batteryMaxCapacityTextBox.Text;
+
+            if (setHorizontalObstacleCheckBox.Checked) SetHorizontalObstacle = true;
+            if (setVerticalObstacleCheckBox.Checked) SetVerticalObstacle = true;
+            if (setRandomObstacleCheckBox.Checked) SetRandomObstacle = true;
 
             Hide();
             
             var presentationWindow = new PresentationWindow();
             presentationWindow.Show();
-        }
-
-        private void cancelButton_Click(object sender, EventArgs e)
-        {
-            Close();
         }
     }
 }

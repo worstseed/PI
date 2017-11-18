@@ -1,5 +1,6 @@
 ﻿using System;
 using NeuralNetwork.MovementAlgorythims;
+using static System.Int32;
 
 namespace NeuralNetwork.AreaModel
 {
@@ -60,6 +61,26 @@ namespace NeuralNetwork.AreaModel
             if (arrayType == ArrayType.Exploring)
                 DecisionValuesArea[actualPositionX, actualPositionY].ExploringValue++;
             //else throw new Exception("Not yet implemented!");
+        }
+
+        public void SetObstacles(bool horizontal, bool vertical, bool random)
+        {
+            if (horizontal)
+            {
+                DecisionValuesArea[2, 2].ExploringValue = MaxValue;
+                DecisionValuesArea[2, 3].ExploringValue = MaxValue;
+                DecisionValuesArea[2, 4].ExploringValue = MaxValue;
+                DecisionValuesArea[2, 5].ExploringValue = MaxValue;
+            }
+
+            if (vertical)
+            {
+                DecisionValuesArea[8, 8].ExploringValue = MaxValue;
+                DecisionValuesArea[7, 8].ExploringValue = MaxValue;
+                DecisionValuesArea[6, 8].ExploringValue = MaxValue;
+                DecisionValuesArea[5, 8].ExploringValue = MaxValue;
+            }
+            
         }
     }
 }

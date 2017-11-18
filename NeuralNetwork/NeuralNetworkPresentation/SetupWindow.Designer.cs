@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SetupWindow));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -45,7 +46,13 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.startSimulationButton = new System.Windows.Forms.Button();
-            this.cancelButton = new System.Windows.Forms.Button();
+            this.batteryMaxCapacityTextBox = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.setHorizontalObstacleCheckBox = new System.Windows.Forms.CheckBox();
+            this.setVerticalObstacleCheckBox = new System.Windows.Forms.CheckBox();
+            this.setRandomObstacleCheckBox = new System.Windows.Forms.CheckBox();
+            this.label11 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -90,28 +97,28 @@
             // 
             // xPositionTextBox
             // 
-            this.xPositionTextBox.Location = new System.Drawing.Point(145, 74);
+            this.xPositionTextBox.Location = new System.Drawing.Point(143, 76);
             this.xPositionTextBox.Name = "xPositionTextBox";
             this.xPositionTextBox.Size = new System.Drawing.Size(68, 20);
             this.xPositionTextBox.TabIndex = 4;
             // 
             // yPositionTextBox
             // 
-            this.yPositionTextBox.Location = new System.Drawing.Point(145, 103);
+            this.yPositionTextBox.Location = new System.Drawing.Point(143, 105);
             this.yPositionTextBox.Name = "yPositionTextBox";
             this.yPositionTextBox.Size = new System.Drawing.Size(68, 20);
             this.yPositionTextBox.TabIndex = 5;
             // 
             // numberOfEpochsTextBox
             // 
-            this.numberOfEpochsTextBox.Location = new System.Drawing.Point(397, 103);
+            this.numberOfEpochsTextBox.Location = new System.Drawing.Point(397, 105);
             this.numberOfEpochsTextBox.Name = "numberOfEpochsTextBox";
             this.numberOfEpochsTextBox.Size = new System.Drawing.Size(68, 20);
             this.numberOfEpochsTextBox.TabIndex = 10;
             // 
             // numberOfExpedicionsTextBox
             // 
-            this.numberOfExpedicionsTextBox.Location = new System.Drawing.Point(397, 77);
+            this.numberOfExpedicionsTextBox.Location = new System.Drawing.Point(397, 79);
             this.numberOfExpedicionsTextBox.Name = "numberOfExpedicionsTextBox";
             this.numberOfExpedicionsTextBox.Size = new System.Drawing.Size(68, 20);
             this.numberOfExpedicionsTextBox.TabIndex = 9;
@@ -148,14 +155,14 @@
             // 
             // numberOfTestingStepsTextBox
             // 
-            this.numberOfTestingStepsTextBox.Location = new System.Drawing.Point(145, 195);
+            this.numberOfTestingStepsTextBox.Location = new System.Drawing.Point(143, 200);
             this.numberOfTestingStepsTextBox.Name = "numberOfTestingStepsTextBox";
             this.numberOfTestingStepsTextBox.Size = new System.Drawing.Size(68, 20);
             this.numberOfTestingStepsTextBox.TabIndex = 15;
             // 
             // numberOfExploringStepsTextBox
             // 
-            this.numberOfExploringStepsTextBox.Location = new System.Drawing.Point(145, 166);
+            this.numberOfExploringStepsTextBox.Location = new System.Drawing.Point(143, 171);
             this.numberOfExploringStepsTextBox.Name = "numberOfExploringStepsTextBox";
             this.numberOfExploringStepsTextBox.Size = new System.Drawing.Size(68, 20);
             this.numberOfExploringStepsTextBox.TabIndex = 14;
@@ -192,31 +199,97 @@
             // 
             // startSimulationButton
             // 
-            this.startSimulationButton.Location = new System.Drawing.Point(262, 171);
+            this.startSimulationButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.startSimulationButton.Location = new System.Drawing.Point(230, 248);
             this.startSimulationButton.Name = "startSimulationButton";
-            this.startSimulationButton.Size = new System.Drawing.Size(100, 37);
+            this.startSimulationButton.Size = new System.Drawing.Size(235, 101);
             this.startSimulationButton.TabIndex = 16;
             this.startSimulationButton.Text = "Start simulation!";
             this.startSimulationButton.UseVisualStyleBackColor = true;
             this.startSimulationButton.Click += new System.EventHandler(this.startSimulationButton_Click);
             // 
-            // cancelButton
+            // batteryMaxCapacityTextBox
             // 
-            this.cancelButton.BackColor = System.Drawing.SystemColors.Control;
-            this.cancelButton.Location = new System.Drawing.Point(368, 171);
-            this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(100, 37);
-            this.cancelButton.TabIndex = 17;
-            this.cancelButton.Text = "Cancel";
-            this.cancelButton.UseVisualStyleBackColor = false;
-            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
+            this.batteryMaxCapacityTextBox.Location = new System.Drawing.Point(397, 171);
+            this.batteryMaxCapacityTextBox.Name = "batteryMaxCapacityTextBox";
+            this.batteryMaxCapacityTextBox.Size = new System.Drawing.Size(68, 20);
+            this.batteryMaxCapacityTextBox.TabIndex = 20;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label12.Location = new System.Drawing.Point(259, 171);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(120, 15);
+            this.label12.TabIndex = 18;
+            this.label12.Text = "Battery max capacity:";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label13.Location = new System.Drawing.Point(226, 140);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(121, 19);
+            this.label13.TabIndex = 17;
+            this.label13.Text = "Robot parameters:";
+            // 
+            // setHorizontalObstacleCheckBox
+            // 
+            this.setHorizontalObstacleCheckBox.AutoSize = true;
+            this.setHorizontalObstacleCheckBox.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.setHorizontalObstacleCheckBox.Location = new System.Drawing.Point(80, 278);
+            this.setHorizontalObstacleCheckBox.Name = "setHorizontalObstacleCheckBox";
+            this.setHorizontalObstacleCheckBox.Size = new System.Drawing.Size(104, 19);
+            this.setHorizontalObstacleCheckBox.TabIndex = 21;
+            this.setHorizontalObstacleCheckBox.Text = "One horizontal";
+            this.setHorizontalObstacleCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // setVerticalObstacleCheckBox
+            // 
+            this.setVerticalObstacleCheckBox.AutoSize = true;
+            this.setVerticalObstacleCheckBox.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.setVerticalObstacleCheckBox.Location = new System.Drawing.Point(80, 303);
+            this.setVerticalObstacleCheckBox.Name = "setVerticalObstacleCheckBox";
+            this.setVerticalObstacleCheckBox.Size = new System.Drawing.Size(90, 19);
+            this.setVerticalObstacleCheckBox.TabIndex = 22;
+            this.setVerticalObstacleCheckBox.Text = "One vertical";
+            this.setVerticalObstacleCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // setRandomObstacleCheckBox
+            // 
+            this.setRandomObstacleCheckBox.AutoSize = true;
+            this.setRandomObstacleCheckBox.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.setRandomObstacleCheckBox.Location = new System.Drawing.Point(80, 328);
+            this.setRandomObstacleCheckBox.Name = "setRandomObstacleCheckBox";
+            this.setRandomObstacleCheckBox.Size = new System.Drawing.Size(70, 19);
+            this.setRandomObstacleCheckBox.TabIndex = 23;
+            this.setRandomObstacleCheckBox.Text = "Random";
+            this.setRandomObstacleCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label11.Location = new System.Drawing.Point(44, 247);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(118, 19);
+            this.label11.TabIndex = 25;
+            this.label11.Text = "Type of obstacles:";
             // 
             // SetupWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 261);
-            this.Controls.Add(this.cancelButton);
+            this.ClientSize = new System.Drawing.Size(484, 361);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.setRandomObstacleCheckBox);
+            this.Controls.Add(this.setVerticalObstacleCheckBox);
+            this.Controls.Add(this.setHorizontalObstacleCheckBox);
+            this.Controls.Add(this.batteryMaxCapacityTextBox);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.label13);
             this.Controls.Add(this.startSimulationButton);
             this.Controls.Add(this.numberOfTestingStepsTextBox);
             this.Controls.Add(this.numberOfExploringStepsTextBox);
@@ -234,6 +307,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SetupWindow";
             this.Text = "SetupWindow";
             this.Load += new System.EventHandler(this.SetupWindow_Load);
@@ -261,6 +335,12 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button startSimulationButton;
-        private System.Windows.Forms.Button cancelButton;
+        private System.Windows.Forms.TextBox batteryMaxCapacityTextBox;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.CheckBox setHorizontalObstacleCheckBox;
+        private System.Windows.Forms.CheckBox setVerticalObstacleCheckBox;
+        private System.Windows.Forms.CheckBox setRandomObstacleCheckBox;
+        private System.Windows.Forms.Label label11;
     }
 }

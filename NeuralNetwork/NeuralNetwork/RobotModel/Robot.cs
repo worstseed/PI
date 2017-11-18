@@ -204,5 +204,10 @@ namespace NeuralNetwork.RobotModel
         {
             Network = network;
         }
+
+        public void SetObstacles(bool horizontal, bool vertical, bool random)
+        {
+            RulingBody.DecisionArea.SetObstacles(horizontal, vertical, random);
+        }
     }
 }

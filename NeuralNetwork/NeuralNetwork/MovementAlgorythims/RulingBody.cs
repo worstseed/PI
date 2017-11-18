@@ -256,8 +256,6 @@ namespace NeuralNetwork.MovementAlgorythims
         {
             return ActualPositionY - 1 >= 0;
         }
-
-
         public void ShowExploringArea()
         {
             DecisionArea.ShowExploringArea();
@@ -266,5 +264,6 @@ namespace NeuralNetwork.MovementAlgorythims
         {
             DecisionArea.ShowRetreatingArea();
         }
+        
     }
 }
