@@ -147,6 +147,15 @@ namespace NeuralNetwork.RobotModel
             Network.Train(data, minimumError);
         }
 
+        public void Train(List<Data> data, int epochsNumber, double maximumError)
+        {
+            if (RulingBody.DecisionArea.DecisionValuesArea[GetActualPositionX(), GetActualPositionY()].ExploringValue > 2
+                && RulingBody.DecisionArea.DecisionValuesArea[GetActualPositionX(), GetActualPositionY()].ExploringValue < 10)
+                Network.Train(data, epochsNumber, maximumError);
+            else
+                Network.Train(data, epochsNumber);
+        }
+
         public void ShowOutput(double[] input)
         {
             var output = Network.GetOutput(input);
@@ -218,6 +227,27 @@ namespace NeuralNetwork.RobotModel
         public int BatteryLevel()
         {
             return Battery.BatteryLevel;
+        }
+
+        public void SetTestPosition()
+        {
+            RulingBody.IsHome = false;
+            var random = Randomizer.GetRandom();
+            if (random < 0.3)
+            {
+                RulingBody.ActualPositionX = 1;
+                RulingBody.ActualPositionY = 1;
+            }
+            else if (random < 0.6)
+            {
+                RulingBody.ActualPositionX = 8;
+                RulingBody.ActualPositionY = 8;
+            }
+            else
+            {
+                RulingBody.ActualPositionX = 7;
+                RulingBody.ActualPositionY = 2;
+            }
         }
     }
 }

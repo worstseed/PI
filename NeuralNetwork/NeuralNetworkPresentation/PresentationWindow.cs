@@ -32,19 +32,21 @@ namespace NeuralNetworkPresentation
 
         private const int ArrayDefaultSize = 10;
 
+        private const double MaximumError = 0.3;
+
         #endregion
 
         #region --Form Params--
 
-        private const int LongSleepTime = 1;
-        private const int ShortSleepTime = 1;
+        private const int LongSleepTime = 0;
+        private const int ShortSleepTime = 0;
 
         #endregion
 
         #region --Network Params--
 
         private const int InputNeuronsCount = 2;
-        private readonly int[] HiddenLayers = {30, 70, 70, 70, 30};
+        private readonly int[] HiddenLayers = {32, 64, 64, 64, 32};
         private const int OutputNeuronsCount = 4;
 
         #endregion
@@ -244,7 +246,8 @@ namespace NeuralNetworkPresentation
                     Refresh();
                     robotDataList.Clear();
                     Robot.GetNextTeachingData(robotDataList);
-                    Robot.Train(robotDataList, numberOfEpochs);
+                    //Robot.Train(robotDataList, numberOfEpochs);
+                    Robot.Train(robotDataList, numberOfEpochs, MaximumError); //
                     MarkActualPosition(MovementType.Retreat);
                     UpdateBatteryLevelValue();
                 }
@@ -261,8 +264,11 @@ namespace NeuralNetworkPresentation
         {
             MarkActualPosition(MovementType.Explore);
 
-            
-            ExploreNumberOfSteps(NumberOfTestingSteps, RobotMode.UsingKnowledge);
+            //ExploreNumberOfSteps(NumberOfTestingSteps, RobotMode.UsingKnowledge);
+            Robot.SetTestPosition();
+            MarkActualPosition(MovementType.Explore);
+            PaintExploringArray();
+            PaintRetreatingArray();
 
             //Console.WriteLine(@"Time to go home!");
             Refresh();
@@ -307,9 +313,9 @@ namespace NeuralNetworkPresentation
             Refresh();
             var tempDirection = Robot.GetOutputDirection(new double[]
                 {Robot.GetActualPositionX(), Robot.GetActualPositionY()});
-            //Console.WriteLine(@"x: {0}, y: {1}, direction: {2}", Robot.GetActualPositionX(), Robot.GetActualPositionY(),
-            //    tempDirection); //
-            //Robot.ShowOutput(new double[] { Robot.GetActualPositionX(), Robot.GetActualPositionY() });
+            Console.WriteLine(@"x: {0}, y: {1}, direction: {2}", Robot.GetActualPositionX(), Robot.GetActualPositionY(),
+                tempDirection); //
+            Robot.ShowOutput(new double[] { Robot.GetActualPositionX(), Robot.GetActualPositionY() });
             switch (tempDirection)
             {
                 case Direction.Right:

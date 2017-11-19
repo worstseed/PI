@@ -43,7 +43,7 @@ namespace NeuralNetworkPresentation
             yPositionTextBox.Text = yPositon;
             numberOfExploringStepsTextBox.Text = NumberOfExploringSteps;
             numberOfTestingStepsTextBox.Text = NumberOfTestinggSteps;
-            numberOfEpochsTextBox.Text = NumberOfExpedicions;
+            numberOfEpochsTextBox.Text = NumberOfEpochs;
             numberOfExpedicionsTextBox.Text = NumberOfExpedicions;
             batteryMaxCapacityTextBox.Text = BatteryMaxCapacity;
         }
@@ -66,6 +66,11 @@ namespace NeuralNetworkPresentation
             
             var presentationWindow = new PresentationWindow();
             presentationWindow.Show();
+        }
+
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

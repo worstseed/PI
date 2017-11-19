@@ -53,6 +53,7 @@
             this.setVerticalObstacleCheckBox = new System.Windows.Forms.CheckBox();
             this.setRandomObstacleCheckBox = new System.Windows.Forms.CheckBox();
             this.label11 = new System.Windows.Forms.Label();
+            this.cancelButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -199,12 +200,12 @@
             // 
             // startSimulationButton
             // 
-            this.startSimulationButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.startSimulationButton.Location = new System.Drawing.Point(230, 248);
+            this.startSimulationButton.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.startSimulationButton.Location = new System.Drawing.Point(279, 247);
             this.startSimulationButton.Name = "startSimulationButton";
-            this.startSimulationButton.Size = new System.Drawing.Size(235, 101);
+            this.startSimulationButton.Size = new System.Drawing.Size(130, 45);
             this.startSimulationButton.TabIndex = 16;
-            this.startSimulationButton.Text = "Start simulation!";
+            this.startSimulationButton.Text = "Simulate!";
             this.startSimulationButton.UseVisualStyleBackColor = true;
             this.startSimulationButton.Click += new System.EventHandler(this.startSimulationButton_Click);
             // 
@@ -278,11 +279,23 @@
             this.label11.TabIndex = 25;
             this.label11.Text = "Type of obstacles:";
             // 
+            // cancelButton
+            // 
+            this.cancelButton.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.cancelButton.Location = new System.Drawing.Point(279, 298);
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.Size = new System.Drawing.Size(130, 45);
+            this.cancelButton.TabIndex = 26;
+            this.cancelButton.Text = "Cancel";
+            this.cancelButton.UseVisualStyleBackColor = true;
+            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
+            // 
             // SetupWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(484, 361);
+            this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.setRandomObstacleCheckBox);
             this.Controls.Add(this.setVerticalObstacleCheckBox);
@@ -342,5 +355,6 @@
         private System.Windows.Forms.CheckBox setVerticalObstacleCheckBox;
         private System.Windows.Forms.CheckBox setRandomObstacleCheckBox;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Button cancelButton;
     }
 }

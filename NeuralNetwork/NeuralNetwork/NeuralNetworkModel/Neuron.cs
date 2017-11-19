@@ -25,9 +25,9 @@ namespace NeuralNetwork.NeuralNetworkModel
             Bias = Randomizer.GetRandom();
         }
 
+
         public Neuron(List<Neuron> inputNeurons) : this()
         {
-
             foreach (var inputNeuron in inputNeurons)
             {
                 var synapse = new Synapse(inputNeuron, this);

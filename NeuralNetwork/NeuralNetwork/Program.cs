@@ -9,8 +9,8 @@ namespace NeuralNetwork
         private static void Main(string[] args)
         {
 
-            //var xorTest = new XOR_Test();
-            //xorTest.RunXORTest();
+            var xorTest = new XOR_Test();
+            xorTest.RunXORTest();
 
             //var listRemovalTest = new ListRemoval_Test();
             //listRemovalTest.RemoveElements();

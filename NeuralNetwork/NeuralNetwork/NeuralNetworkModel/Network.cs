@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace NeuralNetwork.NeuralNetworkModel
@@ -108,15 +107,35 @@ namespace NeuralNetwork.NeuralNetworkModel
             {
                 Console.WriteLine("Epoch number: {0}", epochsNumber);
                 var errors = new List<double>();
-                foreach (var dataSet in data)
+                foreach (var dataPiece in data)
                 {
-                    ForwardPropagate(dataSet.Values);
-                    BackwardPropagate(dataSet.Expectations);
-                    errors.Add(CalculateError(dataSet.Expectations));
+                    ForwardPropagate(dataPiece.Values);
+                    BackwardPropagate(dataPiece.Expectations);
+                    errors.Add(CalculateError(dataPiece.Expectations));
                     ShowResult();
                 }
                 error = errors.Average();
                 epochsNumber++;
+            }
+        }
+
+        public void Train(List<Data> data, int epochsNumber, double maximumError)
+        {
+            var maxEpochsNumber = epochsNumber;
+            for (var i = 1; i < maxEpochsNumber + 1; i++)
+            {
+                Console.WriteLine("Epoch number: {0}", i);
+                var errors = new List<double>();
+                foreach (var dataPiece in data)
+                {
+                    ForwardPropagate(dataPiece.Values);
+                    BackwardPropagate(dataPiece.Expectations);
+                    errors.Add(CalculateError(dataPiece.Expectations));
+                    ShowResult();
+                }
+                if (errors.Average() >= maximumError) maxEpochsNumber += 10;
+                if (maxEpochsNumber > 500) break;
+                Console.WriteLine();
             }
         }
 
