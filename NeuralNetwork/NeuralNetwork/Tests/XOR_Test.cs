@@ -28,7 +28,7 @@ namespace NeuralNetwork.Tests
         public void RunXORTest()
         {
             const int inputCount = 2;
-            var hiddenCounts = new[] { 25, 25 };
+            var hiddenCounts = new[] { 30,30 };
             var outputCount = 1;
             var network = new Network(inputCount, hiddenCounts, outputCount);
 
@@ -43,7 +43,7 @@ namespace NeuralNetwork.Tests
                 dataList.Add(tmp);
             }
 
-            network.Train(dataList, 0.01);
+            network.Train(dataList, 0.1);
         }
         
 

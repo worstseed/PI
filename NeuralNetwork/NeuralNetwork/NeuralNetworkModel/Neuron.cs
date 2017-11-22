@@ -49,8 +49,8 @@ namespace NeuralNetwork.NeuralNetworkModel
         public double CalculateGradient(double? target = null)
         {
             if (target == null)
-                return Gradient = OutputSynapses.Sum(x => x.OutputNeuron.Gradient * x.Weight) *
-                                  Sigmoid.Derivative(Value);
+                return Gradient = OutputSynapses.Sum(x => x.OutputNeuron.Gradient * x.Weight) 
+                    * Sigmoid.Derivative(Value);
             return Gradient = CalculateError(target.Value) * Sigmoid.Derivative(Value);
         }
 

@@ -147,13 +147,14 @@ namespace NeuralNetwork.RobotModel
             Network.Train(data, minimumError);
         }
 
-        public void Train(List<Data> data, int epochsNumber, double maximumError)
+        public double Train(List<Data> data, int epochsNumber, double maximumError)
         {
-            if (RulingBody.DecisionArea.DecisionValuesArea[GetActualPositionX(), GetActualPositionY()].ExploringValue > 2
-                && RulingBody.DecisionArea.DecisionValuesArea[GetActualPositionX(), GetActualPositionY()].ExploringValue < 10)
-                Network.Train(data, epochsNumber, maximumError);
-            else
-                Network.Train(data, epochsNumber);
+            //if (RulingBody.DecisionArea.DecisionValuesArea[GetActualPositionX(), GetActualPositionY()].ExploringValue > 2
+            //    && RulingBody.DecisionArea.DecisionValuesArea[GetActualPositionX(), GetActualPositionY()].ExploringValue < 10)
+            //    Network.Train(data, epochsNumber, maximumError);
+            //else
+            //    Network.Train(data, epochsNumber);
+            return Network.Train(data, epochsNumber, maximumError);
         }
 
         public void ShowOutput(double[] input)
@@ -240,7 +241,7 @@ namespace NeuralNetwork.RobotModel
             }
             else if (random < 0.6)
             {
-                RulingBody.ActualPositionX = 8;
+                RulingBody.ActualPositionX = 9;
                 RulingBody.ActualPositionY = 8;
             }
             else
@@ -248,6 +249,29 @@ namespace NeuralNetwork.RobotModel
                 RulingBody.ActualPositionX = 7;
                 RulingBody.ActualPositionY = 2;
             }
+        }
+
+        public void Move(Direction direction)
+        {
+            var success = false;
+            switch (direction)
+            {
+                case Direction.Right:
+                    success = RulingBody.MoveRight();
+                    break;
+                case Direction.Left:
+                    success = RulingBody.MoveLeft();
+                    break;
+                case Direction.Above:
+                    success = RulingBody.MoveAbove();
+                    break;
+                case Direction.Below:
+                    success = RulingBody.MoveBelow();
+                    break;
+            }
+            if (!success) return;
+            RulingBody.IsHome = false;
+            Battery.DecreaseLevel();
         }
     }
 }

@@ -119,9 +119,10 @@ namespace NeuralNetwork.NeuralNetworkModel
             }
         }
 
-        public void Train(List<Data> data, int epochsNumber, double maximumError)
+        public double Train(List<Data> data, int epochsNumber, double maximumError)
         {
             var maxEpochsNumber = epochsNumber;
+            var error = 1.0;
             for (var i = 1; i < maxEpochsNumber + 1; i++)
             {
                 Console.WriteLine("Epoch number: {0}", i);
@@ -133,10 +134,12 @@ namespace NeuralNetwork.NeuralNetworkModel
                     errors.Add(CalculateError(dataPiece.Expectations));
                     ShowResult();
                 }
-                if (errors.Average() >= maximumError) maxEpochsNumber += 10;
-                if (maxEpochsNumber > 500) break;
+                error = errors.Average();
+                //if (errors.Average() >= maximumError) maxEpochsNumber += 100;
+                //if (maxEpochsNumber > 500) break;
                 Console.WriteLine();
             }
+            return error;
         }
 
         private double CalculateError(params double[] targets)

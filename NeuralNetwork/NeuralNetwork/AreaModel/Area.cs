@@ -75,10 +75,10 @@ namespace NeuralNetwork.AreaModel
 
             if (vertical)
             {
-                DecisionValuesArea[8, 8].ExploringValue = MaxValue;
-                DecisionValuesArea[7, 8].ExploringValue = MaxValue;
-                DecisionValuesArea[6, 8].ExploringValue = MaxValue;
-                DecisionValuesArea[5, 8].ExploringValue = MaxValue;
+                DecisionValuesArea[8, 5].ExploringValue = MaxValue;
+                DecisionValuesArea[7, 5].ExploringValue = MaxValue;
+                DecisionValuesArea[6, 5].ExploringValue = MaxValue;
+                DecisionValuesArea[5, 5].ExploringValue = MaxValue;
             }
             
         }

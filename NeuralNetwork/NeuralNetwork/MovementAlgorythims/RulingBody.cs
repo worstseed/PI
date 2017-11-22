@@ -284,6 +284,34 @@ namespace NeuralNetwork.MovementAlgorythims
         {
             DecisionArea.ShowRetreatingArea();
         }
-        
+
+
+        public bool MoveRight()
+        {
+            if (!ThereIsFieldOnTheRight()) return false;
+            ExploreRight();
+            return true;
+        }
+
+        public bool MoveLeft()
+        {
+            if (!ThereIsFieldOnTheLeft()) return false;
+            ExploreLeft();
+            return true;
+        }
+
+        public bool MoveAbove()
+        {
+            if (!ThereIsFieldAbove()) return false;
+            ExploreAbove();
+            return true;
+        }
+
+        public bool MoveBelow()
+        {
+            if (!ThereIsFieldBelow()) return false;
+            ExploreBelow();
+            return true;
+        }
     }
 }

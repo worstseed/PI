@@ -49,6 +49,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorythims\Checker.cs" />
+    <Compile Include="FormControllers\Controllers.cs" />
+    <Compile Include="Parameters\NetworkParameters.cs" />
+    <Compile Include="Parameters\FormParameters.cs" />
+    <Compile Include="Presentation\PresentationArrays.cs" />
     <Compile Include="PresentationWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -63,6 +68,8 @@
     <Compile Include="SetupWindow.Designer.cs">
       <DependentUpon>SetupWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Parameters\SimulationParameters.cs" />
+    <Compile Include="Algorythims\Teacher.cs" />
     <EmbeddedResource Include="PresentationWindow.resx">
       <DependentUpon>PresentationWindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -100,5 +107,6 @@
   <ItemGroup>
     <Content Include="exe_icon.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
