@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Threading;
 using NeuralNetwork.GeneralHelpers;
-using NeuralNetwork.MovementAlgorythims;
 using NeuralNetwork.MovementAlgorythims.Enums;
 using NeuralNetworkPresentation.Parameters;
 
@@ -19,12 +18,6 @@ namespace NeuralNetworkPresentation.Algorythims
 
         public void Check(object sender, EventArgs e)
         {
-            //MarkActualPosition(MovementType.Explore);
-
-            ////ExploreNumberOfSteps(NumberOfTestingSteps, RobotMode.UsingKnowledge);
-
-            //Robot.SetTestPosition();
-            //MarkActualPosition(MovementType.Explore);
             _presentationWindow.PresentationArrays.PaintExploringArray();
             _presentationWindow.PresentationArrays.PaintRetreatingArray();
 

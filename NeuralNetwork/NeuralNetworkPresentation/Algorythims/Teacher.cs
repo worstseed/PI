@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using NeuralNetwork.GeneralHelpers;
 using NeuralNetwork.NeuralNetworkModel;
-using NeuralNetwork.RobotModel;
 using NeuralNetwork.RobotModel.Enums;
 using NeuralNetworkPresentation.Parameters;
 
@@ -22,7 +21,9 @@ namespace NeuralNetworkPresentation.Algorythims
         public void Teach(object sender, EventArgs e)
         {
             _presentationWindow.Refresh();
-            TeachRobot(_presentationWindow.SimulationParameters.NumberOfExpedicions, _presentationWindow.SimulationParameters.NumberOfExploringSteps, _presentationWindow.SimulationParameters.NumberOfEpochs);
+            TeachRobot(SimulationParameters.NumberOfExpedicions,
+                        SimulationParameters.NumberOfExploringSteps,
+                        SimulationParameters.NumberOfEpochs);
         }
 
         private void TeachRobot(int numberOfExpedicions, int numberOfSteps, int numberOfEpochs)
@@ -43,7 +44,8 @@ namespace NeuralNetworkPresentation.Algorythims
                     Remover.RemoveSameElementsInDataList(robotDataList);
                     _presentationWindow.Robot.NetworkHandler.GetNextTeachingData(robotDataList);
                     //Robot.Train(robotDataList, numberOfEpochs);
-                    if (_presentationWindow.Robot.NetworkHandler.Train(robotDataList, numberOfEpochs, SimulationParameters.MaximumError) < SimulationParameters.MaximumError || i < 30) //
+                    if (_presentationWindow.Robot.NetworkHandler.Train(robotDataList, numberOfEpochs, SimulationParameters.MaximumError)
+                        < SimulationParameters.MaximumError || i < SimulationParameters.TeacherLearningTreshold) //
                         robotDataList.Remove(robotDataList.Last()); //
                     _presentationWindow.PresentationArrays.MarkActualPosition(MovementType.Retreat);
                     _presentationWindow.Controllers.UpdateBatteryLevelValue();

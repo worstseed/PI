@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using NeuralNetwork.GeneralHelpers;
 using NeuralNetwork.MovementAlgorythims.Enums;
+using NeuralNetwork.RobotModel.Enums;
 
 namespace NeuralNetwork.MovementAlgorythims
 {
@@ -22,16 +23,16 @@ namespace NeuralNetwork.MovementAlgorythims
             switch (directionToExplore)
             {
                 case Direction.Right:
-                    ExploreRight();
+                    ExploreRight(RobotMode.Learning);
                     break;
                 case Direction.Left:
-                    ExploreLeft();
+                    ExploreLeft(RobotMode.Learning);
                     break;
                 case Direction.Above:
-                    ExploreAbove();
+                    ExploreAbove(RobotMode.Learning);
                     break;
                 case Direction.Below:
-                    ExploreBelow();
+                    ExploreBelow(RobotMode.Learning);
                     break;
                 case Direction.None:
                     throw new Exception("Why am I not moving?");
@@ -60,28 +61,32 @@ namespace NeuralNetwork.MovementAlgorythims
             return possibleDirections.Count != 0 ? possibleDirections[randomIndex] : Direction.None;
         }
 
-        public void ExploreBelow()
+        public void ExploreBelow(RobotMode robotMode)
         {
             _rulingBody.PositionHandler.ActualPositionY++;
-            _rulingBody.ArraysHandler.UpdateValue(ArrayType.Exploring);
+            if (robotMode == RobotMode.Learning)
+                _rulingBody.ArraysHandler.UpdateValue(ArrayType.Exploring);
         }
 
-        public void ExploreAbove()
+        public void ExploreAbove(RobotMode robotMode)
         {
             _rulingBody.PositionHandler.ActualPositionY--;
-            _rulingBody.ArraysHandler.UpdateValue(ArrayType.Exploring);
+            if (robotMode == RobotMode.Learning)
+                _rulingBody.ArraysHandler.UpdateValue(ArrayType.Exploring);
         }
 
-        public void ExploreLeft()
+        public void ExploreLeft(RobotMode robotMode)
         {
             _rulingBody.PositionHandler.ActualPositionX--;
-            _rulingBody.ArraysHandler.UpdateValue(ArrayType.Exploring);
+            if (robotMode == RobotMode.Learning)
+                _rulingBody.ArraysHandler.UpdateValue(ArrayType.Exploring);
         }
 
-        public void ExploreRight()
+        public void ExploreRight(RobotMode robotMode)
         {
             _rulingBody.PositionHandler.ActualPositionX++;
-            _rulingBody.ArraysHandler.UpdateValue(ArrayType.Exploring);
+            if (robotMode == RobotMode.Learning)
+                _rulingBody.ArraysHandler.UpdateValue(ArrayType.Exploring);
         }
 
         public void ShowExploringArea()

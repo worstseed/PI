@@ -1,8 +1,8 @@
 ﻿namespace NeuralNetworkPresentation.Parameters
 {
-    public class FormParameters
+    public static class FormParameters
     {
-        public const int LongSleepTime = 0;
-        public const int ShortSleepTime = 0;
+        public static int LongSleepTime = 0;
+        public static int ShortSleepTime = 0;
     }
 }

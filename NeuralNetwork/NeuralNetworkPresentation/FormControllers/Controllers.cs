@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using NeuralNetwork.TransportingDataHelpers;
+using NeuralNetworkPresentation.Parameters;
 
 namespace NeuralNetworkPresentation.FormControllers
 {
@@ -111,7 +112,7 @@ namespace NeuralNetworkPresentation.FormControllers
             {
                 Size = new Size(80, 30),
                 Location = new Point(750, 30),
-                Text = PresentationWindow.SimulationParameters.BatteryMaxCapacity.ToString(),
+                Text = SimulationParameters.BatteryMaxCapacity.ToString(),
                 Font = new Font("TimesNewRoman", 20),
                 TextAlign = ContentAlignment.MiddleCenter,
                 Enabled = false

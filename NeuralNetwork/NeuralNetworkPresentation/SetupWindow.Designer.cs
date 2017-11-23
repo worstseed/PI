@@ -1,6 +1,6 @@
 ﻿namespace NeuralNetworkPresentation
 {
-    partial class SetupWindow
+    sealed partial class SetupWindow
     {
         /// <summary>
         /// Required designer variable.

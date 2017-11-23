@@ -1,38 +1,30 @@
-﻿using static System.Int32;
-
-namespace NeuralNetworkPresentation.Parameters
+﻿namespace NeuralNetworkPresentation.Parameters
 {
-    public class SimulationParameters
+    public static class SimulationParameters
     {
-        public int StartPositionX { get; set; }
-        public int StartPositionY { get; set; }
-        public int NumberOfExploringSteps { get; set; }
-        public int NumberOfTestingSteps { get; set; }
-        public int NumberOfExpedicions { get; set; }
-        public int NumberOfEpochs { get; set; }
-        public int BatteryMaxCapacity { get; set; }
-        public bool SetHorizontalObstacle { get; set; }
-        public bool SetVerticalObstacle { get; set; }
-        public bool SetRandomObstacle { get; set; }
-        public const int ArrayDefaultSize = 10;
-        public const double MaximumError = 0.4;
+        public static double DefaultLearnRate = 0.1;
+        public static double DefaultMomentum = 0.4;
+        public static int ArrayDefaultSize = 10;
+        public static int DefaultStartPositionX = 0;
+        public static int DefaultStartPositionY = 4;
+        public static int DefaultNumberOfExploringSteps = 15;
+        public static int DefaultNumberOfTestingSteps = 15;
+        public static int DefaultNumberOfExpedicions = 70;
+        public static int DefaultNumberOfEpochs = 20;
+        public static int DefaultBatteryMaxCapacity = 300;
 
-        public SimulationParameters()
-        {
-            StartPositionX = Parse(SetupWindow.xPositon);
-            StartPositionY = Parse(SetupWindow.yPositon);
+        public static int StartPositionX;
+        public static int StartPositionY;
+        public static int NumberOfExploringSteps;
+        public static int NumberOfTestingSteps;
+        public static int NumberOfExpedicions;
+        public static int NumberOfEpochs;
+        public static int BatteryMaxCapacity;
+        public static bool SetHorizontalObstacle;
+        public static bool SetVerticalObstacle;
+        public static bool SetRandomObstacle;
 
-            NumberOfExploringSteps = Parse(SetupWindow.NumberOfExploringSteps);
-            NumberOfTestingSteps = Parse(SetupWindow.NumberOfTestinggSteps);
-            NumberOfExpedicions = Parse(SetupWindow.NumberOfExpedicions);
-            NumberOfEpochs = Parse(SetupWindow.NumberOfEpochs);
-            BatteryMaxCapacity = Parse(SetupWindow.BatteryMaxCapacity);
-
-            SetHorizontalObstacle = SetupWindow.SetHorizontalObstacle;
-            SetVerticalObstacle = SetupWindow.SetVerticalObstacle;
-            SetRandomObstacle = SetupWindow.SetRandomObstacle;
-        }
-
-        
+        public static int TeacherLearningTreshold = 30;
+        public static double MaximumError = 0.4;
     }
 }

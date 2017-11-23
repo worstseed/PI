@@ -15,9 +15,7 @@ namespace NeuralNetworkPresentation
     {
         public readonly Robot Robot;
         public Controllers Controllers { get; }
-        public SimulationParameters SimulationParameters { get; }
         public PresentationArrays PresentationArrays { get; }
-        public NetworkParameters NetworkParameters { get; }
         public Teacher Teacher { get; }
         public Checker Checker { get; }
 
@@ -33,8 +31,6 @@ namespace NeuralNetworkPresentation
             MinimizeBox = false;
             MaximizeBox = false;
 
-            SimulationParameters = new SimulationParameters();
-            NetworkParameters = new NetworkParameters();
             Controllers = new Controllers(this);
             PresentationArrays = new PresentationArrays(this);
             Teacher = new Teacher(this);
@@ -46,7 +42,9 @@ namespace NeuralNetworkPresentation
                 NetworkParameters.HiddenLayers, 
                 NetworkParameters.OutputNeuronsCount, 
                 SimulationParameters.ArrayDefaultSize, SimulationParameters.ArrayDefaultSize, 
-                SimulationParameters.StartPositionY, SimulationParameters.StartPositionX);
+                SimulationParameters.StartPositionY, SimulationParameters.StartPositionX,
+                SimulationParameters.DefaultLearnRate,
+                SimulationParameters.DefaultMomentum);
 
             Robot.ArrayHandler.SetObstacles(
                 SimulationParameters.SetHorizontalObstacle,

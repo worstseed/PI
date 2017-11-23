@@ -1,25 +1,13 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using NeuralNetworkPresentation.Parameters;
+using static System.Int32;
 
 namespace NeuralNetworkPresentation
 {
-    public partial class SetupWindow : Form
+    public sealed partial class SetupWindow : Form
     {
-        public static string xPositon = "0";
-        public static string yPositon = "4";
-        public static string NumberOfExploringSteps = "15";
-        public static string NumberOfTestinggSteps = "15";
-        public static string NumberOfExpedicions = "70";
-        public static string NumberOfEpochs = "20";
-        public static string BatteryMaxCapacity = "300";
-
-        public static bool SetHorizontalObstacle;
-        public static bool SetVerticalObstacle;
-        public static bool SetRandomObstacle;
-
-        public bool SetupInProgress = true;
-
         public SetupWindow()
         {
             InitializeComponent();
@@ -31,36 +19,30 @@ namespace NeuralNetworkPresentation
             MaximizeBox = false;
         }
 
-        public sealed override string Text
-        {
-            get => base.Text;
-            set => base.Text = value;
-        }
-
         private void SetupWindow_Load(object sender, EventArgs e)
         {
-            xPositionTextBox.Text = xPositon;
-            yPositionTextBox.Text = yPositon;
-            numberOfExploringStepsTextBox.Text = NumberOfExploringSteps;
-            numberOfTestingStepsTextBox.Text = NumberOfTestinggSteps;
-            numberOfEpochsTextBox.Text = NumberOfEpochs;
-            numberOfExpedicionsTextBox.Text = NumberOfExpedicions;
-            batteryMaxCapacityTextBox.Text = BatteryMaxCapacity;
+            xPositionTextBox.Text = SimulationParameters.DefaultStartPositionX.ToString();
+            yPositionTextBox.Text = SimulationParameters.DefaultStartPositionY.ToString();
+            numberOfExploringStepsTextBox.Text = SimulationParameters.DefaultNumberOfExploringSteps.ToString();
+            numberOfTestingStepsTextBox.Text = SimulationParameters.DefaultNumberOfTestingSteps.ToString();
+            numberOfEpochsTextBox.Text = SimulationParameters.DefaultNumberOfEpochs.ToString();
+            numberOfExpedicionsTextBox.Text = SimulationParameters.DefaultNumberOfExpedicions.ToString();
+            batteryMaxCapacityTextBox.Text = SimulationParameters.DefaultBatteryMaxCapacity.ToString();
         }
 
         private void startSimulationButton_Click(object sender, EventArgs e)
         {
-            xPositon = xPositionTextBox.Text;
-            yPositon = yPositionTextBox.Text;
-            NumberOfExploringSteps = numberOfExploringStepsTextBox.Text;
-            NumberOfTestinggSteps = numberOfTestingStepsTextBox.Text;
-            NumberOfExpedicions = numberOfEpochsTextBox.Text;
-            NumberOfExpedicions = numberOfExpedicionsTextBox.Text;
-            BatteryMaxCapacity = batteryMaxCapacityTextBox.Text;
+            SimulationParameters.StartPositionX = Parse(xPositionTextBox.Text);
+            SimulationParameters.StartPositionY = Parse(yPositionTextBox.Text);
+            SimulationParameters.NumberOfExploringSteps = Parse(numberOfExploringStepsTextBox.Text);
+            SimulationParameters.NumberOfTestingSteps = Parse(numberOfTestingStepsTextBox.Text);
+            SimulationParameters.NumberOfExpedicions = Parse(numberOfEpochsTextBox.Text);
+            SimulationParameters.NumberOfExpedicions = Parse(numberOfExpedicionsTextBox.Text);
+            SimulationParameters.BatteryMaxCapacity = Parse(batteryMaxCapacityTextBox.Text);
 
-            if (setHorizontalObstacleCheckBox.Checked) SetHorizontalObstacle = true;
-            if (setVerticalObstacleCheckBox.Checked) SetVerticalObstacle = true;
-            if (setRandomObstacleCheckBox.Checked) SetRandomObstacle = true;
+            if (setHorizontalObstacleCheckBox.Checked) SimulationParameters.SetHorizontalObstacle = true;
+            if (setVerticalObstacleCheckBox.Checked) SimulationParameters.SetVerticalObstacle = true;
+            if (setRandomObstacleCheckBox.Checked) SimulationParameters.SetRandomObstacle = true;
 
             Hide();
             
@@ -68,9 +50,6 @@ namespace NeuralNetworkPresentation
             presentationWindow.Show();
         }
 
-        private void cancelButton_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
+        private void cancelButton_Click(object sender, EventArgs e) => Close();
     }
 }

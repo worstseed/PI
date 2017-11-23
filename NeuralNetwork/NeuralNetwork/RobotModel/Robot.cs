@@ -4,6 +4,7 @@ using System.Linq;
 using NeuralNetwork.MovementAlgorythims;
 using NeuralNetwork.MovementAlgorythims.Enums;
 using NeuralNetwork.NeuralNetworkModel;
+using NeuralNetwork.RobotModel.Enums;
 using NeuralNetwork.RobotModel.RobotHandlers;
 using Explorer = NeuralNetwork.RobotModel.RobotHandlers.Explorer;
 using PositionHandler = NeuralNetwork.RobotModel.RobotHandlers.PositionHandler;
@@ -26,10 +27,11 @@ namespace NeuralNetwork.RobotModel
         public BatteryHandler BatteryHandler { get; }
 
         public Robot(int maxCapacity, int inputCount, int[] hiddenCounts, int outputCount, 
-            int? areaSizeX = null, int? areaSizeY = null, int? startPositionX = null, int? startPositionY = null)
+            int? areaSizeX = null, int? areaSizeY = null, int? startPositionX = null, int? startPositionY = null,
+            double? learnRate = null, double? momentum = null)
         {
             Battery = new Battery(maxCapacity);
-            Network = new Network(inputCount, hiddenCounts, outputCount);
+            Network = new Network(inputCount, hiddenCounts, outputCount, learnRate, momentum);
             RulingBody = new RulingBody(areaSizeX, areaSizeY, startPositionX, startPositionY);
             PositionHandler = new PositionHandler(this);
             Explorer = new Explorer(this);
@@ -108,16 +110,16 @@ namespace NeuralNetwork.RobotModel
             switch (direction)
             {
                 case Direction.Right:
-                    success = RulingBody.Mover.MoveRight();
+                    success = RulingBody.Mover.MoveRight(RobotMode.UsingKnowledge);
                     break;
                 case Direction.Left:
-                    success = RulingBody.Mover.MoveLeft();
+                    success = RulingBody.Mover.MoveLeft(RobotMode.UsingKnowledge);
                     break;
                 case Direction.Above:
-                    success = RulingBody.Mover.MoveAbove();
+                    success = RulingBody.Mover.MoveAbove(RobotMode.UsingKnowledge);
                     break;
                 case Direction.Below:
-                    success = RulingBody.Mover.MoveBelow();
+                    success = RulingBody.Mover.MoveBelow(RobotMode.UsingKnowledge);
                     break;
             }
             if (!success) return;
