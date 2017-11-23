@@ -1,5 +1,5 @@
 ﻿using System;
-using NeuralNetwork.MovementAlgorythims;
+using NeuralNetwork.MovementAlgorythims.Enums;
 using static System.Int32;
 
 namespace NeuralNetwork.AreaModel
@@ -60,7 +60,6 @@ namespace NeuralNetwork.AreaModel
         {
             if (arrayType == ArrayType.Exploring)
                 DecisionValuesArea[actualPositionX, actualPositionY].ExploringValue++;
-            //else throw new Exception("Not yet implemented!");
         }
 
         public void SetObstacles(bool horizontal, bool vertical, bool random)

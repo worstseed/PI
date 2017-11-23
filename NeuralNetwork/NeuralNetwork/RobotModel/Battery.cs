@@ -1,6 +1,4 @@
-﻿using NeuralNetwork.NeuralNetworkModel;
-
-namespace NeuralNetwork.RobotModel
+﻿namespace NeuralNetwork.RobotModel
 {
     public class Battery
     {

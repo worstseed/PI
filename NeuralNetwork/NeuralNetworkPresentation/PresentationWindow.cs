@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Threading;
 using System.Windows.Forms;
 using NeuralNetwork.GeneralHelpers;
-using NeuralNetwork.MovementAlgorythims;
-using NeuralNetwork.NeuralNetworkModel;
+using NeuralNetwork.MovementAlgorythims.Enums;
 using NeuralNetwork.RobotModel;
 using NeuralNetworkPresentation.Algorythims;
 using NeuralNetworkPresentation.FormControllers;
@@ -16,7 +11,7 @@ using NeuralNetworkPresentation.Presentation;
 
 namespace NeuralNetworkPresentation
 {
-    public partial class PresentationWindow : Form
+    public sealed partial class PresentationWindow : Form
     {
         public readonly Robot Robot;
         public Controllers Controllers { get; }
@@ -45,8 +40,18 @@ namespace NeuralNetworkPresentation
             Teacher = new Teacher(this);
             Checker = new Checker(this);
 
-            Robot = new Robot(SimulationParameters.BatteryMaxCapacity, NetworkParameters.InputNeuronsCount, NetworkParameters.HiddenLayers, NetworkParameters.OutputNeuronsCount, SimulationParameters.ArrayDefaultSize, SimulationParameters.ArrayDefaultSize, SimulationParameters.StartPositionY, SimulationParameters.StartPositionX);
-            Robot.SetObstacles(SimulationParameters.SetHorizontalObstacle, SimulationParameters.SetVerticalObstacle, SimulationParameters.SetRandomObstacle);
+            Robot = new Robot(
+                SimulationParameters.BatteryMaxCapacity, 
+                NetworkParameters.InputNeuronsCount, 
+                NetworkParameters.HiddenLayers, 
+                NetworkParameters.OutputNeuronsCount, 
+                SimulationParameters.ArrayDefaultSize, SimulationParameters.ArrayDefaultSize, 
+                SimulationParameters.StartPositionY, SimulationParameters.StartPositionX);
+
+            Robot.ArrayHandler.SetObstacles(
+                SimulationParameters.SetHorizontalObstacle,
+                SimulationParameters.SetVerticalObstacle,
+                SimulationParameters.SetRandomObstacle);
             
         }
         
@@ -56,11 +61,6 @@ namespace NeuralNetworkPresentation
             PresentationArrays.PreparePresentationArrays();
         }
 
-        public sealed override string Text
-        {
-            get => base.Text;
-            set => base.Text = value;
-        }
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.WindowsShutDown) return;

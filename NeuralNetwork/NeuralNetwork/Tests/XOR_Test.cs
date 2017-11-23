@@ -43,7 +43,7 @@ namespace NeuralNetwork.Tests
                 dataList.Add(tmp);
             }
 
-            network.Train(dataList, 0.1);
+            network.Trainer.Train(dataList, 0.1);
         }
         
 

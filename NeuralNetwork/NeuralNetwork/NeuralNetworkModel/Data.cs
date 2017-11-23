@@ -9,7 +9,7 @@ namespace NeuralNetwork.NeuralNetworkModel
 
         public Data()
         {
-            throw new InvalidDataException();
+            throw new InvalidDataException("Empty data");
         }
 
         public Data(double[] values, double[] expectations)

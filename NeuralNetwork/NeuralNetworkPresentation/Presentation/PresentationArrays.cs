@@ -96,9 +96,9 @@ namespace NeuralNetworkPresentation.Presentation
             {
                 for (var j = 0; j < SimulationParameters.ArrayDefaultSize; j++)
                 {
-                    if (Parse(ExploringArray[i, j].Text) != _presentationWindow.Robot.GetFieldExploreValue(i, j))
+                    if (Parse(ExploringArray[i, j].Text) != _presentationWindow.Robot.ArrayHandler.GetFieldExploreValue(i, j))
                     {
-                        ExploringArray[i, j].Text = _presentationWindow.Robot.GetFieldExploreValue(i, j).ToString();
+                        ExploringArray[i, j].Text = _presentationWindow.Robot.ArrayHandler.GetFieldExploreValue(i, j).ToString();
                     }
                 }
             }
@@ -110,9 +110,9 @@ namespace NeuralNetworkPresentation.Presentation
             {
                 for (var j = 0; j < SimulationParameters.ArrayDefaultSize; j++)
                 {
-                    if (Parse(RetreatingArray[i, j].Text) != _presentationWindow.Robot.GetFieldRetreatValue(i, j))
+                    if (Parse(RetreatingArray[i, j].Text) != _presentationWindow.Robot.ArrayHandler.GetFieldRetreatValue(i, j))
                     {
-                        RetreatingArray[i, j].Text = _presentationWindow.Robot.GetFieldRetreatValue(i, j).ToString();
+                        RetreatingArray[i, j].Text = _presentationWindow.Robot.ArrayHandler.GetFieldRetreatValue(i, j).ToString();
                     }
                 }
             }
@@ -122,11 +122,11 @@ namespace NeuralNetworkPresentation.Presentation
         {
             if (movementType == MovementType.Explore)
             {
-                ExploringArray[_presentationWindow.Robot.GetActualPositionY(), _presentationWindow.Robot.GetActualPositionX()].BackColor = Color.Chartreuse;
-                RetreatingArray[_presentationWindow.Robot.GetActualPositionY(), _presentationWindow.Robot.GetActualPositionX()].BackColor = Color.Chartreuse;
+                ExploringArray[_presentationWindow.Robot.PositionHandler.GetActualPositionY(), _presentationWindow.Robot.PositionHandler.GetActualPositionX()].BackColor = Color.Chartreuse;
+                RetreatingArray[_presentationWindow.Robot.PositionHandler.GetActualPositionY(), _presentationWindow.Robot.PositionHandler.GetActualPositionX()].BackColor = Color.Chartreuse;
             }
             else
-                RetreatingArray[_presentationWindow.Robot.GetActualPositionY(), _presentationWindow.Robot.GetActualPositionX()].BackColor = Color.Red;
+                RetreatingArray[_presentationWindow.Robot.PositionHandler.GetActualPositionY(), _presentationWindow.Robot.PositionHandler.GetActualPositionX()].BackColor = Color.Red;
 
         }
 

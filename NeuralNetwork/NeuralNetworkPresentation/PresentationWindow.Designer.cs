@@ -1,6 +1,6 @@
 ﻿namespace NeuralNetworkPresentation
 {
-    partial class PresentationWindow
+    sealed partial class PresentationWindow
     {
         /// <summary>
         /// Required designer variable.

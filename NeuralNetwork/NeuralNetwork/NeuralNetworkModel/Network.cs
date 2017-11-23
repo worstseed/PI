@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NeuralNetwork.NeuralNetworkModel.NetworkHandlers;
 
 namespace NeuralNetwork.NeuralNetworkModel
 {
@@ -13,8 +14,11 @@ namespace NeuralNetwork.NeuralNetworkModel
         public List<List<Neuron>> HiddenLayers { get; set; }
         public List<Neuron> OutputLayer { get; set; }
 
+        public Trainer Trainer { get; }
+
         public Network()
         {
+            Trainer = new Trainer(this);
             LearnRate = 0;
             Momentum = 0;
             InputLayer = new List<Neuron>();
@@ -25,6 +29,7 @@ namespace NeuralNetwork.NeuralNetworkModel
         public Network(int inputCount, int[] hiddenCounts, int outputCount, double? learnRate = null,
             double? momentum = null)
         {
+            Trainer = new Trainer(this);
             LearnRate = learnRate ?? 0.2;
             Momentum = momentum ?? 0.9;
 
@@ -32,142 +37,22 @@ namespace NeuralNetwork.NeuralNetworkModel
             HiddenLayers = new List<List<Neuron>>();
             OutputLayer = new List<Neuron>();
 
-            CreateInputLayer(inputCount);
-            CreateHiddenLayers(hiddenCounts);
-            CreateOutputLayer(outputCount);
-        }
-
-        private void CreateInputLayer(int inputCount)
-        {
-            for (var i = 0; i < inputCount; i++)
-            {
-                InputLayer.Add(new Neuron());
-            }
-        }
-
-        private void CreateHiddenLayers(int[] hiddenCounts)
-        {
-            var firstHiddenLayer = new List<Neuron>();
-            for (var i = 0; i < hiddenCounts[0]; i++)
-            {
-                firstHiddenLayer.Add(new Neuron(InputLayer));
-            }
-
-            HiddenLayers.Add(firstHiddenLayer);
-
-            for (var i = 1; i < hiddenCounts.Length; i++)
-            {
-                var nextHiddenLayer = new List<Neuron>();
-                for (var j = 0; j < hiddenCounts[i]; j++)
-                {
-                    nextHiddenLayer.Add(new Neuron(HiddenLayers[i - 1]));
-                }
-                HiddenLayers.Add(nextHiddenLayer);
-            }
-        }
-
-        private void CreateOutputLayer(int outputCount)
-        {
-            for (var i = 0; i < outputCount; i++)
-            {
-                OutputLayer.Add(new Neuron(HiddenLayers.Last()));
-            }
-        }
-
-        public void Train(List<Data> data, int epochsNumber)
-        {
-            for (var i = 1; i < epochsNumber + 1; i++)
-            {
-                Console.WriteLine("Epoch number: {0}", i);
-                foreach (var dataPiece in data)
-                {
-                    ForwardPropagate(dataPiece.Values);
-                    BackwardPropagate(dataPiece.Expectations);
-                    ShowResult();
-                }
-                Console.WriteLine();
-            }
+            var layerCreator = new LayerCreator(this);
+            layerCreator.CreateInputLayer(inputCount);
+            layerCreator.CreateHiddenLayers(hiddenCounts);
+            layerCreator.CreateOutputLayer(outputCount);
         }
 
         public double[] GetOutput(double[] input)
         {
-            ForwardPropagate(input);
+            Trainer.ForwardPropagate(input);
             var temp = new double[OutputLayer.Count];
             for (var i = 0; i < OutputLayer.Count; i++)
                 temp[i] = OutputLayer[i].Value;
             return temp;
         }
 
-        public void Train(List<Data> data, double minimumError)
-        {
-            var error = 1.0;
-            var epochsNumber = 0;
-
-            while (error > minimumError && epochsNumber < int.MaxValue)
-            {
-                Console.WriteLine("Epoch number: {0}", epochsNumber);
-                var errors = new List<double>();
-                foreach (var dataPiece in data)
-                {
-                    ForwardPropagate(dataPiece.Values);
-                    BackwardPropagate(dataPiece.Expectations);
-                    errors.Add(CalculateError(dataPiece.Expectations));
-                    ShowResult();
-                }
-                error = errors.Average();
-                epochsNumber++;
-            }
-        }
-
-        public double Train(List<Data> data, int epochsNumber, double maximumError)
-        {
-            var maxEpochsNumber = epochsNumber;
-            var error = 1.0;
-            for (var i = 1; i < maxEpochsNumber + 1; i++)
-            {
-                Console.WriteLine("Epoch number: {0}", i);
-                var errors = new List<double>();
-                foreach (var dataPiece in data)
-                {
-                    ForwardPropagate(dataPiece.Values);
-                    BackwardPropagate(dataPiece.Expectations);
-                    errors.Add(CalculateError(dataPiece.Expectations));
-                    ShowResult();
-                }
-                error = errors.Average();
-                //if (errors.Average() >= maximumError) maxEpochsNumber += 100;
-                //if (maxEpochsNumber > 500) break;
-                Console.WriteLine();
-            }
-            return error;
-        }
-
-        private double CalculateError(params double[] targets)
-        {
-            var i = 0;
-            return OutputLayer.Sum(a => Math.Abs(a.CalculateError(targets[i++])));
-        }
-
-        private void ForwardPropagate(params double[] inputs)
-        {
-            var i = 0;
-            InputLayer.ForEach(x => x.Value = inputs[i++]);
-            HiddenLayers.ForEach(x => x.ForEach(y => y.CalculateValue()));
-            OutputLayer.ForEach(x => x.CalculateValue());
-        }
-
-        private void BackwardPropagate(params double[] targets)
-        {
-            var i = 0;
-            OutputLayer.ForEach(x => x.CalculateGradient(targets[i++]));
-            HiddenLayers.Reverse();
-            HiddenLayers.ForEach(x => x.ForEach(y => y.CalculateGradient()));
-            HiddenLayers.ForEach(x => x.ForEach(y => y.UpdateWeights(LearnRate, Momentum)));
-            HiddenLayers.Reverse();
-            OutputLayer.ForEach(x => x.UpdateWeights(LearnRate, Momentum));
-        }
-
-        private void ShowResult()
+        public void ShowOutput()
         {
             const int precision = 4;
             var pSpecifier = $"F{precision}";

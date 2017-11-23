@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Threading;
 using NeuralNetwork.GeneralHelpers;
 using NeuralNetwork.MovementAlgorythims;
+using NeuralNetwork.MovementAlgorythims.Enums;
 using NeuralNetworkPresentation.Parameters;
 
 namespace NeuralNetworkPresentation.Algorythims
@@ -33,7 +34,7 @@ namespace NeuralNetworkPresentation.Algorythims
 
             if (!TryToRetreatWithNeuralNetwork()) return;
 
-            _presentationWindow.Robot.ChangePositionToStart();
+            _presentationWindow.Robot.PositionHandler.ChangePositionToStart();
 
             //Console.WriteLine(@"Time to rest, I know everything now.");
 
@@ -47,7 +48,7 @@ namespace NeuralNetworkPresentation.Algorythims
 
             try
             {
-                while (!_presentationWindow.Robot.IsRobotHome() && elapsed < 2000)
+                while (!_presentationWindow.Robot.PositionHandler.IsRobotHome() && elapsed < 2000)
                 {
                     var timer = new Stopwatch();
                     timer.Start();
@@ -62,7 +63,7 @@ namespace NeuralNetworkPresentation.Algorythims
             {
                 Console.WriteLine(exception.Message);
                 Console.WriteLine(@"Something went terribly wrong, my friend :(");
-                _presentationWindow.Robot.ChangePositionToStart();
+                _presentationWindow.Robot.PositionHandler.ChangePositionToStart();
                 _presentationWindow.Refresh();
                 Thread.Sleep(FormParameters.LongSleepTime);
                 return false;
@@ -74,23 +75,23 @@ namespace NeuralNetworkPresentation.Algorythims
         {
             _presentationWindow.Refresh();
             var tempDirection = _presentationWindow.Robot.GetOutputDirection(new double[]
-                {_presentationWindow.Robot.GetActualPositionX(), _presentationWindow.Robot.GetActualPositionY()});
-            Console.WriteLine(@"x: {0}, y: {1}, direction: {2}", _presentationWindow.Robot.GetActualPositionX(), _presentationWindow.Robot.GetActualPositionY(),
+                {_presentationWindow.Robot.PositionHandler.GetActualPositionX(), _presentationWindow.Robot.PositionHandler.GetActualPositionY()});
+            Console.WriteLine(@"x: {0}, y: {1}, direction: {2}", _presentationWindow.Robot.PositionHandler.GetActualPositionX(), _presentationWindow.Robot.PositionHandler.GetActualPositionY(),
                 tempDirection); //
-            _presentationWindow.Robot.ShowOutput(new double[] {_presentationWindow.Robot.GetActualPositionX(), _presentationWindow.Robot.GetActualPositionY() });
+            _presentationWindow.Robot.NetworkHandler.ShowOutput(new double[] {_presentationWindow.Robot.PositionHandler.GetActualPositionX(), _presentationWindow.Robot.PositionHandler.GetActualPositionY() });
             switch (tempDirection)
             {
                 case Direction.Right:
-                    _presentationWindow.Robot.RetreatRight();
+                    _presentationWindow.Robot.Retreater.RetreatRight();
                     break;
                 case Direction.Left:
-                    _presentationWindow.Robot.RetreatLeft();
+                    _presentationWindow.Robot.Retreater.RetreatLeft();
                     break;
                 case Direction.Above:
-                    _presentationWindow.Robot.RetreatAbove();
+                    _presentationWindow.Robot.Retreater.RetreatAbove();
                     break;
                 case Direction.Below:
-                    _presentationWindow.Robot.RetreatBelow();
+                    _presentationWindow.Robot.Retreater.RetreatBelow();
                     break;
                 case Direction.None:
                     throw new Exception("Why am I not moving?");

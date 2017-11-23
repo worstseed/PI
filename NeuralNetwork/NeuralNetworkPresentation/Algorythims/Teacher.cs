@@ -5,6 +5,7 @@ using System.Threading;
 using NeuralNetwork.GeneralHelpers;
 using NeuralNetwork.NeuralNetworkModel;
 using NeuralNetwork.RobotModel;
+using NeuralNetwork.RobotModel.Enums;
 using NeuralNetworkPresentation.Parameters;
 
 namespace NeuralNetworkPresentation.Algorythims
@@ -35,21 +36,21 @@ namespace NeuralNetworkPresentation.Algorythims
                 _presentationWindow.Refresh();
                 Thread.Sleep(FormParameters.LongSleepTime);
 
-                while (!_presentationWindow.Robot.IsRobotHome())
+                while (!_presentationWindow.Robot.PositionHandler.IsRobotHome())
                 {
                     _presentationWindow.Refresh();
                     //robotDataList.Clear();
                     Remover.RemoveSameElementsInDataList(robotDataList);
-                    _presentationWindow.Robot.GetNextTeachingData(robotDataList);
+                    _presentationWindow.Robot.NetworkHandler.GetNextTeachingData(robotDataList);
                     //Robot.Train(robotDataList, numberOfEpochs);
-                    if (_presentationWindow.Robot.Train(robotDataList, numberOfEpochs, SimulationParameters.MaximumError) < SimulationParameters.MaximumError || i < 30) //
+                    if (_presentationWindow.Robot.NetworkHandler.Train(robotDataList, numberOfEpochs, SimulationParameters.MaximumError) < SimulationParameters.MaximumError || i < 30) //
                         robotDataList.Remove(robotDataList.Last()); //
                     _presentationWindow.PresentationArrays.MarkActualPosition(MovementType.Retreat);
                     _presentationWindow.Controllers.UpdateBatteryLevelValue();
                 }
                 //Console.WriteLine();
 
-                _presentationWindow.Robot.ChangePositionToStart();
+                _presentationWindow.Robot.PositionHandler.ChangePositionToStart();
                 _presentationWindow.Refresh();
                 Thread.Sleep(FormParameters.LongSleepTime);
             }
@@ -64,7 +65,7 @@ namespace NeuralNetworkPresentation.Algorythims
                 _presentationWindow.PresentationArrays.UpdateRetreatingArea();
             }
 
-            _presentationWindow.Robot.ExploreOneStep();
+            _presentationWindow.Robot.Explorer.ExploreOneStep();
 
             if (robotMode == RobotMode.Learning)
             {

@@ -87,12 +87,12 @@ namespace NeuralNetworkPresentation.FormControllers
 
         public void Export(object sender, EventArgs e)
         {
-            ExportHelper.ExportNetwork(PresentationWindow.Robot.GetNetwork());
+            ExportHelper.ExportNetwork(PresentationWindow.Robot.NetworkHandler.GetNetwork());
         }
 
         public void Import(object sender, EventArgs e)
         {
-            PresentationWindow.Robot.ImportNetwork(ImportHelper.ImportNetwork());
+            PresentationWindow.Robot.NetworkHandler.ImportNetwork(ImportHelper.ImportNetwork());
         }
 
         private void CreateBatteryLabels()
@@ -121,7 +121,7 @@ namespace NeuralNetworkPresentation.FormControllers
 
         public void UpdateBatteryLevelValue()
         {
-            BatteryLevel.Text = PresentationWindow.Robot.BatteryLevel().ToString();
+            BatteryLevel.Text = PresentationWindow.Robot.BatteryHandler.BatteryLevel().ToString();
             //Console.WriteLine(@"Battery level: {0}", Robot.BatteryLevel());//
         }
     }

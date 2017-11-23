@@ -1,4 +1,4 @@
-﻿namespace NeuralNetwork.RobotModel
+﻿namespace NeuralNetwork.RobotModel.Enums
 {
     public enum RobotMode
     {

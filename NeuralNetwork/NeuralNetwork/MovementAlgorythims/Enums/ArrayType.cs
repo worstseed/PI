@@ -1,4 +1,4 @@
-﻿namespace NeuralNetwork.MovementAlgorythims
+﻿namespace NeuralNetwork.MovementAlgorythims.Enums
 {
     public enum ArrayType
     {
