@@ -2,8 +2,8 @@
 {
     public static class SimulationParameters
     {
-        public static double DefaultLearnRate = 0.1;
-        public static double DefaultMomentum = 0.4;
+        public static double DefaultLearnRate = 0.2;
+        public static double DefaultMomentum = 0.9;
         public static int ArrayDefaultSize = 10;
         public static int DefaultStartPositionX = 0;
         public static int DefaultStartPositionY = 4;

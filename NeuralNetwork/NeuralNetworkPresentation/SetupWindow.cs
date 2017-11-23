@@ -36,7 +36,7 @@ namespace NeuralNetworkPresentation
             SimulationParameters.StartPositionY = Parse(yPositionTextBox.Text);
             SimulationParameters.NumberOfExploringSteps = Parse(numberOfExploringStepsTextBox.Text);
             SimulationParameters.NumberOfTestingSteps = Parse(numberOfTestingStepsTextBox.Text);
-            SimulationParameters.NumberOfExpedicions = Parse(numberOfEpochsTextBox.Text);
+            SimulationParameters.NumberOfEpochs = Parse(numberOfEpochsTextBox.Text);
             SimulationParameters.NumberOfExpedicions = Parse(numberOfExpedicionsTextBox.Text);
             SimulationParameters.BatteryMaxCapacity = Parse(batteryMaxCapacityTextBox.Text);
 
