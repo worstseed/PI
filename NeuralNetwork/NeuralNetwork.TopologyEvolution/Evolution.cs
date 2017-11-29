@@ -91,21 +91,32 @@ namespace NeuralNetwork.TopologyEvolution
             Bests.Clear();
 
             Bests = Population.Take(NumberOfBests).ToList();
-            while (Parents.Count < NumberOfParents) SpinBiasedRouletteWheel();
-            while (Children.Count < NumberOfChildren) CrossOver();
+            while (Parents.Count < NumberOfParents)
+            {
+                SpinBiasedRouletteWheel();
+                Parents = Remover.RemoveSameElementsInPopulation(Parents);
+            }
+            while (Children.Count < NumberOfChildren)
+            {
+                CrossOver();
+                Children = Remover.RemoveSameElementsInPopulation(Children);
+            }
 
             var nextGeneration = Bests.ToList();
             nextGeneration.AddRange(Parents);
 
-            var i = nextGeneration.Count;
-            while (nextGeneration.Count < PopulationSize)
-            {
-                nextGeneration.Add(Population[i]);
-                i++;
-            }
-            //nextGeneration = Remover.RemoveSameElementsInPopulation(nextGeneration);
+            //var i = nextGeneration.Count;
+            //while (nextGeneration.Count < PopulationSize)
+            //{
+            //    nextGeneration.Add(Population[i]);
+            //    i++;
+            //}
+            nextGeneration.AddRange(Children);
+
+            nextGeneration = Remover.RemoveSameElementsInPopulation(nextGeneration);
             while (nextGeneration.Count < PopulationSize)
                 nextGeneration.Add(new Genome());
+
             Population = nextGeneration;
             Repair();
             Mutate();
