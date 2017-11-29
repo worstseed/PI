@@ -40,7 +40,17 @@ namespace NeuralNetwork.TopologyEvolution
             CrossOverChance = crossOverChance ?? EvolutionParameters.DefaultCrossOverChance;
             MutationChance = mutationChance ?? EvolutionParameters.DefaultMutationChance;
 
+            SimulationParameters.StartPositionX = SimulationParameters.DefaultStartPositionX;
+            SimulationParameters.StartPositionY = SimulationParameters.DefaultStartPositionY;
+            SimulationParameters.NumberOfEpochs = SimulationParameters.DefaultNumberOfEpochs;
+            SimulationParameters.NumberOfExpedicions = SimulationParameters.DefaultNumberOfExpedicions;
+            SimulationParameters.NumberOfExploringSteps = SimulationParameters.DefaultNumberOfExploringSteps;
+            SimulationParameters.NumberOfTestingSteps = SimulationParameters.DefaultNumberOfTestingSteps;
+            SimulationParameters.SetHorizontalObstacle = true;
+            SimulationParameters.SetVerticalObstacle = true;
+
             InitializePopulation();
+            OrderPopulation();
         }
 
         private void InitializePopulation()
@@ -93,7 +103,7 @@ namespace NeuralNetwork.TopologyEvolution
                 nextGeneration.Add(Population[i]);
                 i++;
             }
-            nextGeneration = Remover.RemoveSameElementsInPopulation(nextGeneration);
+            //nextGeneration = Remover.RemoveSameElementsInPopulation(nextGeneration);
             while (nextGeneration.Count < PopulationSize)
                 nextGeneration.Add(new Genome());
             Population = nextGeneration;
@@ -125,13 +135,21 @@ namespace NeuralNetwork.TopologyEvolution
 
         public void CalculatePopulationFitnessValues()
         {
-            Parallel.ForEach(Population, genome => genome.CalculateFitnessValue());
+            //Parallel.ForEach(Population, genome => genome.CalculateFitnessValue());
+            foreach (var genome in Population)
+            {
+                genome.CalculateFitnessValue();
+            }
             PopulationFitnessValuesSum = Population.Sum(x => x.FitnessValue);
         }
 
         public void CalculateBestsFitnessValues()
         {
-            Parallel.ForEach(Bests, genome => genome.CalculateFitnessValue());
+            //Parallel.ForEach(Bests, genome => genome.CalculateFitnessValue());
+            foreach (var genome in Bests)
+            {
+                genome.CalculateFitnessValue();
+            }
         }
 
         public void CrossOver()
@@ -189,7 +207,11 @@ namespace NeuralNetwork.TopologyEvolution
 
         public void Repair()
         {
-            Parallel.ForEach(Population, genome => genome.Repair());
+            //Parallel.ForEach(Population, genome => genome.Repair());
+            foreach (var genome in Population)
+            {
+                genome.Repair();
+            }
         }
 
         public void Show()
@@ -204,15 +226,15 @@ namespace NeuralNetwork.TopologyEvolution
                 Console.WriteLine();
             }
 
-                foreach (var genome in Population)
+            foreach (var genome in Population)
+            {
+                foreach (var gene in genome.Genes)
                 {
-                    foreach (var gene in genome.Genes)
-                    {
-                        _streamWriter.Write("{0}, ", gene);
-                    }
-                    _streamWriter.Write("fitness: {0}", genome.FitnessValue);
-                    _streamWriter.WriteLine();
+                    _streamWriter.Write("{0}, ", gene);
                 }
+                _streamWriter.Write("fitness: {0}", genome.FitnessValue);
+                _streamWriter.WriteLine();
+            }
             _streamWriter.WriteLine();
         }
 

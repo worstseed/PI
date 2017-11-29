@@ -43,8 +43,13 @@ namespace NeuralNetwork.TopologyEvolution
         public void CalculateFitnessValue()
         {
             FitnessValue = 0;
-            Parallel.For(0, GeneralParameters.AverageOfNumber, 
-                i => CalculateFitnessValueForSpecificRobot(CreateAndTeachRobot()));
+            //Parallel.For(0, GeneralParameters.AverageOfNumber,
+            //    i => CalculateFitnessValueForSpecificRobot(CreateAndTeachRobot()));
+            for (var i = 0; i < GeneralParameters.AverageOfNumber; i++)
+            {
+                var robot = CreateAndTeachRobot();
+                CalculateFitnessValueForSpecificRobot(robot);
+            }
             FitnessValue /= GeneralParameters.AverageOfNumber;
         }
 

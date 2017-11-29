@@ -10,7 +10,6 @@ namespace NeuralNetwork.TopologyEvolution
             var evolution = new Evolution();
             evolution.SimulateEvolution(EvolutionParameters.DefaultNumberOfGenerations);
 
-            
             Console.ReadKey();
         }
     }
