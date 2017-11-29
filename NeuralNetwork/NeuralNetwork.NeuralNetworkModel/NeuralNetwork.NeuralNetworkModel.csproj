@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.4</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NeuralNetwork.Helpers\NeuralNetwork.Helpers.csproj" />
+    <ProjectReference Include="..\NeuralNetwork.ProjectParameters\NeuralNetwork.ProjectParameters.csproj" />
+  </ItemGroup>
+
+</Project>
