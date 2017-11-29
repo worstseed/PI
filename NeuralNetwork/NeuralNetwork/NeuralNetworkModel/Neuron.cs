@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NeuralNetwork.GeneralHelpers;
+using NeuralNetwork.Helpers;
 
 namespace NeuralNetwork.NeuralNetworkModel
 {

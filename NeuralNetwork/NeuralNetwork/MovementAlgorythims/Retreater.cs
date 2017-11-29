@@ -1,5 +1,5 @@
 ﻿using System;
-using NeuralNetwork.GeneralHelpers;
+using NeuralNetwork.Helpers;
 using NeuralNetwork.MovementAlgorythims.Enums;
 using static System.Int32;
 
@@ -25,7 +25,7 @@ namespace NeuralNetwork.MovementAlgorythims
         public void StepBack()
         {
             var directionToRetreat = ChooseDirectionToRetreat();
-            Console.WriteLine(directionToRetreat);//
+            //Console.WriteLine(directionToRetreat);//
             RetreatDirection = directionToRetreat;
             switch (directionToRetreat)
             {
@@ -47,7 +47,7 @@ namespace NeuralNetwork.MovementAlgorythims
            
         }
 
-        private Direction ChooseDirectionToRetreat()
+        public Direction ChooseDirectionToRetreat()
         {
             _rulingBody.PositionHandler.GetSurroundingValues(out int left, out int right, out int above, out int below, ArrayType.Retreating);
 

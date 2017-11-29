@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 using NeuralNetwork.GeneralHelpers;
-using NeuralNetworkPresentation.Parameters;
+using NeuralNetwork.ProjectParameters;
 using static System.Int32;
 
 namespace NeuralNetworkPresentation.Presentation

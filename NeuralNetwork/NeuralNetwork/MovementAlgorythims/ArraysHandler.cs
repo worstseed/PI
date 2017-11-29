@@ -1,4 +1,4 @@
-﻿using NeuralNetwork.GeneralHelpers;
+﻿using NeuralNetwork.Helpers;
 using NeuralNetwork.MovementAlgorythims.Enums;
 using static System.Int32;
 

@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Threading;
 using NeuralNetwork.GeneralHelpers;
 using NeuralNetwork.MovementAlgorythims.Enums;
-using NeuralNetworkPresentation.Parameters;
+using NeuralNetwork.ProjectParameters;
 
 namespace NeuralNetworkPresentation.Algorythims
 {

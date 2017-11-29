@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using NeuralNetwork.ProjectParameters;
 using NeuralNetwork.TransportingDataHelpers;
-using NeuralNetworkPresentation.Parameters;
 
 namespace NeuralNetworkPresentation.FormControllers
 {

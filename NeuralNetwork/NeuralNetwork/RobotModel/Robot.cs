@@ -4,6 +4,7 @@ using System.Linq;
 using NeuralNetwork.MovementAlgorythims;
 using NeuralNetwork.MovementAlgorythims.Enums;
 using NeuralNetwork.NeuralNetworkModel;
+using NeuralNetwork.ProjectParameters;
 using NeuralNetwork.RobotModel.Enums;
 using NeuralNetwork.RobotModel.RobotHandlers;
 using Explorer = NeuralNetwork.RobotModel.RobotHandlers.Explorer;
@@ -61,25 +62,24 @@ namespace NeuralNetwork.RobotModel
         public void TeachRobot()
         {
             var robotDataList = new List<Data>();
-            for (var i = 0; i < 5; i++)
+            for (var i = 0; i < SimulationParameters.NumberOfExpedicions; i++)
             {
-                Explorer.ExploreNumberOfSteps(5);
+                Explorer.ExploreNumberOfSteps(SimulationParameters.NumberOfExploringSteps);
 
-                Console.WriteLine("Time to go home!");
+                //Console.WriteLine("Time to go home!");
 
                 while (!PositionHandler.IsRobotHome())
                 {
+                    robotDataList.Clear();
                     NetworkHandler.GetNextTeachingData(robotDataList);
+                    Network.Trainer.Train(robotDataList, SimulationParameters.NumberOfEpochs);
                 }
-                Console.WriteLine();
-
-                Network.Trainer.Train(robotDataList, 50);
-
-                robotDataList.Clear();
+                //Console.WriteLine();
+                
                 RulingBody.PositionHandler.ChangePositionToStart();
             }
-            RulingBody.Retreater.ShowRetreatingArea();
-            Console.WriteLine("Now I now everything");
+            //RulingBody.Retreater.ShowRetreatingArea();
+            //Console.WriteLine("Now I now everything");
         }
 
         public Direction GetOutputDirection(double[] input)

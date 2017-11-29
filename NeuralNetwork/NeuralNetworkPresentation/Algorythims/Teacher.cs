@@ -1,21 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using NeuralNetwork.GeneralHelpers;
 using NeuralNetwork.NeuralNetworkModel;
+using NeuralNetwork.ProjectParameters;
 using NeuralNetwork.RobotModel.Enums;
-using NeuralNetworkPresentation.Parameters;
 
 namespace NeuralNetworkPresentation.Algorythims
 {
     public class Teacher
     {
         private readonly PresentationWindow _presentationWindow;
+        public BackgroundWorker BackgroundWorker; 
 
         public Teacher(PresentationWindow presentationWindow)
         {
             _presentationWindow = presentationWindow;
+            BackgroundWorker = new BackgroundWorker();
+            BackgroundWorker.DoWork += Teach;
         }
 
         public void Teach(object sender, EventArgs e)

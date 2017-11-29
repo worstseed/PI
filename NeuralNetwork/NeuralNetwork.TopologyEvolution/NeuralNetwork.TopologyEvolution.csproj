@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EE818247-D11C-4A21-A8DE-85B81258663C}</ProjectGuid>
+    <ProjectGuid>{54E642AC-0186-4EC3-AE4B-DBE89F9B52C2}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>NeuralNetwork</RootNamespace>
-    <AssemblyName>NeuralNetwork</AssemblyName>
+    <RootNamespace>NeuralNetwork.TopologyEvolution</RootNamespace>
+    <AssemblyName>NeuralNetwork.TopologyEvolution</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -32,12 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,45 +42,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AreaModel\Area.cs" />
-    <Compile Include="AreaModel\Field.cs" />
-    <Compile Include="GeneralHelpers\MovementType.cs" />
-    <Compile Include="GeneralHelpers\Remover.cs" />
-    <Compile Include="MovementAlgorythims\ArraysHandler.cs" />
-    <Compile Include="MovementAlgorythims\Enums\ArrayType.cs" />
-    <Compile Include="MovementAlgorythims\Enums\Direction.cs" />
-    <Compile Include="MovementAlgorythims\Explorer.cs" />
-    <Compile Include="MovementAlgorythims\Mover.cs" />
-    <Compile Include="MovementAlgorythims\PositionHandler.cs" />
-    <Compile Include="MovementAlgorythims\Retreater.cs" />
-    <Compile Include="MovementAlgorythims\RulingBody.cs" />
-    <Compile Include="NeuralNetworkModel\Data.cs" />
-    <Compile Include="NeuralNetworkModel\NetworkHandlers\LayerCreator.cs" />
-    <Compile Include="NeuralNetworkModel\Network.cs" />
-    <Compile Include="NeuralNetworkModel\Neuron.cs" />
-    <Compile Include="NeuralNetworkModel\Sigmoid.cs" />
-    <Compile Include="NeuralNetworkModel\Synapse.cs" />
-    <Compile Include="NeuralNetworkModel\NetworkHandlers\Trainer.cs" />
+    <Compile Include="Genome.cs" />
+    <Compile Include="Evolution.cs" />
+    <Compile Include="Helpers\Remover.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="RobotModel\RobotHandlers\ArrayHandler.cs" />
-    <Compile Include="RobotModel\Battery.cs" />
-    <Compile Include="RobotModel\RobotHandlers\BatteryHandler.cs" />
-    <Compile Include="RobotModel\RobotHandlers\Explorer.cs" />
-    <Compile Include="RobotModel\RobotHandlers\NetworkHandler.cs" />
-    <Compile Include="RobotModel\RobotHandlers\PositionHandler.cs" />
-    <Compile Include="RobotModel\RobotHandlers\Retreater.cs" />
-    <Compile Include="RobotModel\Robot.cs" />
-    <Compile Include="RobotModel\Enums\RobotMode.cs" />
-    <Compile Include="Tests\ListRemoval_Test.cs" />
-    <Compile Include="Tests\XOR_Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TransportingDataHelpers\ExportHelper.cs" />
-    <Compile Include="TransportingDataHelpers\ImportHelper.cs" />
-    <Compile Include="TransportingDataHelpers\NetworkHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NeuralNetwork.Helpers\NeuralNetwork.Helpers.csproj">
@@ -94,6 +59,10 @@
     <ProjectReference Include="..\NeuralNetwork.ProjectParameters\NeuralNetwork.ProjectParameters.csproj">
       <Project>{84832775-f0a4-4496-b096-ce195359adc2}</Project>
       <Name>NeuralNetwork.ProjectParameters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NeuralNetwork\NeuralNetwork.Library.csproj">
+      <Project>{ee818247-d11c-4a21-a8de-85b81258663c}</Project>
+      <Name>NeuralNetwork.Library</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

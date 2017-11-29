@@ -3,10 +3,10 @@ using System.Drawing;
 using System.Windows.Forms;
 using NeuralNetwork.GeneralHelpers;
 using NeuralNetwork.MovementAlgorythims.Enums;
+using NeuralNetwork.ProjectParameters;
 using NeuralNetwork.RobotModel;
 using NeuralNetworkPresentation.Algorythims;
 using NeuralNetworkPresentation.FormControllers;
-using NeuralNetworkPresentation.Parameters;
 using NeuralNetworkPresentation.Presentation;
 
 namespace NeuralNetworkPresentation

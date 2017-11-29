@@ -17,14 +17,14 @@ namespace NeuralNetwork.NeuralNetworkModel.NetworkHandlers
         {
             for (var i = 1; i < epochsNumber + 1; i++)
             {
-                Console.WriteLine("Epoch number: {0}", i);
+                //Console.WriteLine("Epoch number: {0}", i);
                 foreach (var dataPiece in data)
                 {
                     ForwardPropagate(dataPiece.Values);
                     BackwardPropagate(dataPiece.Expectations);
-                    _network.ShowOutput();
+                    //_network.ShowOutput();
                 }
-                Console.WriteLine();
+                //Console.WriteLine();
             }
         }
 

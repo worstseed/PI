@@ -7,6 +7,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetwork.Library", "Ne
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetwork.Presentation", "NeuralNetworkPresentation\NeuralNetwork.Presentation.csproj", "{D7C2956D-C811-47EC-A732-64CB468E8124}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetwork.TopologyEvolution", "NeuralNetwork.TopologyEvolution\NeuralNetwork.TopologyEvolution.csproj", "{54E642AC-0186-4EC3-AE4B-DBE89F9B52C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetwork.Helpers", "NeuralNetwork.Helpers\NeuralNetwork.Helpers.csproj", "{FB591F6D-0B73-409B-AACB-750F41D90AA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetwork.ProjectParameters", "NeuralNetwork.ProjectParameters\NeuralNetwork.ProjectParameters.csproj", "{84832775-F0A4-4496-B096-CE195359ADC2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +27,18 @@ Global
 		{D7C2956D-C811-47EC-A732-64CB468E8124}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7C2956D-C811-47EC-A732-64CB468E8124}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7C2956D-C811-47EC-A732-64CB468E8124}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54E642AC-0186-4EC3-AE4B-DBE89F9B52C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54E642AC-0186-4EC3-AE4B-DBE89F9B52C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54E642AC-0186-4EC3-AE4B-DBE89F9B52C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54E642AC-0186-4EC3-AE4B-DBE89F9B52C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB591F6D-0B73-409B-AACB-750F41D90AA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB591F6D-0B73-409B-AACB-750F41D90AA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB591F6D-0B73-409B-AACB-750F41D90AA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB591F6D-0B73-409B-AACB-750F41D90AA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84832775-F0A4-4496-B096-CE195359ADC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84832775-F0A4-4496-B096-CE195359ADC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84832775-F0A4-4496-B096-CE195359ADC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84832775-F0A4-4496-B096-CE195359ADC2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

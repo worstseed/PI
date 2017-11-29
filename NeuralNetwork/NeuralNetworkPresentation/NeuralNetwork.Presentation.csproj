@@ -51,8 +51,6 @@
   <ItemGroup>
     <Compile Include="Algorythims\Checker.cs" />
     <Compile Include="FormControllers\Controllers.cs" />
-    <Compile Include="Parameters\NetworkParameters.cs" />
-    <Compile Include="Parameters\FormParameters.cs" />
     <Compile Include="Presentation\PresentationArrays.cs" />
     <Compile Include="PresentationWindow.cs">
       <SubType>Form</SubType>
@@ -68,7 +66,6 @@
     <Compile Include="SetupWindow.Designer.cs">
       <DependentUpon>SetupWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Parameters\SimulationParameters.cs" />
     <Compile Include="Algorythims\Teacher.cs" />
     <EmbeddedResource Include="PresentationWindow.resx">
       <DependentUpon>PresentationWindow.cs</DependentUpon>
@@ -99,6 +96,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NeuralNetwork.Helpers\NeuralNetwork.Helpers.csproj">
+      <Project>{fb591f6d-0b73-409b-aacb-750f41d90aa9}</Project>
+      <Name>NeuralNetwork.Helpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NeuralNetwork.ProjectParameters\NeuralNetwork.ProjectParameters.csproj">
+      <Project>{84832775-f0a4-4496-b096-ce195359adc2}</Project>
+      <Name>NeuralNetwork.ProjectParameters</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NeuralNetwork\NeuralNetwork.Library.csproj">
       <Project>{ee818247-d11c-4a21-a8de-85b81258663c}</Project>
       <Name>NeuralNetwork.Library</Name>

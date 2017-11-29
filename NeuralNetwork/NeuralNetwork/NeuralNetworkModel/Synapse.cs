@@ -1,5 +1,5 @@
 ﻿using System;
-using NeuralNetwork.GeneralHelpers;
+using NeuralNetwork.Helpers;
 
 namespace NeuralNetwork.NeuralNetworkModel
 {

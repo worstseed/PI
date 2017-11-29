@@ -207,7 +207,7 @@
             this.startSimulationButton.TabIndex = 16;
             this.startSimulationButton.Text = "Simulate!";
             this.startSimulationButton.UseVisualStyleBackColor = true;
-            this.startSimulationButton.Click += new System.EventHandler(this.startSimulationButton_Click);
+            this.startSimulationButton.Click += new System.EventHandler(this.StartSimulationButton_Click);
             // 
             // batteryMaxCapacityTextBox
             // 
@@ -288,7 +288,7 @@
             this.cancelButton.TabIndex = 26;
             this.cancelButton.Text = "Cancel";
             this.cancelButton.UseVisualStyleBackColor = true;
-            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
+            this.cancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
             // SetupWindow
             // 

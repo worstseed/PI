@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NeuralNetwork.GeneralHelpers
+namespace NeuralNetwork.Helpers
 {
     public class Randomizer
     {
@@ -14,6 +14,11 @@ namespace NeuralNetwork.GeneralHelpers
         public static int GetRandomIndex(int length)
         {
             return Random.Next(length);
+        }
+
+        public static int GetRandomFromRange(int rangeStart, int rangeEnd)
+        {
+            return Random.Next(rangeStart, rangeEnd + 1);
         }
     }
 }

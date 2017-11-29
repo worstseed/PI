@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NeuralNetwork.NeuralNetworkModel.NetworkHandlers;
+using NeuralNetwork.ProjectParameters;
 
 namespace NeuralNetwork.NeuralNetworkModel
 {
@@ -30,8 +31,8 @@ namespace NeuralNetwork.NeuralNetworkModel
             double? momentum = null)
         {
             Trainer = new Trainer(this);
-            LearnRate = learnRate ?? 0.2;
-            Momentum = momentum ?? 0.9;
+            LearnRate = learnRate ?? NetworkParameters.DefaultLearnRate;
+            Momentum = momentum ?? NetworkParameters.DefaultMomentum;
 
             InputLayer = new List<Neuron>();
             HiddenLayers = new List<List<Neuron>>();

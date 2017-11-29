@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using NeuralNetwork.GeneralHelpers;
+using NeuralNetwork.Helpers;
 using NeuralNetwork.MovementAlgorythims.Enums;
 using NeuralNetwork.RobotModel.Enums;
 

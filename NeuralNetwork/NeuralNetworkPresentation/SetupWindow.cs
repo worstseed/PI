@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using NeuralNetworkPresentation.Parameters;
+using NeuralNetwork.ProjectParameters;
 using static System.Int32;
 
 namespace NeuralNetworkPresentation
@@ -30,7 +30,7 @@ namespace NeuralNetworkPresentation
             batteryMaxCapacityTextBox.Text = SimulationParameters.DefaultBatteryMaxCapacity.ToString();
         }
 
-        private void startSimulationButton_Click(object sender, EventArgs e)
+        private void StartSimulationButton_Click(object sender, EventArgs e)
         {
             SimulationParameters.StartPositionX = Parse(xPositionTextBox.Text);
             SimulationParameters.StartPositionY = Parse(yPositionTextBox.Text);
@@ -50,6 +50,6 @@ namespace NeuralNetworkPresentation
             presentationWindow.Show();
         }
 
-        private void cancelButton_Click(object sender, EventArgs e) => Close();
+        private void CancelButton_Click(object sender, EventArgs e) => Close();
     }
 }

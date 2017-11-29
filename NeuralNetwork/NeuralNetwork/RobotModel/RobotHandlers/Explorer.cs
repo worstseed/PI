@@ -16,8 +16,8 @@ namespace NeuralNetwork.RobotModel.RobotHandlers
             for (var j = 0; j < numberOfSteps; j++)
             {
                 _robot.RulingBody.Explorer.Explore();
-                _robot.RulingBody.Explorer.ShowExploringArea();
-                Console.WriteLine();
+                //_robot.RulingBody.Explorer.ShowExploringArea();
+                //Console.WriteLine();
             }
         }
 
