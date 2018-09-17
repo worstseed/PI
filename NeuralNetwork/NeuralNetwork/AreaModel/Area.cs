@@ -1,5 +1,6 @@
 ﻿using System;
 using NeuralNetwork.MovementAlgorythims.Enums;
+using NeuralNetwork.ProjectParameters;
 using static System.Int32;
 
 namespace NeuralNetwork.AreaModel
@@ -66,10 +67,52 @@ namespace NeuralNetwork.AreaModel
         {
             if (horizontal)
             {
-                DecisionValuesArea[2, 2].ExploringValue = MaxValue;
-                DecisionValuesArea[2, 3].ExploringValue = MaxValue;
+                //DecisionValuesArea[2, 2].ExploringValue = MaxValue;
+                //DecisionValuesArea[2, 3].ExploringValue = MaxValue;
+                //DecisionValuesArea[2, 4].ExploringValue = MaxValue;
+                //DecisionValuesArea[2, 5].ExploringValue = MaxValue;
+
+                //DecisionValuesArea[3, 2].ExploringValue = MaxValue;
+                //DecisionValuesArea[3, 3].ExploringValue = MaxValue;
+                //DecisionValuesArea[2, 3].ExploringValue = MaxValue;
+                //DecisionValuesArea[4, 3].ExploringValue = MaxValue;
+                //DecisionValuesArea[5, 3].ExploringValue = MaxValue;
+                //DecisionValuesArea[6, 3].ExploringValue = MaxValue;
+                //DecisionValuesArea[7, 3].ExploringValue = MaxValue;
+                //DecisionValuesArea[5, 4].ExploringValue = MaxValue;
+                //DecisionValuesArea[5, 5].ExploringValue = MaxValue;
+                //DecisionValuesArea[6, 5].ExploringValue = MaxValue;
+                //DecisionValuesArea[7, 5].ExploringValue = MaxValue;
+                //DecisionValuesArea[7, 8].ExploringValue = MaxValue;
+                //DecisionValuesArea[6, 8].ExploringValue = MaxValue;
+                //DecisionValuesArea[5, 8].ExploringValue = MaxValue;
+                //DecisionValuesArea[4, 8].ExploringValue = MaxValue;
+                //DecisionValuesArea[3, 8].ExploringValue = MaxValue;
+                //DecisionValuesArea[2, 8].ExploringValue = MaxValue;
+                //DecisionValuesArea[1, 8].ExploringValue = MaxValue;
+                //DecisionValuesArea[2, 9].ExploringValue = MaxValue;
+                //DecisionValuesArea[2, 7].ExploringValue = MaxValue;
+                //DecisionValuesArea[3, 6].ExploringValue = MaxValue;
+                //DecisionValuesArea[3, 7].ExploringValue = MaxValue;
+                //DecisionValuesArea[3, 9].ExploringValue = MaxValue;
+                //DecisionValuesArea[2, 9].ExploringValue = MaxValue;
+
+                DecisionValuesArea[0, 5].ExploringValue = MaxValue;
+                DecisionValuesArea[1, 2].ExploringValue = MaxValue;
+                DecisionValuesArea[3, 6].ExploringValue = MaxValue;
+                DecisionValuesArea[8, 8].ExploringValue = MaxValue;
+                DecisionValuesArea[4, 5].ExploringValue = MaxValue;
+                DecisionValuesArea[7, 2].ExploringValue = MaxValue;
+                DecisionValuesArea[3, 8].ExploringValue = MaxValue;
                 DecisionValuesArea[2, 4].ExploringValue = MaxValue;
-                DecisionValuesArea[2, 5].ExploringValue = MaxValue;
+                DecisionValuesArea[3, 0].ExploringValue = MaxValue;
+                DecisionValuesArea[5, 0].ExploringValue = MaxValue;
+                DecisionValuesArea[7, 2].ExploringValue = MaxValue;
+                DecisionValuesArea[5, 6].ExploringValue = MaxValue;
+                DecisionValuesArea[8, 5].ExploringValue = MaxValue;
+                DecisionValuesArea[9, 8].ExploringValue = MaxValue;
+                DecisionValuesArea[6, 4].ExploringValue = MaxValue;
+
             }
 
             if (vertical)
@@ -79,7 +122,29 @@ namespace NeuralNetwork.AreaModel
                 DecisionValuesArea[6, 5].ExploringValue = MaxValue;
                 DecisionValuesArea[5, 5].ExploringValue = MaxValue;
             }
-            
+            if (random)
+            {
+                DecisionValuesArea[0, 0].ExploringValue = MaxValue;
+                DecisionValuesArea[1, 0].ExploringValue = MaxValue;
+
+                DecisionValuesArea[0, 9].ExploringValue = MaxValue;
+
+                DecisionValuesArea[2, 3].ExploringValue = MaxValue;
+                DecisionValuesArea[2, 4].ExploringValue = MaxValue;
+                DecisionValuesArea[3, 3].ExploringValue = MaxValue;
+                DecisionValuesArea[3, 4].ExploringValue = MaxValue;
+
+                DecisionValuesArea[7, 2].ExploringValue = MaxValue;
+
+                DecisionValuesArea[4, 6].ExploringValue = MaxValue;
+                DecisionValuesArea[5, 6].ExploringValue = MaxValue;
+                DecisionValuesArea[6, 6].ExploringValue = MaxValue;
+                DecisionValuesArea[7, 6].ExploringValue = MaxValue;
+
+                for (var i = 0; i < GeneralParameters.ArrayDefaultSize; i++)
+                    for (var j = GeneralParameters.ArrayDefaultSize - 2; j < GeneralParameters.ArrayDefaultSize; j++)
+                        DecisionValuesArea[j, i].ExploringValue = MaxValue;
+            }
         }
     }
 }

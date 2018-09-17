@@ -10,7 +10,7 @@ namespace NeuralNetwork.AreaModel
         public Field()
         {
             ExploringValue = 0;
-            RetreatingValue = -1;
+            RetreatingValue = -1; // MAX VALUE IDIOT :/
         }
 
         public void ShowExploringFieldValue()

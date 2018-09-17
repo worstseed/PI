@@ -83,13 +83,12 @@ namespace NeuralNetwork.TopologyEvolution
             CheckIfPopulationIsCreated();
 
             while (Population.Count > PopulationSize)
-                Population.RemoveAt(Population.Count);
+                Population.RemoveAt(Population.Count - 1);
 
             CalculatePopulationFitnessValues();
             OrderPopulation();
 
             Bests.Clear();
-
             Bests = Population.Take(NumberOfBests).ToList();
             while (Parents.Count < NumberOfParents)
             {
@@ -104,13 +103,6 @@ namespace NeuralNetwork.TopologyEvolution
 
             var nextGeneration = Bests.ToList();
             nextGeneration.AddRange(Parents);
-
-            //var i = nextGeneration.Count;
-            //while (nextGeneration.Count < PopulationSize)
-            //{
-            //    nextGeneration.Add(Population[i]);
-            //    i++;
-            //}
             nextGeneration.AddRange(Children);
 
             nextGeneration = Remover.RemoveSameElementsInPopulation(nextGeneration);
@@ -118,8 +110,8 @@ namespace NeuralNetwork.TopologyEvolution
                 nextGeneration.Add(new Genome());
 
             Population = nextGeneration;
-            Repair();
             Mutate();
+            Repair();
             OrderPopulation();
         }
 
@@ -150,9 +142,19 @@ namespace NeuralNetwork.TopologyEvolution
             foreach (var genome in Population)
             {
                 genome.CalculateFitnessValue();
+                //Task.Factory.StartNew(() => genome.CalculateFitnessValue());//
             }
+            //Task.WhenAll(Calculate(Population));
             PopulationFitnessValuesSum = Population.Sum(x => x.FitnessValue);
         }
+
+        //private static IEnumerable<Task> Calculate(IEnumerable<Genome> genomes)
+        //{
+        //    foreach (var genome in genomes)
+        //    {
+        //        yield return Task.Run(() => genome.CalculateFitnessValue());
+        //    }
+        //}
 
         public void CalculateBestsFitnessValues()
         {
@@ -160,7 +162,9 @@ namespace NeuralNetwork.TopologyEvolution
             foreach (var genome in Bests)
             {
                 genome.CalculateFitnessValue();
+                //Task.Factory.StartNew(() => genome.CalculateFitnessValue());//
             }
+            //Task.WhenAll(Calculate(Bests));
         }
 
         public void CrossOver()
@@ -175,8 +179,20 @@ namespace NeuralNetwork.TopologyEvolution
             {
                 if (i + 1 > Parents.Count) break;
 
-                var firstGenome = Parents[i];
-                var secondGenome = Parents[i + 1];
+                var firstGenome = Parents[Randomizer.GetRandomIndex(Parents.Count)];
+                var secondGenome = Parents[Randomizer.GetRandomIndex(Parents.Count)];
+
+                //var pointOfCross = GetPointOfCross(firstGenome, secondGenome);
+                //var copyFirstGenome = new Genome(firstGenome);
+                //var copySecondGenome = new Genome(secondGenome);
+                //copyFirstGenome.SwapWith(secondGenome, pointOfCross);
+                //copyFirstGenome.Length = copyFirstGenome.Genes.Count;
+                //copySecondGenome.Genes[0] = (firstGenome.Genes.First() + secondGenome.Genes.First()) / 2;
+                //if (firstGenome.Length > 1 && secondGenome.Length > 1)
+                //    copySecondGenome.Genes[1] = (firstGenome.Genes.Last() + secondGenome.Genes.Last()) / 2;
+
+                //var firstGenome = Parents[i];
+                //var secondGenome = Parents[i + 1];
 
                 var pointOfCross = GetPointOfCross(firstGenome, secondGenome);
 
@@ -187,7 +203,7 @@ namespace NeuralNetwork.TopologyEvolution
                 copyFirstGenome.Length = copyFirstGenome.Genes.Count;
                 copySecondGenome.SwapWith(firstGenome, pointOfCross);
                 copySecondGenome.Length = copySecondGenome.Genes.Count;
-                
+
                 Children.Add(copyFirstGenome);
                 Children.Add(copySecondGenome);
 
@@ -222,6 +238,7 @@ namespace NeuralNetwork.TopologyEvolution
             foreach (var genome in Population)
             {
                 genome.Repair();
+                //Task.Factory.StartNew(() => genome.Repair());//
             }
         }
 

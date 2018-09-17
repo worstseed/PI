@@ -18,7 +18,7 @@ namespace NeuralNetworkPresentation
         public PresentationArrays PresentationArrays { get; }
         public Teacher Teacher { get; }
         public Checker Checker { get; }
-
+        
         public PresentationWindow()
         {
             InitializeComponent();

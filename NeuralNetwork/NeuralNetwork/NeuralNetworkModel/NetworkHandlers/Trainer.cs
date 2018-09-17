@@ -55,24 +55,30 @@ namespace NeuralNetwork.NeuralNetworkModel.NetworkHandlers
             var error = 1.0;
             for (var i = 1; i < maxEpochsNumber + 1; i++)
             {
-                Console.WriteLine("Epoch number: {0}", i);
+                //Console.WriteLine("Epoch number: {0}", i);
                 var errors = new List<double>();
                 foreach (var dataPiece in data)
                 {
                     ForwardPropagate(dataPiece.Values);
                     BackwardPropagate(dataPiece.Expectations);
                     errors.Add(CalculateError(dataPiece.Expectations));
-                    _network.ShowOutput();
+                    //_network.ShowOutput();
+                    //_network.ShowInputs();
                 }
                 error = errors.Average();
                 //if (errors.Average() >= maximumError) maxEpochsNumber += 100;
                 //if (maxEpochsNumber > 500) break;
-                Console.WriteLine();
+                //Console.WriteLine();
             }
+            //if (data.Count == 1) _network.ShowInputs();
+            //else Console.Write("LI ");
+            //Console.Write("error: {0}", error);
+            //Console.WriteLine();
+
             return error;
         }
 
-        private double CalculateError(params double[] targets)
+        public double CalculateError(params double[] targets)
         {
             var i = 0;
             return _network.OutputLayer.Sum(a => Math.Abs(a.CalculateError(targets[i++])));

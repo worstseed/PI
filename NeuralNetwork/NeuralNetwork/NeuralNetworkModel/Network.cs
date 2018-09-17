@@ -53,6 +53,14 @@ namespace NeuralNetwork.NeuralNetworkModel
             return temp;
         }
 
+        public void ShowInputs()
+        {
+            InputLayer.ForEach(i => Console.Write("{0}", i.Value));
+            //Console.Write(GeneralParameters.boolShit);
+            //GeneralParameters.boolShit++;
+            Console.Write(" ");
+        }
+
         public void ShowOutput()
         {
             const int precision = 4;

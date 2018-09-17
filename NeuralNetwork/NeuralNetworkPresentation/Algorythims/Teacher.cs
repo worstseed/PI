@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
+using NeuralNetwork;
+using NeuralNetwork.Arlo;
 using NeuralNetwork.GeneralHelpers;
+using NeuralNetwork.Helpers;
+using NeuralNetwork.MovementAlgorythims.Enums;
 using NeuralNetwork.NeuralNetworkModel;
 using NeuralNetwork.ProjectParameters;
 using NeuralNetwork.RobotModel.Enums;
@@ -25,6 +29,7 @@ namespace NeuralNetworkPresentation.Algorythims
         public void Teach(object sender, EventArgs e)
         {
             _presentationWindow.Refresh();
+            _presentationWindow.Robot.PositionHandler.ChangePositionToStart();
             TeachRobot(SimulationParameters.NumberOfExpedicions,
                         SimulationParameters.NumberOfExploringSteps,
                         SimulationParameters.NumberOfEpochs);
@@ -48,13 +53,63 @@ namespace NeuralNetworkPresentation.Algorythims
                     Remover.RemoveSameElementsInDataList(robotDataList);
                     _presentationWindow.Robot.NetworkHandler.GetNextTeachingData(robotDataList);
                     //Robot.Train(robotDataList, numberOfEpochs);
-                    if (_presentationWindow.Robot.NetworkHandler.Train(robotDataList, numberOfEpochs, SimulationParameters.MaximumError)
+                    if (_presentationWindow.Robot.NetworkHandler.Train(robotDataList, numberOfEpochs,
+                            SimulationParameters.MaximumError)
                         < SimulationParameters.MaximumError || i < SimulationParameters.TeacherLearningTreshold) //
-                        robotDataList.Remove(robotDataList.Last()); //
+                    {
+                        if (i > 90) robotDataList.Clear(); //
+                        else robotDataList.Remove(robotDataList.Last()); //
+                    }
+                    //if (i >= SimulationParameters.TeacherLearningTreshold)//
+                    //{
+                    //    _presentationWindow.Robot.Network.Momentum = 0.7; //
+                    //}
+
+                        //robotDataList.Remove(robotDataList.Last()); //
                     _presentationWindow.PresentationArrays.MarkActualPosition(MovementType.Retreat);
                     _presentationWindow.Controllers.UpdateBatteryLevelValue();
                 }
                 //Console.WriteLine();
+                if (ArloParameters.UseArlo) ArloController.TurnToStartingPosition();
+
+                var tempx = _presentationWindow.Robot.PositionHandler.GetActualPositionX();
+                var tempy = _presentationWindow.Robot.PositionHandler.GetActualPositionY();
+                var error = 0d;
+                var cnt = 0;
+
+                for (var j = 0; j < 10; j++)
+                {
+                    for (var k = 0; k < 10; k++)
+                    {
+                        if (_presentationWindow.Robot.ArrayHandler.GetFieldRetreatValue(k, j) == -1) cnt++;
+                        _presentationWindow.Robot.RulingBody.PositionHandler.ActualPositionX = k;
+                        _presentationWindow.Robot.RulingBody.PositionHandler.ActualPositionY = j;
+
+                        //error += _presentationWindow.Robot.ArrayHandler.GetFieldRetreatValue(k, j);
+                        var dir = _presentationWindow.Robot.RulingBody.Retreater.ChooseDirectionToRetreat();
+                        var targetOutput = DirectionTranslator.None;
+                        switch (dir)
+                        {
+                            case Direction.Above:
+                                targetOutput = DirectionTranslator.Above;
+                                break;
+                            case Direction.Below:
+                                targetOutput = DirectionTranslator.Below;
+                                break;
+                            case Direction.Right:
+                                targetOutput = DirectionTranslator.Right;
+                                break;
+                            case Direction.Left:
+                                targetOutput = DirectionTranslator.Left;
+                                break;
+                        }
+                        _presentationWindow.Robot.Network.Trainer.ForwardPropagate(new double[] { k, j });
+                        error += _presentationWindow.Robot.Network.Trainer.CalculateError(targetOutput);
+                    }
+                }
+                if (cnt == 32) Console.WriteLine(@"{0} {1}", i, error);
+                _presentationWindow.Robot.RulingBody.PositionHandler.ActualPositionX = tempx;
+                _presentationWindow.Robot.RulingBody.PositionHandler.ActualPositionY = tempy;
 
                 _presentationWindow.Robot.PositionHandler.ChangePositionToStart();
                 _presentationWindow.Refresh();

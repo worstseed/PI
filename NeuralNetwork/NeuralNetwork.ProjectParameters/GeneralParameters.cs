@@ -3,9 +3,11 @@
     public static class GeneralParameters
     {
         public static int ArrayDefaultSize = 10;
-        public static bool SetHorizontalObstacle = true;
-        public static bool SetVerticalObstacle = true;
-        public static bool SetRandomObstacle;
-        public static int AverageOfNumber = 3;
+        public static bool SetHorizontalObstacle = false;
+        public static bool SetVerticalObstacle = false;
+        public static bool SetRandomObstacle = true;
+        public static int AverageOfNumber = 5;
+
+        //public static int boolShit = 10000; //
     }
 }

@@ -24,8 +24,6 @@ namespace NeuralNetwork.NeuralNetworkModel
             OutputSynapses = new List<Synapse>();
             Bias = Randomizer.GetRandom();
         }
-
-
         public Neuron(List<Neuron> inputNeurons) : this()
         {
             foreach (var inputNeuron in inputNeurons)
@@ -40,12 +38,10 @@ namespace NeuralNetwork.NeuralNetworkModel
         {
             return Value = Sigmoid.Output(InputSynapses.Sum(x => x.Weight * x.InputNeuron.Value) + Bias);
         }
-
         public double CalculateError(double target)
         {
             return target - Value;
         }
-
         public double CalculateGradient(double? target = null)
         {
             if (target == null)
@@ -53,7 +49,6 @@ namespace NeuralNetwork.NeuralNetworkModel
                     * Sigmoid.Derivative(Value);
             return Gradient = CalculateError(target.Value) * Sigmoid.Derivative(Value);
         }
-
         public void UpdateWeights(double learnRate, double momentum)
         {
             var previousDelta = BiasDelta;

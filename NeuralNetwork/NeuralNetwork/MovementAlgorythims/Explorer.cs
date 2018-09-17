@@ -1,7 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Net;
+using System.Text;
+using NeuralNetwork.Arlo;
+using NeuralNetwork.Cherry;
 using NeuralNetwork.Helpers;
 using NeuralNetwork.MovementAlgorythims.Enums;
+using NeuralNetwork.ProjectParameters;
 using NeuralNetwork.RobotModel.Enums;
 
 namespace NeuralNetwork.MovementAlgorythims
@@ -18,6 +24,7 @@ namespace NeuralNetwork.MovementAlgorythims
         public void Explore()
         {
             var directionToExplore = ChooseDirectionToExplore();
+            SendDirectionToCherry(directionToExplore);
             //Console.WriteLine("Exploring direction: {0}", directionToExplore);
             _rulingBody.PositionHandler.IsHome = false;
             switch (directionToExplore)
@@ -66,6 +73,16 @@ namespace NeuralNetwork.MovementAlgorythims
             _rulingBody.PositionHandler.ActualPositionY++;
             if (robotMode == RobotMode.Learning)
                 _rulingBody.ArraysHandler.UpdateValue(ArrayType.Exploring);
+
+            if (CherryParameters.UseCherry)
+            {
+                CherryController.Turn(Direction.Below);
+                CherryController.MoveCherry();
+            }
+
+            if (!ArloParameters.UseArlo) return;
+            ArloController.Turn(Direction.Below);
+            ArloController.MoveArlo();
         }
 
         public void ExploreAbove(RobotMode robotMode)
@@ -73,6 +90,16 @@ namespace NeuralNetwork.MovementAlgorythims
             _rulingBody.PositionHandler.ActualPositionY--;
             if (robotMode == RobotMode.Learning)
                 _rulingBody.ArraysHandler.UpdateValue(ArrayType.Exploring);
+
+            if (CherryParameters.UseCherry)
+            {
+                CherryController.Turn(Direction.Above);
+                CherryController.MoveCherry();
+            }
+
+            if (!ArloParameters.UseArlo) return;
+            ArloController.Turn(Direction.Above);
+            ArloController.MoveArlo();
         }
 
         public void ExploreLeft(RobotMode robotMode)
@@ -80,6 +107,16 @@ namespace NeuralNetwork.MovementAlgorythims
             _rulingBody.PositionHandler.ActualPositionX--;
             if (robotMode == RobotMode.Learning)
                 _rulingBody.ArraysHandler.UpdateValue(ArrayType.Exploring);
+
+            if (CherryParameters.UseCherry)
+            {
+                CherryController.Turn(Direction.Left);
+                CherryController.MoveCherry();
+            }
+
+            if (!ArloParameters.UseArlo) return;
+            ArloController.Turn(Direction.Left);
+            ArloController.MoveArlo();
         }
 
         public void ExploreRight(RobotMode robotMode)
@@ -87,11 +124,33 @@ namespace NeuralNetwork.MovementAlgorythims
             _rulingBody.PositionHandler.ActualPositionX++;
             if (robotMode == RobotMode.Learning)
                 _rulingBody.ArraysHandler.UpdateValue(ArrayType.Exploring);
+
+            if (CherryParameters.UseCherry)
+            {
+                CherryController.Turn(Direction.Right);
+                CherryController.MoveCherry();
+            }
+
+            if (!ArloParameters.UseArlo) return;
+            ArloController.Turn(Direction.Right);
+            ArloController.MoveArlo();
         }
 
         public void ShowExploringArea()
         {
             _rulingBody.DecisionArea.ShowExploringArea();
+        }
+
+        private static void SendDirectionToCherry(Direction directionToExplore)
+        {
+            if (!CherryParameters.UseCherry) return;
+            using (var client = new WebClient())
+            {
+                var values = new NameValueCollection {["port"] = "Exploring direction: " + directionToExplore};
+
+                var ret = client.UploadValues("http://localhost:8181/", "POST", values);
+                Console.WriteLine(Encoding.ASCII.GetString(ret));
+            }
         }
     }
 }

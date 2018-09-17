@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NeuralNetwork.Helpers;
 using NeuralNetwork.MovementAlgorythims;
 using NeuralNetwork.MovementAlgorythims.Enums;
 using NeuralNetwork.NeuralNetworkModel;
@@ -75,7 +76,7 @@ namespace NeuralNetwork.RobotModel
                     Network.Trainer.Train(robotDataList, SimulationParameters.NumberOfEpochs);
                 }
                 //Console.WriteLine();
-                
+
                 RulingBody.PositionHandler.ChangePositionToStart();
             }
             //RulingBody.Retreater.ShowRetreatingArea();

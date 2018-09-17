@@ -20,6 +20,8 @@ namespace NeuralNetwork.TopologyEvolution.Helpers
                 }
             }
 
+            whichToRemove = whichToRemove.Distinct().ToList();
+
             foreach (var indice in whichToRemove.OrderByDescending(v => v))
             {
                 population.RemoveAt(indice);

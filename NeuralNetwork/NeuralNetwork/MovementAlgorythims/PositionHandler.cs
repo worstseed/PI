@@ -1,4 +1,6 @@
-﻿using NeuralNetwork.MovementAlgorythims.Enums;
+﻿using NeuralNetwork.Cherry;
+using NeuralNetwork.MovementAlgorythims.Enums;
+using NeuralNetwork.ProjectParameters;
 using static System.Int32;
 
 namespace NeuralNetwork.MovementAlgorythims
@@ -6,6 +8,9 @@ namespace NeuralNetwork.MovementAlgorythims
     public class PositionHandler
     {
         private readonly RulingBody _rulingBody;
+        public int ActualPositionX { get; set; }
+        public int ActualPositionY { get; set; }
+        public bool IsHome { get; set; }
 
         public PositionHandler(int actualPositionY, int actualPositionX, RulingBody rulingBody)
         {
@@ -13,15 +18,12 @@ namespace NeuralNetwork.MovementAlgorythims
             ActualPositionX = actualPositionX;
             _rulingBody = rulingBody;
         }
-
-        public int ActualPositionX { get; set; }
-        public int ActualPositionY { get; set; }
-        public bool IsHome { get; set; }
-
+        
         public void CheckIfIsHome()
         {
-            if (_rulingBody.DecisionArea.DecisionValuesArea[ActualPositionY, ActualPositionX].RetreatingValue == 0)
-                IsHome = true;
+            if (_rulingBody.DecisionArea.DecisionValuesArea[ActualPositionY, ActualPositionX].RetreatingValue != 0) return;
+            IsHome = true;
+            CherryController.CherryIsHome();
         }
 
         public void ChangePositionToStart()

@@ -40,16 +40,25 @@ namespace NeuralNetwork.TopologyEvolution
             FitnessValue = orginalGenome.FitnessValue;
         }
 
+        public Genome(IReadOnlyCollection<int> genes)
+        {
+            Id = Guid.NewGuid();
+            Length = genes.Count;
+            Genes = new List<int>(Length);
+            foreach (var gen in genes)
+                Genes.Add(gen);
+            CalculateFitnessValue();
+            Show();
+        }
+
         public void CalculateFitnessValue()
         {
             FitnessValue = 0;
             //Parallel.For(0, GeneralParameters.AverageOfNumber,
             //    i => CalculateFitnessValueForSpecificRobot(CreateAndTeachRobot()));
             for (var i = 0; i < GeneralParameters.AverageOfNumber; i++)
-            {
-                var robot = CreateAndTeachRobot();
-                CalculateFitnessValueForSpecificRobot(robot);
-            }
+                CalculateFitnessValueForSpecificRobot(CreateAndTeachRobot());
+
             FitnessValue /= GeneralParameters.AverageOfNumber;
         }
 
@@ -117,6 +126,9 @@ namespace NeuralNetwork.TopologyEvolution
             Genes[Randomizer.GetRandomIndex(Genes.Count)] = Randomizer.GetRandomFromRange(
                                                                 NetworkParameters.MinimumNumberOfNeurons,
                                                                 NetworkParameters.MaximumNumberOfNeurons);
+            if (Genes.Count >= NetworkParameters.MaximumNumberOfNeurons) return;
+            Genes.Add(Randomizer.GetRandomFromRange(NetworkParameters.MinimumNumberOfNeurons, NetworkParameters.MaximumNumberOfNeurons));
+            Length++;
         }
 
         public void Repair()

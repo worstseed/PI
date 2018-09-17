@@ -16,6 +16,7 @@ namespace HowToMove
         private Button _startOverButton;
         private Button _goBackButton;
         private TextBox _stepCounterTextBox;
+        private Label _stepCounterLabel;
 
         private int _counter;
         private bool _isSetupActive;
@@ -68,12 +69,22 @@ namespace HowToMove
             _stepCounterTextBox = new TextBox
             {
                 Size = new Size(50, 50),
-                Location = new Point(600, 30),
+                Location = new Point(750, 30),
                 Font = new Font(Font.FontFamily, 20),
                 TextAlign = HorizontalAlignment.Center,
                 Text = _counter.ToString()
             };
             Controls.Add(_stepCounterTextBox);
+
+            _stepCounterLabel = new Label
+            {
+                Size = new Size(200, 50),
+                Location = new Point(550, 30),
+                Font = new Font(Font.FontFamily, 20),
+                TextAlign = ContentAlignment.TopCenter,
+                Text = @"Steps counter:"
+            };
+            Controls.Add(_stepCounterLabel);
         }
 
         #endregion
@@ -415,7 +426,7 @@ namespace HowToMove
         {
             var horizotal = 450;
             var vertical = 90;
-            const int initialValue = -1;
+            const int initialValue = MaxValue;
 
             for (var i = 0; i < ArraySize; i++)
             {

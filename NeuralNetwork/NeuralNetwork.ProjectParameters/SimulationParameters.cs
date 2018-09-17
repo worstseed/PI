@@ -7,10 +7,10 @@
         public static int ArrayDefaultSize = 10;
         public static int DefaultStartPositionX = 0;
         public static int DefaultStartPositionY = 4;
-        public static int DefaultNumberOfExploringSteps = 15;
-        public static int DefaultNumberOfTestingSteps = 15;
-        public static int DefaultNumberOfExpedicions = 50; // 70
-        public static int DefaultNumberOfEpochs = 20; // 5
+        public static int DefaultNumberOfExploringSteps = 5;
+        public static int DefaultNumberOfTestingSteps = 20;
+        public static int DefaultNumberOfExpedicions = 1; // 50
+        public static int DefaultNumberOfEpochs = 5; // 5
         public static int DefaultBatteryMaxCapacity = 300;
 
         public static int StartPositionX;
@@ -24,7 +24,7 @@
         public static bool SetVerticalObstacle;
         public static bool SetRandomObstacle;
 
-        public static int TeacherLearningTreshold = 30;
-        public static double MaximumError = 0.4;
+        public static int TeacherLearningTreshold = 40; // 40
+        public static double MaximumError = 0.125;
     }
 }

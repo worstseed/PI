@@ -1,7 +1,11 @@
 ﻿namespace NeuralNetwork.MovementAlgorythims.Enums
 {
+    //public enum Direction
+    //{
+    //    Right, Left, Above, Below, None
+    //}
     public enum Direction
     {
-        Right, Left, Above, Below, None
+        Above, Right, Below, Left, None
     }
 }

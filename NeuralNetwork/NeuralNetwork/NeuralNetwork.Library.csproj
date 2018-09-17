@@ -48,6 +48,8 @@
   <ItemGroup>
     <Compile Include="AreaModel\Area.cs" />
     <Compile Include="AreaModel\Field.cs" />
+    <Compile Include="Arlo\ArloController.cs" />
+    <Compile Include="Cherry\CherryController.cs" />
     <Compile Include="GeneralHelpers\MovementType.cs" />
     <Compile Include="GeneralHelpers\Remover.cs" />
     <Compile Include="MovementAlgorythims\ArraysHandler.cs" />

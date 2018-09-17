@@ -28,9 +28,9 @@ namespace NeuralNetwork.Tests
         public void RunXORTest()
         {
             const int inputCount = 2;
-            var hiddenCounts = new[] { 30,30 };
+            var hiddenCounts = new[] { 4 };
             var outputCount = 1;
-            var network = new Network(inputCount, hiddenCounts, outputCount);
+            var network = new Network(inputCount, hiddenCounts, outputCount, 0.6, 0.7);
 
             var dataList = new List<Data>();
 

@@ -122,11 +122,14 @@ namespace NeuralNetworkPresentation.Presentation
         {
             if (movementType == MovementType.Explore)
             {
-                ExploringArray[_presentationWindow.Robot.PositionHandler.GetActualPositionY(), _presentationWindow.Robot.PositionHandler.GetActualPositionX()].BackColor = Color.Chartreuse;
-                RetreatingArray[_presentationWindow.Robot.PositionHandler.GetActualPositionY(), _presentationWindow.Robot.PositionHandler.GetActualPositionX()].BackColor = Color.Chartreuse;
+                ExploringArray[_presentationWindow.Robot.PositionHandler.GetActualPositionY(), 
+                                _presentationWindow.Robot.PositionHandler.GetActualPositionX()].BackColor = Color.Chartreuse;
+                RetreatingArray[_presentationWindow.Robot.PositionHandler.GetActualPositionY(), 
+                                _presentationWindow.Robot.PositionHandler.GetActualPositionX()].BackColor = Color.Chartreuse;
             }
             else
-                RetreatingArray[_presentationWindow.Robot.PositionHandler.GetActualPositionY(), _presentationWindow.Robot.PositionHandler.GetActualPositionX()].BackColor = Color.Red;
+                RetreatingArray[_presentationWindow.Robot.PositionHandler.GetActualPositionY(), 
+                                _presentationWindow.Robot.PositionHandler.GetActualPositionX()].BackColor = Color.Red;
 
         }
 

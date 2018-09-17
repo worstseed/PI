@@ -1,6 +1,9 @@
 ﻿using System;
+using NeuralNetwork.Arlo;
+using NeuralNetwork.Cherry;
 using NeuralNetwork.Helpers;
 using NeuralNetwork.MovementAlgorythims.Enums;
+using NeuralNetwork.ProjectParameters;
 using static System.Int32;
 
 namespace NeuralNetwork.MovementAlgorythims
@@ -18,8 +21,10 @@ namespace NeuralNetwork.MovementAlgorythims
 
         public void Retreat()
         {
-            while(!_rulingBody.PositionHandler.IsHome)
+            while (!_rulingBody.PositionHandler.IsHome)
                 StepBack();
+
+            if (ArloParameters.UseArlo) ArloController.TurnToStartingPosition(); //
         }
 
         public void StepBack()
@@ -72,6 +77,16 @@ namespace NeuralNetwork.MovementAlgorythims
             _rulingBody.PositionHandler.ActualPositionY++;
             _rulingBody.ArraysHandler.UpdateValue(ArrayType.Retreating);
             _rulingBody.PositionHandler.CheckIfIsHome();
+
+            if (CherryParameters.UseCherry)
+            {
+                CherryController.Turn(Direction.Below);
+                CherryController.MoveCherry();
+            }
+
+            if (!ArloParameters.UseArlo) return;
+            ArloController.Turn(Direction.Below);
+            ArloController.MoveArlo();
         }
 
         public void RetreatAbove()
@@ -80,6 +95,16 @@ namespace NeuralNetwork.MovementAlgorythims
             _rulingBody.PositionHandler.ActualPositionY--;
             _rulingBody.ArraysHandler.UpdateValue(ArrayType.Retreating);
             _rulingBody.PositionHandler.CheckIfIsHome();
+
+            if (CherryParameters.UseCherry)
+            {
+                CherryController.Turn(Direction.Above);
+                CherryController.MoveCherry();
+            }
+
+            if (!ArloParameters.UseArlo) return;
+            ArloController.Turn(Direction.Above);
+            ArloController.MoveArlo();
         }
 
         public void RetreatLeft()
@@ -88,6 +113,16 @@ namespace NeuralNetwork.MovementAlgorythims
             _rulingBody.PositionHandler.ActualPositionX--;
             _rulingBody.ArraysHandler.UpdateValue(ArrayType.Retreating);
             _rulingBody.PositionHandler.CheckIfIsHome();
+
+            if (CherryParameters.UseCherry)
+            {
+                CherryController.Turn(Direction.Left);
+                CherryController.MoveCherry();
+            }
+
+            if (!ArloParameters.UseArlo) return;
+            ArloController.Turn(Direction.Left);
+            ArloController.MoveArlo();
         }
 
         public void RetreatRight()
@@ -96,6 +131,16 @@ namespace NeuralNetwork.MovementAlgorythims
             _rulingBody.PositionHandler.ActualPositionX++;
             _rulingBody.ArraysHandler.UpdateValue(ArrayType.Retreating);
             _rulingBody.PositionHandler.CheckIfIsHome();
+
+            if (CherryParameters.UseCherry)
+            {
+                CherryController.Turn(Direction.Right);
+                CherryController.MoveCherry();
+            }
+
+            if (!ArloParameters.UseArlo) return;
+            ArloController.Turn(Direction.Right);
+            ArloController.MoveArlo();
         }
 
         public void ShowRetreatingArea()
